@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+:root{
+    --white: #FFFFFF;
+    --shadow:  -11px -2px 13px -8px rgba(0,0,0,0.38);
+    --border: rgba(165, 165, 165, 0.473);
+    --font-color: rgb(88, 88, 88);
+}
+.home-page{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    color: var(--font-color);
+    font-family: 'inter', sans-serif;
+    background-color: #f7f7f7;
+}
+.home-page .villa{
+    width: 340px;
+    height: calc(100% - 100px);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    color: rgb(114, 114, 114);
+}
+.home-page .villa .villa-title{
+    height: 80px;
+    width: 100%;
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    border-radius: 8px;
+    background-color: var(--white);
+    position: relative;
+}
+.home-page .villa .rooms{
+    height: 200px;
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background-color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+.home-page .villa .rooms .triangle{
+    width: 0;
+    height: 0;
+    border-right: 50px solid red; 
+    border-bottom: 50px solid transparent;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.home-page .villa .villa-title p{
+    position: absolute;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    right: 20px;
+}
+#villa-1-dot{
+    background-color: #17416a;
+}
+#villa-2-dot{
+    background-color: #00a297;
+}
+#villa-3-dot{
+    background-color: #880c4e;
+}
