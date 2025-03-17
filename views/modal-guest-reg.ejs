@@ -1,0 +1,43 @@
+<div class="modal-guest-reg">
+    <section class="title"><span>Guest Registration</span><button id="btnCloseModal" class="fas fa-times"></button></section>
+    <section class="text-field row"><span>Fullname</span><input type="text" id="txtFullName" class="textbox"></section>
+    <section class="text-field row"><span>Contact</span><input type="number" id="txtContact" class="textbox"></section>
+    <section class="text-field row"><span>Email</span><input type="email" id="txtEmail" class="textbox"></section>
+    <section class="text-field row"><span>Age</span><input type="number" id="txtAge" class="textbox"></section>
+    <button id="btnSubmitGuest">Submit</button>
+</div>
+
+<script>
+    $(document).on('click', '#btnSubmitGuest', function(e){
+        
+        e.preventDefault();
+        e.stopImmediatePropagation();
+
+        var guestData = {"full_name":$("#txtFullName").val(), 
+                         "contact_number":$("#txtContact").val(),
+                        "email":$("#txtEmail").val(),
+                        "age":$("#txtAge").val()};
+        var JsonguestData = JSON.stringify(guestData);
+
+        $.ajax({
+
+                    url:"http://localhost:3000/InsertGuest",
+                    type:"POST",
+                    data:JsonguestData,
+                    contentType:'application/json',
+                    success: function(data){
+                        alert(data.message);
+                        console.log(data);
+                        $('#btnSubmitGuest')[0].reset();
+                        location.reload();
+                    },
+                    
+                    error: function(xhr, status, error){
+                        alert(error);
+                    }
+
+        });
+
+
+    });
+</script>

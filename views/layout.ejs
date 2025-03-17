@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/style/layout.css">
+    <link rel="stylesheet" href="/style/home.css">
+    <link rel="stylesheet" href="/style/modal.css">
+
+    <!-- namespaces -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div id="modal-handler">
+
+    </div>
+    <aside id="side-bar-main">
+        <section class="side logo"><img src="/assets/blue-logo-cleared.png" alt=""><span class="lblsidetitle"><span>EST. 2024</span><span>Caza Buena</span></span></section>
+        <section class="side tab">
+            <li class="parent-tab" id="btnOpenHome"><i class="fas fa-home"></i><span class="with-logo">Home</span></li>
+            <!-- <li class="parent-tab"><i class="fas fa-calendar"></i><span class="with-logo">Reservation Management</span></li>
+            <li class="child-tab"><span>Guest Registration</span></li>
+            <li class="child-tab" style="margin-bottom: 15px;"><span>Reservations</span></li>
+            <li class="parent-tab"><i class="fas fa-building"></i><span class="with-logo">Villa Management</span></li>
+            <li class="child-tab"><span>Villa registration</span></li>
+            <li class="child-tab"><span>Room registration</span></li>
+            <li class="child-tab"><span>Package registration</span></li> -->
+            <li class="parent-tab" id="btnOpenGuestRegistration"><i class="fas fa-user"></i><span class="with-logo">Guest registration</span></li>
+            <li class="parent-tab" id="btnOpenVillaRegistration"><i class="fas fa-hotel"></i><span class="with-logo">Villa registration</span></li>
+            <li class="parent-tab"><i class="fas fa-bed"></i><span class="with-logo">Room registration</span></li>
+            <li class="parent-tab"><i class="fas fa-gift"></i><span class="with-logo">Package registration</span></li>
+            <li class="parent-tab"><i class="fas fa-calendar-check"></i><span class="with-logo">Reservation</span></li>
+        </section>
+    </aside>
+    <div class="nav-main">
+        <nav class="nav-bar"></nav>
+        <main id="content-contain"><%- include(content) %></main>
+    </div>
+
+
+
+<script src="/script/guest-reg.js"></script>
+<script src="/script/route.js"></script>
+</body>
+</html>
