@@ -5,8 +5,93 @@
     --border: rgba(165, 165, 165, 0.473);
     --font-color: rgb(88, 88, 88);
     --text-field: rgb(156, 156, 156);
+    --cazaBlue: #4a89bf;
 }
 .villa-reg-page{
     height: 100%;
     width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.villa-reg-page .villa-content{
+    width: calc(100% - 60px);
+    height: calc(100% - 70px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+.villa-reg-page .villa-content section{
+    width: 100%;
+}
+.villa-reg-page .villa-content .villa-action{
+    display: flex;
+    justify-content: right;
+}
+.villa-reg-page .villa-content .villa-action #btnOpenAddVilla{
+    width: 100px;
+    height: 25px;
+    font-size: 15px;
+    cursor: pointer;
+    font-size: 13px;
+    background-color: transparent;
+    border: 1px solid var(--cazaBlue);
+    color: var(--cazaBlue);
+}
+.villa-reg-page .villa-content .villa-table {
+    max-height: calc(100% - 100px);
+    border: 1px solid #ccc;
+    overflow-y: auto;
+}
+
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+/* Table Header */
+thead {
+    position: sticky;
+    top: 0;
+    color: var(--font-color);
+    z-index: 10;
+    font-size: 16px;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #dddddd71;
+}
+
+th {
+    text-transform: uppercase;
+}
+tbody tr{
+    color: var(--font-color);
+    font-size: 15px;
+    cursor: pointer;
+}
+
+
+tbody tr:nth-child(odd) {
+    background: #f2f2f24b;
+}
+
+
+tbody tr:hover {
+    background: rgba(211, 211, 211, 0.438);
+}
+.villa-reg-page .villa-content .villa-table table tbody tr .status-data{
+    position: relative;
+}
+.villa-reg-page .villa-content .villa-table table tbody tr .status-data .stat-indicator{
+    position: absolute;
+    left: 90px;
+    top: 15px;
+    height: 11px;
+    width: 11px;
+    border-radius: 50%;
 }

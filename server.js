@@ -23,6 +23,18 @@ app.get('/villa-registration', (req, res)=>{
     res.render('villa-registration.ejs');
 })
 
+app.get('/modal-add-villa', (req, res)=>{
+    res.render('modal-add-villa.ejs');
+});
+
+app.get('/room-registration', (req, res)=>{
+  res.render('room-registration.ejs');
+});
+
+app.get('/modal-add-room', (req, res)=>{
+  res.render('modal-add-room.ejs');
+});
+
 
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);

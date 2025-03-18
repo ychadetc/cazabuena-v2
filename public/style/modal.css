@@ -90,3 +90,167 @@ input[type=number]::-webkit-outer-spin-button {
     border-radius: 5px;
     cursor: pointer;
 }
+
+
+/*__________________________________ modal add villa______________________________________________________________________________________________ */
+
+.modal-add-villa{
+    background-color: var(--white);
+    width: 400px;
+    height: auto;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 20px;
+}
+.modal-add-villa section{
+    padding: 0px 20px 0px 20px;
+}
+.modal-add-villa .title{
+    display: flex;
+    justify-content: space-between;
+    color: var(--font-color);
+    height: 50px;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 30px;
+}
+.modal-add-villa .title span{
+    font-size: 17px;
+}
+.modal-add-villa .title button{
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: var(--font-color);
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+}
+.modal-add-villa .title button:hover{
+    background-color: #eeeeee;
+}
+.modal-add-villa .text-field{
+    padding: 0px 20px 0px 20px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: baseline;
+    position: relative;
+    height: 50px;
+    align-items: end;
+    color: var(--font-color);
+}
+.modal-add-villa .text-field span{
+    position: absolute;
+    left: 35px;
+    top: 0px;
+    z-index: 2;
+    font-size: 14px;
+    background-color: var(--white);
+    padding: 0px 8px 0px 8px;
+}
+.modal-add-villa .text-field .textbox{
+    width: 100%;
+    border: 1px solid var(--text-field);
+    outline: none;
+    height: 35px;
+    border-radius: 6px;
+    padding-left: 20px;
+    color: var(--font-color);
+    font-size: 15px;
+}
+.modal-add-villa #btnSubmitVilla{
+    width: calc(100% - 40px);
+    align-self: center;
+    color: var(--white);
+    background-color: #4a89bf;
+    border: none;
+    font-size: 15px;
+    height: 40px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+/* ______________________________________VILLA REGISTRATION END______________________________________ */
+
+/* _______________________________________ROOM REGISTRATION START_________________________ */
+
+.modal-add-room{
+    background-color: var(--white);
+    width: 400px;
+    height: auto;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 20px;
+}
+.modal-add-room section{
+    padding: 0px 20px 0px 20px;
+}
+.modal-add-room .title{
+    display: flex;
+    justify-content: space-between;
+    color: var(--font-color);
+    height: 50px;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 30px;
+}
+.modal-add-room .title span{
+    font-size: 17px;
+}
+.modal-add-room .title button{
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: var(--font-color);
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+}
+.modal-add-room .title button:hover{
+    background-color: #eeeeee;
+}
+.modal-add-room .text-field{
+    padding: 0px 20px 0px 20px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: baseline;
+    position: relative;
+    height: 50px;
+    align-items: end;
+    color: var(--font-color);
+}
+.modal-add-room .text-field span{
+    position: absolute;
+    left: 35px;
+    top: 0px;
+    z-index: 2;
+    font-size: 14px;
+    background-color: var(--white);
+    padding: 0px 8px 0px 8px;
+}
+.modal-add-room .text-field .textbox{
+    width: 100%;
+    border: 1px solid var(--text-field);
+    outline: none;
+    height: 35px;
+    border-radius: 6px;
+    padding-left: 20px;
+    color: var(--font-color);
+    font-size: 15px;
+}
+.modal-add-room #btnSubmitRoom{
+    width: calc(100% - 40px);
+    align-self: center;
+    color: var(--white);
+    background-color: #4a89bf;
+    border: none;
+    font-size: 15px;
+    height: 40px;
+    border-radius: 5px;
+    cursor: pointer;
+}
