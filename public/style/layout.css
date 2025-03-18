@@ -90,7 +90,7 @@ body{
     padding: 5px;
 }
 #side-bar-main .tab li span{
-    font-size: 18px;
+    font-size: 15px;
     width: calc(100% - 50px);
 }
 #side-bar-main .tab li .with-logo{

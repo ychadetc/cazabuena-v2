@@ -1,0 +1,55 @@
+<div class="modal-add-villa">
+    <section class="title"><span>Villa Registration</span><button id="btnCloseModal" class="fas fa-times"></button></section>
+    <section class="text-field row"><span>Villa Name</span><input type="text" id="txtVillaName" class="textbox"></section>
+    <section class="text-field row"><span>Villa Status</span>
+        <select id="txtVillaStatus" class="textbox">
+            <option value="" disabled hidden selected></option>
+            <option value="active">Available</option>
+            <option value="inactive">Occupied</option>
+        </select>
+    </section>
+    <section class="text-field row"><span>Villa Color</span>
+        <select id="txtVillaColor" class="textbox">
+            <option value="" disabled hidden selected></option>
+            <option value="1b3f67">Color 1</option>
+            <option value="00a397">Color 2</option>
+            <option value="91004c">Color 2</option>
+        </select>
+    </section>
+    <button id="btnSubmitVilla">ADD VILLA</button>
+</div>
+
+<script>
+    $(document).on('click', '#btnSubmitVilla', function(e){
+        
+        e.preventDefault();
+        e.stopImmediatePropagation();
+
+        var villaData = {"villa_name":$("#txtVillaName").val(), 
+                         "villa_status":$("#txtVillaStatus").val(),
+                         "color_code":$("#txtVillaColor").val()
+                         
+                         };
+        var JsonVillaData = JSON.stringify(villaData);
+
+        $.ajax({
+                    url:"http://localhost:3000/InsertVilla",
+                    type:"POST",
+                    data:JsonVillaData,
+                    contentType:'application/json',
+                    success: function(data){
+                       
+                        console.log(data);
+                        $('#btnSubmitVilla')[0].reset();
+                        location.reload();
+                    },
+                    
+                    error: function(xhr, status, error){
+                        alert(error);
+                    }
+
+                })
+
+
+    });
+</script>

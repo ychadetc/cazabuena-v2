@@ -1,0 +1,70 @@
+<div class="modal-add-room">
+    <section class="title"><span>Room Registration</span><button id="btnCloseModal" class="fas fa-times"></button></section>
+    <section class="text-field row"><span>Room Name</span><input type="text" id="txtRoomName" class="textbox"></section>
+    <section class="text-field row"><span>Room Location</span>
+        <select id="txtRoomLocation" class="textbox">
+            <option value="" disabled hidden selected></option>
+            <option value="1st Floor">1st Floor</option>
+            <option value="2nd Floor">2nd Floor</option>
+            <option value="3rd Floor">3rd Floor</option>
+        </select>
+    </section>
+    <section class="text-field row"><span>Room Status</span>
+        <select id="txtRoomStatus" class="textbox">
+            <option value="" disabled hidden selected></option>
+            <option value="Active">Active</option>
+            <option value="Inactive">Inactive</option>
+           
+        </select>
+
+
+    </section>
+
+    <section class="text-field row"><span>Villa ID</span>
+        <select id="txtVillaID" class="textbox">
+            <option value="" disabled hidden selected></option>
+            <option value="VILLA 1">VILLA 1</option>
+            <option value="VILLA 2">VILLA 2</option>
+            <option value="VILLA 3">VILLA 3</option>
+           
+        </select>
+
+
+    </section>
+    <button id="btnSubmitRoom">ADD ROOM</button>
+</div>
+
+<script>
+     $(document).on('click', '#btnSubmitRoom', function(e){
+
+        e.preventDefault();
+        e.stopImmediatePropagation();
+
+        var roomData = {"room_name":$("#txtRoomName").val(), 
+                         "location":$("#txtRoomLocation").val(), 
+                         "room_status":$("#txtRoomStatus").val(), 
+                         "villa_id":$("#txtVillaID").val()
+                        }
+        var JsonRoomData = JSON.stringify(roomData);
+
+        
+        $.ajax({
+                    url:"http://localhost:3000/InsertRoom",
+                    type:"POST",
+                    data:JsonRoomData,
+                    contentType:'application/json',
+                    success: function(data){
+                        //alert(data.message);
+                        console.log(data.message);
+                       
+                        location.reload();
+                    },
+                    
+                    error: function(xhr, status, error){
+                        alert(error);
+                    }
+
+                })
+
+     })
+</script>

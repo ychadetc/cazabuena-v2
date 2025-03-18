@@ -48,6 +48,19 @@ app.get('/villa-registration', (req, res)=>{
 })
 
 
+app.get('/modal-add-villa', (req, res)=>{
+  res.render('modal-add-villa.ejs');
+});
+
+app.get('/room-registration', (req, res)=>{
+res.render('room-registration.ejs');
+});
+
+app.get('/modal-add-room', (req, res)=>{
+res.render('modal-add-room.ejs');
+});
+
+
 app.post("/InsertGuest", (req, res)=>{
 
   var full_name = req.body.full_name;
@@ -70,6 +83,44 @@ app.post("/InsertGuest", (req, res)=>{
           res.send({ message: "Personal details inserted successfully" });
       }
       });
+
+});
+
+
+
+app.post("/InsertVilla",(req, res)=>{
+  var villa_name = req.body.villa_name;
+  var villa_status = req.body.villa_status;
+  var color_code = req.body.color_code;
+
+  var sql_insert = `insert into villas (villa_name, villa_status, color_code) values(?,?,?)`;
+
+  connection.query(sql_insert,[villa_name, villa_status, color_code],(err, rows, fields)=>{
+
+      res.send({message:"Villa inserted successfully"});
+
+  });
+
+});
+
+app.post("/InsertRoom",(req,res)=>{
+
+  var room_name = req.body.room_name;
+  var room_status = req.body.room_status;
+  var location = req.body.location;
+  var villa_id = req.body.villa_id;
+
+  var sql_insert = `insert into rooms (room_name, room_status, location, villa_id) values(?,?,?,?)`;
+
+    connection.query(sql_insert,[room_name, room_status, location, villa_id],(err, rows, fields)=>{
+                if (err) {
+                    console.error(err);
+                    res.status(500).send({ message: 'Failed to create room' });
+                } else {
+                    console.log('Room inserted successfully!');
+                    res.send({message:"Room inserted successfully"});
+                }
+    });
 
 });
 
