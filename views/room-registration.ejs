@@ -13,8 +13,8 @@
                         <th>Status</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
+                <tbody id="roomBody">
+                    <!--<tr>
                         <td>Room 1</td>
                         <td>1st Floor</td>
                         <td>Active</td>
@@ -28,10 +28,69 @@
                         <td>Room 3</td>
                         <td>1st Floor</td>
                         <td>Inactive</td>
-                    </tr>
+                    </tr>-->
                 </tbody>
                 
             </table>
         </section>
     </main>
 </div>
+
+<script>
+    $(document).ready(function() {
+
+        var roomList = [];
+
+        $.ajax({
+        type: "GET",
+        url: "http://localhost:3000/rooms", // Your server endpoint URL
+        success: function(data) {
+            const jsonData = data.rooms // Parse the JSON string
+
+            $.each(jsonData, function(index, room) {
+            roomList.push(room);
+            });
+
+            // Display the villa list in a loop using HTML
+            for (var i = 0; i < roomList.length; i++) {
+
+            var room_name = roomList[i].room_name;
+            var location = roomList[i].location;
+            //var room_status = roomList[i].room_status;
+
+            if(roomList[i].room_status == "active"){
+
+                var room_status = "Active"
+
+            }
+
+            else if(roomList[i].room_status=="inactive"){
+
+                var room_status = "Inactive"
+
+            }
+
+            var data_room = `
+            <tr>
+
+                <td>${room_name}</td>
+                <td>${location}</td>
+                <td>${room_status}</td>
+                
+            </tr>
+            
+            `;
+
+            $('#roomBody').append(data_room);
+        
+            }
+
+           // var roomView = new DataTable("#roomTable");
+        },
+        error: function(xhr, status, err) {
+            console.error('Error:', err);
+        }
+        });
+
+    });
+</script>

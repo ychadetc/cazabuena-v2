@@ -125,6 +125,29 @@ app.post("/InsertRoom",(req,res)=>{
 });
 
 
+app.get('/villas', (req, res) => {
+  var query = 'SELECT * FROM villas';
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error('error running query:', err);
+      return;
+    }
+    res.send({villa:results});
+  });
+});
+
+app.get('/rooms', (req, res) => {
+  var query = 'SELECT * FROM rooms';
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error('error running query:', err);
+      return;
+    }
+    res.send({rooms:results});
+  });
+});
+
+
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });
