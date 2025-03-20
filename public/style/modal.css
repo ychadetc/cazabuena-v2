@@ -254,3 +254,220 @@ input[type=number]::-webkit-outer-spin-button {
     border-radius: 5px;
     cursor: pointer;
 }
+
+
+/* _______________________MODAL ADD ROOM END ____________________________________________*/
+
+
+
+/* ________________________MODAL ADD PACKAGE_______________________________________________ */
+
+.modal-add-package{
+    background-color: var(--white);
+    min-width: 400px;
+    height: auto;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 20px;
+}
+.modal-add-package section{
+    padding: 0px 20px 0px 20px;
+}
+.modal-add-package .title{
+    display: flex;
+    justify-content: space-between;
+    color: var(--font-color);
+    height: 50px;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 30px;
+}
+.modal-add-package .title span{
+    font-size: 17px;
+}
+.modal-add-package .title button{
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: var(--font-color);
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+}
+.modal-add-package .title button:hover{
+    background-color: #eeeeee;
+}
+
+.modal-add-package #btnSubmitPackage{
+    width: calc(100% - 40px);
+    align-self: center;
+    color: var(--white);
+    background-color: #4a89bf;
+    border: none;
+    font-size: 15px;
+    height: 40px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.modal-add-package .package-l-r{
+    height: 300px;
+    width: 650px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+.modal-add-package .package-l-r .packagetxt{
+    width: 50%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+    padding: 0px;
+    height: 100%;
+}
+.modal-add-package .package-l-r .packagetxt .text-field{
+    padding: 0px 20px 0px 20px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: baseline;
+    position: relative;
+    height: 50px;
+    align-items: end;
+    color: var(--font-color);
+    overflow: hidden;
+    width: 100%;
+}
+.modal-add-package .package-l-r .packagetxt .text-field span{
+    position: absolute;
+    left: 35px;
+    top: 0px;
+    z-index: 2;
+    font-size: 14px;
+    background-color: var(--white);
+    padding: 0px 8px 0px 8px;
+}
+.modal-add-package .package-l-r .packagetxt .text-field .textbox{
+    width: 100%;
+    border: 1px solid var(--text-field);
+    outline: none;
+    height: 35px;
+    border-radius: 6px;
+    padding-left: 20px;
+    color: var(--font-color);
+    font-size: 15px;
+}
+
+/* __________________________________________MODAL ADD PACKAGE END________________________________ */
+
+
+/* __________________________________________MODAL ADD BOOKING_______________________________________ */
+
+
+.modal-add-booking{
+    background-color: var(--white);
+    min-width: 400px;
+    height: auto;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 20px;
+}
+.modal-add-booking section{
+    padding: 0px 20px 0px 20px;
+}
+.modal-add-booking .title{
+    display: flex;
+    justify-content: space-between;
+    color: var(--font-color);
+    height: 50px;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 30px;
+}
+.modal-add-booking .title span{
+    font-size: 17px;
+}
+.modal-add-booking .title button{
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: var(--font-color);
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+}
+.modal-add-booking .title button:hover{
+    background-color: #eeeeee;
+}
+
+.modal-add-booking #btnSubmitbooking{
+    width: calc(100% - 40px);
+    align-self: center;
+    color: var(--white);
+    background-color: #4a89bf;
+    border: none;
+    font-size: 15px;
+    height: 40px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.modal-add-booking .booking-l-r{
+    height: 220px;
+    width: 650px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+.modal-add-booking .booking-l-r .bookingtxt{
+    width: 50%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+    padding: 0px;
+    height: 100%;
+}
+.modal-add-booking .booking-l-r .bookingtxt .text-field{
+    padding: 0px 20px 0px 20px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: baseline;
+    position: relative;
+    height: 50px;
+    align-items: end;
+    color: var(--font-color);
+    overflow: hidden;
+    width: 100%;
+}
+.modal-add-booking .booking-l-r .bookingtxt .text-field span{
+    position: absolute;
+    left: 35px;
+    top: 0px;
+    z-index: 2;
+    font-size: 14px;
+    background-color: var(--white);
+    padding: 0px 8px 0px 8px;
+}
+.modal-add-booking .booking-l-r .bookingtxt .text-field .textbox{
+    width: 100%;
+    border: 1px solid var(--text-field);
+    outline: none;
+    height: 35px;
+    border-radius: 6px;
+    padding-left: 20px;
+    color: var(--font-color);
+    font-size: 15px;
+}

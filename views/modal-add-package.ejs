@@ -1,0 +1,121 @@
+<div class="modal-add-package">
+    <section class="title"><span>Package Registration</span><button id="btnCloseModal" class="fas fa-times"></button></section>
+    <section class="package-l-r">
+        <div class="packagetxt package-l">
+            <section class="text-field row"><span>Package name</span><input type="text" id="txtPackageName" class="textbox"></section>
+            <section class="text-field row"><span>Package rate</span><input type="text" id="txtPackageRate" class="textbox"></section>
+            <section class="text-field row"><span>Location</span>
+                <select id="txtPackageLocation" class="textbox">
+                    <option value="" disabled hidden selected></option>
+                    <option value="1st Floor">1st Floor</option>
+                    <option value="2nd Floor">2nd Floor</option>
+                    <option value="3rd Floor">3rd Floor</option>
+                    <option value="WHOLE VILLA">WHOLE VILLA</option>
+                </select>
+            </section>
+            <section class="text-field row"><span>Number of people</span><input type="text" id="txtNoPax" class="textbox"></section>
+        </div>
+        <div class="packagetxt package-r">
+            <section class="text-field row"><span>Accomodation type</span>
+                <select id="txtAccomodation" class="textbox">
+                    <option value="" disabled hidden selected></option>
+                    <option value="room">Room</option>
+                    <option value="villa">Villa</option>
+                    
+                </select>
+            </section>
+            <!--<section class="text-field row"><span>Room ID</span><input type="text" id="txtFullName" class="textbox"></section>-->
+            <section class="text-field row"><span>Room ID</span>
+                
+                
+
+                <select id="txtRoomID" multiple="multiple" class="textbox js-example-basic-multiple">
+                    <!--<option value="" disabled hidden selected></option>-->
+                    <option value="ROOM 101">ROOM 101</option>
+                    <option value="ROOM 102">ROOM 102</option>
+                    <option value="ROOM 103">ROOM 103</option>
+                </select>
+            
+            </section>
+            <section class="text-field row"><span>Number of rooms</span><input type="text" id="txtNoRooms" class="textbox"></section>
+            <section class="text-field row"><span>Status</span>
+                <select id="txtVillaStatus" class="textbox">
+                    <option value="" disabled hidden selected></option>
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
+                </select>
+            </section>
+        </div>  
+    </section>
+    <button id="btnSubmitPackage">ADD PACKAGE</button>
+</div>
+
+<script>
+     
+     $(document).ready(function() {
+     
+     $('#txtRoomID').select2();
+
+     
+
+     
+
+     $(document).on('click', '#btnSubmitPackage', function(e){
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        
+        var multiple_rooms = $('#txtRoomID').select2('data');
+
+        var package_code = Math.floor(Math.random()*90000) + 10000;
+
+        var data_json_rooms = []
+
+        for(var multiple_rooms_len = 0; multiple_rooms_len<multiple_rooms.length; multiple_rooms_len++){
+
+            var rooms_selected = JSON.stringify({"rooms":multiple_rooms[multiple_rooms_len].text});
+
+            console.log(multiple_rooms[multiple_rooms_len].text)
+
+            var packageData = {
+                           "package_name":$("#txtPackageName").val(), 
+                           "no_of_person":$("#txtNoPax").val(), 
+                           "room_id":multiple_rooms[multiple_rooms_len].text, 
+                           "location":$("#txtPackageLocation").val(), 
+                           "no_of_rooms":$("#txtNoRooms").val(), 
+                           "package_rate":$("#txtPackageRate").val(), 
+                           "accom_type":$("#txtAccomodation").val(),
+                           "package_code":package_code,
+                           "package_status":$("#txtVillaStatus").val()
+                          };
+        
+             var JsonPackageData = JSON.stringify(packageData);
+
+
+             console.log(JsonPackageData)
+
+             $.ajax({
+                          url:"http://localhost:3000/InsertPackage",
+                          type:"POST",
+                          data:JsonPackageData,
+                          contentType:'application/json',
+                          success: function(data){
+                              //alert(data.message);
+                              console.log(data);
+                              $('#btnSubmitPackage')[0].reset();
+                              //location.reload();
+                          },
+                          
+                          error: function(xhr, status, error){
+                              alert(error);
+                          }
+
+                      });
+
+
+        }
+
+        
+
+     });
+  }); 
+</script>

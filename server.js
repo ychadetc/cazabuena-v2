@@ -61,6 +61,23 @@ res.render('modal-add-room.ejs');
 });
 
 
+app.get('/package-registration', (reg, res) =>{
+  res.render('package-registration.ejs')
+});
+
+app.get('/modal-add-package', (req, res) =>{
+  res.render('modal-add-package.ejs');
+});
+
+app.get('/reservation-page', (req, res) =>{
+  res.render('reservation.ejs')
+});
+
+app.get('/modal-add-booking', (req, res) =>{
+  res.render('modal-add-booking.ejs')
+});
+
+
 app.post("/InsertGuest", (req, res)=>{
 
   var full_name = req.body.full_name;
@@ -146,6 +163,46 @@ app.get('/rooms', (req, res) => {
     res.send({rooms:results});
   });
 });
+
+
+
+
+app.post("/InsertPackage", (req, res)=>{
+
+  //var stringed_combination_form = JSON.parse(combinedJson["parseForm"]);
+  
+  var package_name = req.body.package_name;
+  var no_of_person = req.body.no_of_person;
+  var room_id = req.body.room_id;
+  var location = req.body.location;
+  var no_of_rooms = req.body.no_of_rooms;
+  var package_code = req.body.package_code;
+  var package_rate = req.body.package_rate;
+  var package_status = req.body.package_status;
+  var accom_type = req.body.accom_type;
+
+  console.log([package_code,package_name,no_of_person,room_id,location,no_of_rooms,package_rate, package_status, accom_type])
+  
+  
+  console.log(room_id);
+  
+  var sql_insert = `
+    insert into packages (package_code2, package_name, no_of_person, room_id, location, no_of_rooms, package_rate, package_status, accom_type)
+    values (?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `;
+  
+     connection.query(sql_insert,[package_code,package_name,no_of_person,room_id,location,no_of_rooms,package_rate, package_status, accom_type],(err, rows, fields)=>{
+          if (err) {
+              console.error(err);
+              res.status(500).send({ message: 'Failed to create package' });
+          } else {
+              console.log('Package inserted successfully!');
+              res.send({message:"Package inserted successfully"});
+          }
+     });
+  
+  });
+  
 
 
 app.listen(port, () => {
