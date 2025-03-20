@@ -48,6 +48,32 @@ $(document).ready(function(){
         });
     });
 
+    $(document).on('click', '#btnOpenPackageRegistration', function(){
+        $.ajax({
+            url: '/package-registration',
+            method: 'GET',
+            success: function(data){
+                $('#content-contain').html(data); 
+            },
+            error: function(err){
+                console.error(err);
+            }
+        });
+    });
+
+    $(document).on('click', '#btnOpenReservation', function(){
+        $.ajax({
+            url: '/reservation-page',
+            method: 'GET',
+            success: function(data){
+                $('#content-contain').html(data); 
+            },
+            error: function(err){
+                console.error(err);
+            }
+        });
+    });
+
 //________________________________________________SIDEBAR END________________________________________________________________________________
 
 
@@ -89,5 +115,34 @@ $(document).ready(function(){
             }
         });
     });
+
+    $(document).on('click','#btnOpenAddpackage', function(){
+        $.ajax({
+            url: '/modal-add-package',
+            method: 'GET',
+            success: function(data){
+                $('#modal-handler').css('display', 'flex');
+                $('#modal-handler').html(data);
+            },
+            error: function(err){
+                console.error(err);
+            }
+        });
+    });
+
+    $(document).on('click','#btnAddBooking', function(){
+        $.ajax({
+            url: '/modal-add-booking',
+            method: 'GET',
+            success: function(data){
+                $('#modal-handler').css('display', 'flex');
+                $('#modal-handler').html(data);
+            },
+            error: function(err){
+                console.error(err);
+            }
+        });
+    });
+
 
 });

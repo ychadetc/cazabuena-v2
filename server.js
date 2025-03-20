@@ -35,6 +35,21 @@ app.get('/modal-add-room', (req, res)=>{
   res.render('modal-add-room.ejs');
 });
 
+app.get('/package-registration', (reg, res) =>{
+  res.render('package-registration.ejs')
+});
+
+app.get('/modal-add-package', (req, res) =>{
+  res.render('modal-add-package.ejs');
+});
+
+app.get('/reservation-page', (req, res) =>{
+  res.render('reservation.ejs')
+});
+
+app.get('/modal-add-booking', (req, res) =>{
+  res.render('modal-add-booking.ejs')
+});
 
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);

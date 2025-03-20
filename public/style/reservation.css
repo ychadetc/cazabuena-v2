@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+:root{
+    --white: #FFFFFF;
+    --shadow:  -11px -2px 13px -8px rgba(0,0,0,0.38);
+    --border: rgba(165, 165, 165, 0.473);
+    --font-color: rgb(88, 88, 88);
+    --text-field: rgb(156, 156, 156);
+    --cazaBlue: #4a89bf;
+}
+.reservation-page{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+.reservation-page .nav-slider{
+
+    width: calc(100% - 40px);
+    padding: 20px;
+}
+.reservation-page .nav-slider .nav-tabs{
+    display: flex;
+    gap: 20px;
+    color: var(--font-color);
+    font-size: 16px;
+    position: relative;
+    height: 27px;
+}
+.reservation-page .nav-slider .nav-tabs span{
+    cursor: pointer;
+}
+.reservation-page .nav-slider .nav-tabs .slider-obj{
+    border: 1px solid var(--cazaBlue);
+    position: absolute;
+    width: 70px;
+    bottom: 0;
+    left: 0px;
+    transition: left 0.5s, width 0.5s;
+}
+
+
+.reservation-page .page-container{
+    width: calc(100% - 40px);
+    height: calc(100% - 80px);
+    display: flex;
+    flex-direction: row;
+    overflow-x: hidden;
+    justify-content: center;
+}
+.reservation-page .page-container .page-calendar{
+    width: 100%;
+    height: 100%;
+    transition: width .5s;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow: hidden;
+    align-items: center;
+}
+.reservation-page .page-container .page-reservation{
+    height: 100%;
+    width: 0%;
+    transition: width .5s;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow: hidden;
+    align-items: center;
+}
+.reservation-page .page-container .page-calendar section, .reservation-page .page-container .page-reservation section{
+    width: 100%;
+    display: flex;
+    justify-content: right;
+}
+.reservation-page .page-container .page-calendar section button{
+    width: 120px;
+    height: 25px;
+    font-size: 15px;
+    cursor: pointer;
+    font-size: 13px;
+    background-color: transparent;
+    border: 1px solid var(--cazaBlue);
+    color: var(--cazaBlue);
+}
+.reservation-page .page-container .page-calendar #calendar{
+    border: 1px solid var(--border);
+    height: calc(100% - 70px);
+    width: 100%;
+}
