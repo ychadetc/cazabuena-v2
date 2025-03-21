@@ -165,6 +165,20 @@ app.get('/rooms', (req, res) => {
 });
 
 
+app.get("/roomListPlot", (req, res)=>{
+
+  var sql_view_plot = `select villas.villa_name, rooms.room_name, rooms.villa_id, rooms.room_status
+   from rooms inner join villas on villas.villa_name = rooms.villa_id`;
+
+  connection.query(sql_view_plot, (err, rows_plot)=>{
+
+    res.send({toplotRoom:rows_plot});
+
+  });
+
+});
+
+
 
 
 app.post("/InsertPackage", (req, res)=>{
@@ -201,6 +215,60 @@ app.post("/InsertPackage", (req, res)=>{
           }
      });
   
+  });
+
+
+  app.post("/InsertBooking", (req, res)=>{
+
+    var guest_id = req.body.guest_id;
+    var no_pax = req.body.no_pax;
+    var package= req.body.package;
+    var special_request = req.body.special_request;
+    var guest_status = 'PENDING';
+    var check_in_datetime = Date.parse(req.body.check_in_datetime);
+    var check_out_datetime = Date.parse(req.body.check_out_datetime);
+
+
+    var millisecondsPerDay = 24 * 60 * 60 * 1000;
+
+    var length_stay = Math.round((new Date(check_out_datetime).getTime() - new Date(check_in_datetime).getTime()) / (1000*60*60*24));
+
+    console.log(length_stay);
+
+
+    //________________PACKAGE INSERT_______________________________
+
+    //________________PACKAGE INSERT_______________________________
+
+
+
+    //____________________________INSERt GUEST into guest table__________________________________
+
+    var sql_select_guest = `select full_name from personal_details_table where guest_id = ?`;
+
+    connection.query(sql_select_guest, [guest_id], (err, result)=>{
+ 
+          var full_name = result[0].full_name;
+ 
+ 
+          var sql_insert_book = `INSERT INTO guest_table (guest_id, check_in_datetime, check_out_datetime,
+          no_pax, package, special_request, length_stay, guest_status, full_name) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+             connection.query(sql_insert_book, [guest_id, check_in_datetime, check_out_datetime,
+               no_pax, package, special_request, length_stay, guest_status, full_name], (err, results) => {
+                 if (err) {
+                     console.error(err);
+                     res.status(500).send('Error inserting data');
+                 } else {
+                     console.log('Data inserted successfully');
+                     //res.send('Data inserted successfully');
+                 }
+             });
+ 
+    }); 
+
+     //____________________________INSERt GUEST into guest table__________________________________
+
+
   });
   
 

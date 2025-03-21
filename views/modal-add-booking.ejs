@@ -3,27 +3,69 @@
     <section class="booking-l-r">
         <div class="bookingtxt package-l">
             <section class="text-field row"><span>Select Guest</span>
-                <select id="txtVillaStatus" class="textbox">
+                <select id="txtGuest" class="textbox">
                     <option value="" disabled hidden selected></option>
-                    <option value="1st Floor">1st Floor</option>
-                    <option value="2nd Floor">2nd Floor</option>
-                    <option value="3rd Floor">3rd Floor</option>
+                    <option value="94916">Aubrie</option>
+                    <option value="55192">Lex</option>
+                    <option value="48643">Richard</option>
                 </select>
             </section>
-            <section class="text-field row"><span>Check-In Time</span><input type="datetime-local" id="txtFullName" class="textbox"></section>
-            <section class="text-field row"><span>Check-Out Time</span><input type="datetime-local" id="txtFullName" class="textbox"></section>
+            <section class="text-field row"><span>Check-In Time</span><input type="datetime-local" id="txtCheckIn" class="textbox"></section>
+            <section class="text-field row"><span>Check-Out Time</span><input type="datetime-local" id="txtCheckOut" class="textbox"></section>
         </div>
         <div class="bookingtxt package-r">
-            <section class="text-field row"><span>No. of Pax</span><input type="text" id="txtFullName" class="textbox"></section>
+            <section class="text-field row"><span>No. of Pax</span><input type="text" id="txtNoPax" class="textbox"></section>
             <section class="text-field row"><span>Select package</span>
-                <select id="txtVillaStatus" class="textbox">
+                <select id="txtPackage" class="textbox">
                     <option value="" disabled hidden selected></option>
-                    <option value="1st Floor">Active</option>
-                    <option value="2nd Floor">Inactive</option>
+                    <option value="44373">Couple</option>
+                    <option value="44386">Suite</option>
                 </select>
             </section>
-            <section class="text-field row"><span>Special request</span><input type="text" id="txtFullName" class="textbox"></section>
+            <section class="text-field row"><span>Special request</span><input type="text" id="txtSR" class="textbox"></section>
         </div>  
     </section>
     <button id="btnSubmitbooking">ADD BOOKING</button>
 </div>
+
+<script>
+
+$(document).on('click', '#btnSubmitbooking', function(e){
+
+    e.preventDefault();
+    e.stopImmediatePropagation();
+
+    var guestData = {
+                      "guest_id":$("#txtGuest").val(),
+                      "check_in_datetime":$("#txtCheckIn").val(), 
+                      "check_out_datetime":$("#txtCheckOut").val(),
+                      "special_request":$("#txtSR").val(),
+                      "no_pax":$("#txtNoPax").val(),
+                      "package":$("#txtPackage").val()
+                    }
+    var JSONguestData = JSON.stringify(guestData);
+
+    $.ajax({
+                    url:"http://localhost:3000/InsertBooking",
+                    type:"POST",
+                    data:JSONguestData,
+                    contentType:'application/json',
+                    success: function(data){
+                        alert(data.message);
+                        console.log(data);
+                        $('#btnSubmitbooking')[0].reset();
+                        //location.reload();
+                        //alert(data.message)
+                    },
+                    
+                    error: function(xhr, status, error){
+                        alert(error);
+                    }
+
+                })
+
+    });
+
+
+
+</script>

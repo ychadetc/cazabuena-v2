@@ -49,7 +49,7 @@
     position: relative;
     overflow: hidden;
 }
-.home-page .villa .rooms .triangle{
+/*.home-page .villa .rooms .triangle{
     width: 0;
     height: 0;
     border-right: 50px solid red; 
@@ -57,7 +57,7 @@
     position: absolute;
     top: 0;
     right: 0;
-}
+}*/
 .home-page .villa .villa-title p{
     position: absolute;
     height: 20px;
