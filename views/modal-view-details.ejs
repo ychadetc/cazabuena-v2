@@ -1,0 +1,44 @@
+<div class="modal-view-details">
+    <section class="title"><span>Reservation Details</span><button id="btnCloseModal" class="fas fa-times"></button></section>
+    <section class="detail-row">
+        <div class="detail-lr detail-left"><span class="label">Guest:</span><span class="detail-data">Erickson Sto. Thomas</span></div>
+        <div class="detail-lr detail-right"><span class="label">Check-In:</span><span class="detail-data">Sat March 29, 2025 14:00</span></div>
+    </section>
+
+    <section class="detail-row">
+        <div class="detail-lr detail-left"><span class="label">Guest ID:</span><span class="detail-data">49643</span></div>
+        <div class="detail-lr detail-right"><span class="label">Check-Out:</span><span class="detail-data">Sat March 29, 2025 14:00</span></div>
+    </section>
+
+    <section class="detail-row">
+        <div class="detail-lr detail-left"><span class="label">Transaction ID:</span><span class="detail-data">121</span></div>
+        <div class="detail-lr detail-right"><span class="label">Length of stay:</span><span class="detail-data">1</span></div>
+    </section>
+
+    <section class="detail-row">
+        <div class="detail-lr detail-left"><span class="label">Package Availed:</span><span class="detail-data">49643</span></div>
+        <div class="detail-lr detail-right"><span class="label">Current Bill:</span><span class="detail-data">₱ 4,900.00</span></div>
+    </section>
+
+    <section class="detail-row">
+        <div class="detail-lr detail-left"><span class="label">Guest Status:</span><span class="detail-data">Checked In</span></div>
+        <div class="detail-lr detail-right"><span class="label">Current stay:</span><span class="detail-data">5 Day/s</span></div>
+    </section>
+
+
+    <section class="detail-action">
+        <div class="selecttags">
+            <select id="selectGuestStatus">
+                <option value="" hidden disabled selected>--Select status--</option>
+                <option value="">Pending</option>
+                <option value="">Checked-In</option>
+            </select>
+            <select id="selectPackage">
+                <option value="" hidden disabled selected>--Select package--</option>
+                <option value="">49643</option>
+            </select>
+        </div>
+        <button id="btnUpdateChanges"><i class="fas fa-save"></i>Save</button>
+        <button id="btnCheckBill"><i class="fas fa-receipt"></i>Check bill</button>
+    </section>
+</div>

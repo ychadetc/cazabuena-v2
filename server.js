@@ -51,6 +51,10 @@ app.get('/modal-add-booking', (req, res) =>{
   res.render('modal-add-booking.ejs')
 });
 
+app.get('/modal-view-details', (req, res) =>{
+  res.render('modal-view-details.ejs')
+});
+
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });

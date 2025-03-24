@@ -10,10 +10,11 @@
    <div class="page-container">
     <div class="page page-calendar">
         <section><button id="btnAddBooking"><i class="fas fa-plus"></i>&nbsp;ADD BOOKING</button></section>
-        <div id="calendar"></div>
+        <div id="calendar-fullCalendar"></div>
+        
     </div>
     <div class="page page-reservation">
-        <section><input type="text" id="txtSearchBooking"></section>
+        <section><input type="text" id="txtSearchBooking" placeholder="Search..."> <i class="fas fa-search"></i></section>
         <section class="reservation">
             <table>
                 <thead>
@@ -25,6 +26,7 @@
                         <th>No. of Person</th>
                         <th>Package Rate</th>
                         <th>Status</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -36,6 +38,7 @@
                         <td>2</td>
                         <td>3300</td>
                         <td>Active</td>
+                        <td><a href="#">View details</a></td>
                     </tr>
                     <tr>
                         <td>Package 2</td>
@@ -45,6 +48,7 @@
                         <td>2</td>
                         <td>3400</td>
                         <td>Active</td>
+                        <td><a href="#">View details</a></td>
                     </tr>
                 </tbody>
                 
