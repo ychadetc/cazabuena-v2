@@ -1,6 +1,16 @@
 $(document).ready(function () {
     updateStatusColors(); 
     setInterval(updateStatusColors, 10); 
+
+    $(document).on('click', '#btnSubmitVilla', function(){
+        $('#modal-handler .modal-add-villa').hide();
+        $('#modal-handler .modal-success-villa').css('display', 'flex');
+    
+        setTimeout(function() {
+            $('#modal-handler .modal-success-villa').fadeOut();
+            $('#modal-handler').fadeOut();
+        }, 2000);
+    });
     
     
 });

@@ -77,6 +77,10 @@ app.get('/modal-add-booking', (req, res) =>{
   res.render('modal-add-booking.ejs')
 });
 
+app.get('/modal-view-details', (req, res) =>{
+  res.render('modal-view-details.ejs')
+});
+
 
 app.post("/InsertGuest", (req, res)=>{
 

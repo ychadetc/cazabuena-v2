@@ -7,9 +7,24 @@
     <button id="btnSubmitGuest">Submit</button>
 </div>
 
+<!-- confirmation -->
+<div class="modal-confirm-guest">
+    <img src="/assets/question.png" alt="">
+    <p id="p-guestName"></p>
+    <section><button id="btnCancelGuest">Cancel</button><button id="btnYesGuest">Yes</button></section>
+ </div>
+
+
+ <!-- Success -->
+
+ <div class="modal-success-guest">
+    <img src="/assets/success.png" alt="">
+    <p>Guest registered successfully!</p>
+ </div>
+
 
 <script>
-    $(document).on('click', '#btnSubmitGuest', function(e){
+    $(document).on('click', '#btnYesGuest', function(e){
         
         e.preventDefault();
         e.stopImmediatePropagation();

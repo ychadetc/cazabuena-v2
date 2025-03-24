@@ -5,6 +5,7 @@
     --border: rgba(165, 165, 165, 0.473);
     --font-color: rgb(88, 88, 88);
     --text-field: rgb(156, 156, 156);
+    --cazaBlue: #4a89bf;
 }
 
 input[type=number]::-webkit-inner-spin-button,
@@ -470,4 +471,361 @@ input[type=number]::-webkit-outer-spin-button {
     padding-left: 20px;
     color: var(--font-color);
     font-size: 15px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* MESSAGE BOXES */
+.modal-confirm-guest{
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    background-color: var(--white);
+    width: 350px;
+    height: auto;
+    border-radius: 10px;
+}
+.modal-confirm-guest img{
+    height: 90px;
+    width: auto;
+    position: absolute;
+    top: -40px;
+}
+
+.modal-confirm-guest p{
+    font-size: 17px;
+    color: var(--font-color);
+    margin-top: 90px;
+}
+.modal-confirm-guest section{
+    width: calc(100% - 40px);
+    display: flex;
+    justify-content: right;
+    padding-bottom: 20px;
+    padding-top: 20px;
+    gap: 8px;
+}
+.modal-confirm-guest section button{
+    width: 80px;
+    height: 25px;
+    border: 1px solid var(--cazaBlue);
+    font-size: 13px;
+    cursor: pointer;
+}
+.modal-confirm-guest section button:nth-child(1){
+    color: var(--cazaBlue);
+    background-color: transparent;
+}
+.modal-confirm-guest section button:nth-child(2){
+    color: var(--white);
+    background-color: var(--cazaBlue);
+}
+
+/* modal-success-guest */
+
+.modal-success-guest{
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    background-color: var(--white);
+    width: 350px;
+    height: auto;
+    border-radius: 10px;
+}
+.modal-success-guest img{
+    height: 90px;
+    width: auto;
+    position: absolute;
+    top: -40px;
+}
+.modal-success-guest p{
+    color: var(--font-color);
+    font-size: 16px;
+    padding-top: 40px;
+    padding-bottom: 10px;
+}
+
+
+
+/* Villa success */
+
+.modal-success-villa{
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    background-color: var(--white);
+    width: 350px;
+    height: auto;
+    border-radius: 10px;
+}
+.modal-success-villa img{
+    height: 90px;
+    width: auto;
+    position: absolute;
+    top: -40px;
+}
+.modal-success-villa p{
+    color: var(--font-color);
+    font-size: 16px;
+    padding-top: 40px;
+    padding-bottom: 10px;
+}
+
+/* room success */
+
+.modal-success-room{
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    background-color: var(--white);
+    width: 350px;
+    height: auto;
+    border-radius: 10px;
+}
+.modal-success-room img{
+    height: 90px;
+    width: auto;
+    position: absolute;
+    top: -40px;
+}
+.modal-success-room p{
+    color: var(--font-color);
+    font-size: 16px;
+    padding-top: 40px;
+    padding-bottom: 10px;
+}
+
+
+/* package success */
+
+.modal-success-package{
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    background-color: var(--white);
+    width: 350px;
+    height: auto;
+    border-radius: 10px;
+}
+.modal-success-package img{
+    height: 90px;
+    width: auto;
+    position: absolute;
+    top: -40px;
+}
+.modal-success-package p{
+    color: var(--font-color);
+    font-size: 16px;
+    padding-top: 40px;
+    padding-bottom: 10px;
+}
+
+
+
+/* modal for booking */
+
+
+
+.modal-confirm-booking{
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    background-color: var(--white);
+    width: 350px;
+    height: auto;
+    border-radius: 10px;
+}
+.modal-confirm-booking img{
+    height: 90px;
+    width: auto;
+    position: absolute;
+    top: -40px;
+}
+
+.modal-confirm-booking p{
+    font-size: 17px;
+    color: var(--font-color);
+    margin-top: 90px;
+}
+.modal-confirm-booking section{
+    width: calc(100% - 40px);
+    display: flex;
+    justify-content: right;
+    padding-bottom: 20px;
+    padding-top: 20px;
+    gap: 8px;
+}
+.modal-confirm-booking section button{
+    width: 80px;
+    height: 25px;
+    border: 1px solid var(--cazaBlue);
+    font-size: 13px;
+    cursor: pointer;
+}
+.modal-confirm-booking section button:nth-child(1){
+    color: var(--cazaBlue);
+    background-color: transparent;
+}
+.modal-confirm-booking section button:nth-child(2){
+    color: var(--white);
+    background-color: var(--cazaBlue);
+}
+
+/* modal-success-guest */
+
+.modal-success-booking{
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    background-color: var(--white);
+    width: 350px;
+    height: auto;
+    border-radius: 10px;
+}
+.modal-success-booking img{
+    height: 90px;
+    width: auto;
+    position: absolute;
+    top: -40px;
+}
+.modal-success-booking p{
+    color: var(--font-color);
+    font-size: 16px;
+    padding-top: 40px;
+    padding-bottom: 10px;
+}
+
+
+
+
+
+
+
+
+
+.modal-view-details{
+    background-color: var(--white);
+    width: 690px;
+    height: auto;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 20px;
+}
+.modal-view-details section{
+    padding: 0px 20px 0px 20px;
+}
+.modal-view-details .title{
+    display: flex;
+    justify-content: space-between;
+    color: var(--font-color);
+    height: 50px;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 30px;
+}
+.modal-view-details .title span{
+    font-size: 17px;
+}
+.modal-view-details .title button{
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: var(--font-color);
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+}
+.modal-view-details .title button:hover{
+    background-color: #eeeeee;
+}
+
+
+
+
+
+
+
+
+.modal-view-details .detail-row{
+    display: flex;
+    flex-direction: row;
+    height: auto;
+    margin-bottom: 15px;
+}
+.modal-view-details .detail-row .detail-lr{
+    width: 50%;
+    display: flex;
+    gap: 8px;
+}
+.modal-view-details .detail-row .detail-lr span{
+    font-size: 16px;
+    color: var(--font-color);
+}
+.modal-view-details .detail-row .detail-lr span:nth-child(1){
+    font-weight: 600;
+
+}
+.modal-view-details .detail-action{
+    margin-top: 20px;
+    height: 30px;
+    display: flex;
+    align-items: end;
+    justify-content: right;
+    gap: 10px;
+    position: relative;
+    border-top: 1px solid var(--border);
+    padding-top: 10px;
+}
+
+#btnCheckBill,#btnUpdateChanges{
+    width: 90px;
+    height: 25px;
+    border: 1px solid var(--cazaBlue);
+    background-color: transparent;
+    font-size: 13px;
+    color: var(--cazaBlue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    cursor: pointer;
+}
+
+.modal-view-details .detail-action .selecttags{
+    width: auto;
+    height: auto;
+    display: flex;
+    position: absolute;
+    left: 20px;
+    gap: 10px;
+}
+.modal-view-details .detail-action .selecttags select{
+    color: var(--font-color);
+    font-size: 13px;
+    height: 25px;
+    cursor: pointer;
+    outline: none;
+    border: 1px solid var(--border);
 }

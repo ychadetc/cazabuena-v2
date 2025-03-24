@@ -61,18 +61,31 @@ $(document).ready(function(){
         });
     });
 
+    
+
     $(document).on('click', '#btnOpenReservation', function(){
         $.ajax({
             url: '/reservation-page',
             method: 'GET',
             success: function(data){
-                $('#content-contain').html(data); 
+                $('#content-contain').html(data);      
+                    initializeCalendar();
             },
             error: function(err){
                 console.error(err);
             }
         });
     });
+    
+    function initializeCalendar(){
+              const calendarEl = $('#calendar-fullCalendar');
+              const calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth'
+              })
+              calendar.render() 
+
+    }
+    
 
 //________________________________________________SIDEBAR END________________________________________________________________________________
 
@@ -143,6 +156,8 @@ $(document).ready(function(){
             }
         });
     });
+
+
 
 
 });

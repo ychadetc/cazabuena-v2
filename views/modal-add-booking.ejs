@@ -28,9 +28,24 @@
     <button id="btnSubmitbooking">ADD BOOKING</button>
 </div>
 
+<!-- confirmation -->
+<div class="modal-confirm-booking">
+    <img src="/assets/question.png" alt="">
+    <p>Do you want to confirm this booking?</p>
+    <section><button id="btnCancelBooking">Cancel</button><button id="btnYesBooking">Yes</button></section>
+ </div>
+
+
+ <!-- Success -->
+
+ <div class="modal-success-booking">
+    <img src="/assets/success.png" alt="">
+    <p>Booking registered successfully!</p>
+ </div>
+
 <script>
 
-$(document).on('click', '#btnSubmitbooking', function(e){
+$(document).on('click', '#btnYesBooking', function(e){
 
     e.preventDefault();
     e.stopImmediatePropagation();
@@ -53,7 +68,7 @@ $(document).on('click', '#btnSubmitbooking', function(e){
                     success: function(data){
                         alert(data.message);
                         console.log(data);
-                        $('#btnSubmitbooking')[0].reset();
+                       //$('#btnSubmitbooking')[0].reset();
                         //location.reload();
                         //alert(data.message)
                     },
