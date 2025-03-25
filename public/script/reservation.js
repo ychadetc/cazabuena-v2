@@ -27,14 +27,45 @@ $(document).ready(function(){
         $('#modal-handler .modal-confirm-booking').hide();
     });
 
-    $(document).on('click', '#btnYesBooking', function(){
-        $('#modal-handler .modal-confirm-booking').hide();
-        $('#modal-handler .modal-success-booking').css('display', 'flex');
+    $(document).on('click', '#btnYesBooking', function(e){
+
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        
+        
+
+
+        var guestData = {
+            "guest_id":$("#txtGuest").val(),
+            "check_in_datetime":$("#txtCheckIn").val(), 
+            "check_out_datetime":$("#txtCheckOut").val(),
+            "special_request":$("#txtSR").val(),
+            "no_pax":$("#txtNoPax").val(),
+            "package":$("#txtPackage").val()
+          }
+            var JSONguestData = JSON.stringify(guestData);
+
+            $.ajax({
+                    url:"http://localhost:3000/InsertBooking",
+                    type:"POST",
+                    data:JSONguestData,
+                    contentType:'application/json',
+                    success: function(data){
+                        $('#modal-handler .modal-confirm-booking').hide();
+                        $('#modal-handler .modal-success-booking').css('display', 'flex');
+                        setTimeout(function() {
+                            $('#modal-handler .modal-success-booking').fadeOut();
+                            $('#modal-handler').fadeOut();
+                        }, 2000);
+                    },
+                    
+                    error: function(xhr, status, error){
+                        alert(error);
+                    }
+
+                })
     
-        setTimeout(function() {
-            $('#modal-handler .modal-success-booking').fadeOut();
-            $('#modal-handler').fadeOut();
-        }, 2000);
+        
         
     });
 

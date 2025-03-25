@@ -69,22 +69,24 @@ $(document).ready(function(){
             method: 'GET',
             success: function(data){
                 $('#content-contain').html(data);      
-                    initializeCalendar();
+                // $('#calendar').fullCalendar({
+                //     editable: true, 
+                //     events: [
+                //         {
+                //             title: 'Bimbam',
+                //             start: '2025-03-25',
+                //             end: '2025-03-27', 
+                //             allDay: true
+                //         }
+                //     ]
+                // });
             },
             error: function(err){
                 console.error(err);
             }
         });
     });
-    
-    function initializeCalendar(){
-              const calendarEl = $('#calendar-fullCalendar');
-              const calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth'
-              })
-              calendar.render() 
 
-    }
     
 
 //________________________________________________SIDEBAR END________________________________________________________________________________

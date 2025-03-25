@@ -10,7 +10,8 @@ const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
   password: '',
-  database: 'cazabuena'
+  database: 'cazabuena',
+  port: 3306
 })
 
 var bodyParser = require("body-parser");
@@ -20,11 +21,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use(session({
-  store: new FileStore({ path: '../sessions', logFn: function() {} }), // Store sessions in the "sessions" folder
+  store: new FileStore({ path: '../sessions', logFn: function() {} }), 
   secret: 'secret_key',
   resave: false,
   saveUninitialized: false,
-  cookie: { secure: false, maxAge: 24 * 60 * 60 * 1000 } // 1-day session persistence
+  cookie: { secure: false, maxAge: 24 * 60 * 60 * 1000 }
 }));
 
 app.set('view engine', 'ejs');
@@ -38,6 +39,10 @@ app.get('/', (req, res) => {
         content: 'home.ejs'
     });
   });
+
+app.get('/login', (req, res)=>{
+  res.render('login-page.ejs');
+});
 
 app.get('/guest-register', (req, res) =>{
     res.render('modal-guest-reg.ejs');
@@ -265,6 +270,7 @@ app.post("/InsertPackage", (req, res)=>{
                  } else {
                      console.log('Data inserted successfully');
                      //res.send('Data inserted successfully');
+                     res.send({ message: "Booking details inserted successfully" });
                  }
              });
  

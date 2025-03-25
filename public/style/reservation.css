@@ -16,7 +16,6 @@
 
 }
 .reservation-page .nav-slider{
-
     width: calc(100% - 40px);
     padding: 20px;
 }
@@ -83,8 +82,8 @@
     border: 1px solid var(--cazaBlue);
     color: var(--cazaBlue);
 }
-.reservation-page .page-container .page-calendar #calendar-fullCalendar{
-    border: 1px solid var(--border);
+.reservation-page .page-container .page-calendar #calendar{
+    overflow-y: scroll;
     height: calc(100% - 70px);
     width: 100%;
 }

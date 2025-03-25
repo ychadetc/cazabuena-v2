@@ -329,7 +329,7 @@ input[type=number]::-webkit-outer-spin-button {
     display: flex;
     flex-direction: column;
     align-items: center;
-    overflow: hidden;
+    overflow: visible;
     padding: 0px;
     height: 100%;
 }
@@ -342,7 +342,7 @@ input[type=number]::-webkit-outer-spin-button {
     height: 50px;
     align-items: end;
     color: var(--font-color);
-    overflow: hidden;
+    overflow: visible;
     width: 100%;
 }
 .modal-add-package .package-l-r .packagetxt .text-field span{
@@ -828,4 +828,51 @@ input[type=number]::-webkit-outer-spin-button {
     cursor: pointer;
     outline: none;
     border: 1px solid var(--border);
+}
+
+
+
+#tag-container{
+    background-color: var(--white);
+    width: 150px;
+    position: absolute;
+    right: -165px;
+    top: 5px;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    display: none;
+    padding: 5px 5px 5px 5px;
+    flex-direction: column;
+    justify-content: end;
+    gap: 10px;
+}
+#tag-container p{
+    border-bottom: 1px solid var(--border);
+    margin: 0;
+    padding: 0; 
+    color: var(--font-color);
+    font-size: 15px;
+    padding-bottom: 5px;
+}
+
+#tag-container #selected-rooms{
+    padding: 0px;
+    height: unset;
+    display: flex;
+    flex-direction: column;
+    justify-content: unset;
+}
+#tag-container #selected-rooms p{
+   border: none;
+    margin: 0; 
+    padding: 0; 
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    width: 100px;
+    align-items: center;
+}
+
+#tag-container #selected-rooms p i{
+    cursor: pointer;
 }
