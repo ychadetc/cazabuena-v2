@@ -249,6 +249,23 @@ app.get('/packages', (req, res) => {
 });
 
 
+app.get("/GuestTable", (req, res)=>{
+    
+  var query = `SELECT * FROM guest_table`;
+
+  connection.query(query,(err, results)=>{
+
+    if (err) {
+      console.error('error running query:', err);
+      return;
+    }
+    res.send({guest:results});
+
+  });
+
+});
+
+
 
 
 app.post("/InsertPackage", (req, res)=>{
