@@ -1,5 +1,7 @@
 $(document).ready(function(){
 
+
+
     //___________________________________________________________SIDEBAR START____________________________________________________
     $(document).on('click', '#btnOpenHome', function(){
         window.location.href = '/';
@@ -69,23 +71,16 @@ $(document).ready(function(){
             method: 'GET',
             success: function(data){
                 $('#content-contain').html(data);      
-                // $('#calendar').fullCalendar({
-                //     editable: true, 
-                //     events: [
-                //         {
-                //             title: 'Bimbam',
-                //             start: '2025-03-25',
-                //             end: '2025-03-27', 
-                //             allDay: true
-                //         }
-                //     ]
-                // });
+                $('#calendar').fullCalendar();
             },
             error: function(err){
                 console.error(err);
             }
         });
     });
+
+
+
 
     
 
