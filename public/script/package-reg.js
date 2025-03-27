@@ -1,5 +1,7 @@
 
 $(document).ready(function(){
+
+    
     $(document).on('click', '#btnSubmitPackage', function(e){
         e.preventDefault();
         e.stopImmediatePropagation();
@@ -130,4 +132,8 @@ $(document).ready(function(){
             $("#tag-container").fadeOut("fast");
         }
     });
+
+    
+
+ 
 });

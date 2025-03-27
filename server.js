@@ -188,6 +188,67 @@ app.get("/roomListPlot", (req, res)=>{
 });
 
 
+app.get('/rooms', (req, res) => {
+  var query = 'SELECT * FROM rooms';
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error('error running query:', err);
+      return;
+    }
+    res.send({rooms:results});
+  });
+});
+
+
+app.get("/roomList", (req, res)=>{
+
+  var query = `select * from rooms`;
+
+  connection.query(query,(err, results)=>{
+
+    if (err) {
+      console.error('error running query:', err);
+      return;
+    }
+    res.send({room:results});
+
+  });
+
+
+
+});
+
+
+
+app.get("/GuestOption", (req, res)=>{
+    
+  var query = 'SELECT * FROM personal_details_table';
+
+  connection.query(query,(err, results)=>{
+
+    if (err) {
+      console.error('error running query:', err);
+      return;
+    }
+    res.send({guest:results});
+
+  });
+
+});
+
+
+app.get('/packages', (req, res) => {
+  var query = 'SELECT * FROM packages where package_status = ?';
+  connection.query(query, ["active"],(err, results) => {
+    if (err) {
+      console.error('error running query:', err);
+      return;
+    }
+    res.send({package:results});
+  });
+});
+
+
 
 
 app.post("/InsertPackage", (req, res)=>{

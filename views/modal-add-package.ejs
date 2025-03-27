@@ -31,9 +31,9 @@
                 <!-- js-example-basic-multiple -->
                 <select id="txtRoomID" class="textbox"> 
                     <option value="" disabled hidden selected>--Select room--</option>
-                    <option value="ROOM 101">ROOM 101</option>
+                    <!--<option value="ROOM 101">ROOM 101</option>
                     <option value="ROOM 102">ROOM 102</option>
-                    <option value="ROOM 103">ROOM 103</option>
+                    <option value="ROOM 103">ROOM 103</option>-->
                 </select>
                 <div id="tag-container">
                     <p>Rooms <i class="fas fa-door-open"></i></p>
@@ -60,4 +60,59 @@
     <img src="/assets/success.png" alt="">
     <p>Package registered successfully!</p>
  </div>
+
+
+ <script>
+      //__________GET ROOM LIST______________
+
+            var roomlist = [];
+
+                
+            
+            $.ajax({
+                type: "GET",
+                url: "http://localhost:3000/roomList", // Your server endpoint URL
+                success: function(data) {
+                
+                const jsonData = data.room; // Parse the JSON string
+                
+
+                $.each(jsonData, function(index, room) {
+                    roomlist.push(room);
+                });
+
+                // Display the villa list in a loop using HTML
+                for (var i = 0; i < roomlist.length; i++) {
+
+
+                    var room_id = roomlist[i].room_id;
+                    var room_name = roomlist[i].room_name;
+                    console.log(room_id)
+
+                    var data_room = `
+
+                    <option value=${room_id}>${room_name}</option>
+                    
+                    `;
+
+                    $('#txtRoomID').append(data_room);
+                    
+                }
+
+                console.log("static list")
+
+                console.log(roomlist[1].room_name)
+
+                //var packageTable = new DataTable('#packageTable');
+                },
+                error: function(xhr, status, err) {
+                console.error('Error:', err);
+                }
+            });
+
+
+
+            //__________GET ROOM LIST______________
+
+ </script>
 
