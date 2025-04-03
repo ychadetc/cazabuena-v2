@@ -5,21 +5,30 @@
             <section class="text-field row"><span>Select Guest</span>
                 <select id="txtGuest" class="textbox">
                     <option value="" disabled hidden selected></option>
-                    <option value="94916">Aubrie</option>
+                    <!--<option value="94916">Aubrie</option>
                     <option value="55192">Lex</option>
-                    <option value="48643">Richard</option>
+                    <option value="48643">Richard</option>-->
                 </select>
             </section>
             <section class="text-field row"><span>Check-In Time</span><input type="datetime-local" id="txtCheckIn" class="textbox"></section>
             <section class="text-field row"><span>Check-Out Time</span><input type="datetime-local" id="txtCheckOut" class="textbox"></section>
+
+            <section class="text-field row"><span>Booking Type</span>
+
+              <select id="txtBookingType" class="textbox">
+                <option value="pending">PENDING</option>
+                <option value="reserved">RESERVE</option>
+              </select>
+            
+            </section>
         </div>
         <div class="bookingtxt package-r">
             <section class="text-field row"><span>No. of Pax</span><input type="text" id="txtNoPax" class="textbox"></section>
             <section class="text-field row"><span>Select package</span>
                 <select id="txtPackage" class="textbox">
                     <option value="" disabled hidden selected></option>
-                    <option value="44373">Couple</option>
-                    <option value="44386">Suite</option>
+                    <!--<option value="44373">Couple</option>
+                    <option value="44386">Suite</option>-->
                 </select>
             </section>
             <section class="text-field row"><span>Special request</span><input type="text" id="txtSR" class="textbox"></section>
@@ -28,44 +37,90 @@
     <button id="btnSubmitbooking">ADD BOOKING</button>
 </div>
 
-<script>
+<!-- confirmation -->
+<div class="modal-confirm-booking">
+    <img src="/assets/question.png" alt="">
+    <p>Do you want to confirm this booking?</p>
+    <section><button id="btnCancelBooking">Cancel</button><button id="btnYesBooking">Yes</button></section>
+ </div>
 
-$(document).on('click', '#btnSubmitbooking', function(e){
 
-    e.preventDefault();
-    e.stopImmediatePropagation();
+ <!-- Success -->
 
-    var guestData = {
-                      "guest_id":$("#txtGuest").val(),
-                      "check_in_datetime":$("#txtCheckIn").val(), 
-                      "check_out_datetime":$("#txtCheckOut").val(),
-                      "special_request":$("#txtSR").val(),
-                      "no_pax":$("#txtNoPax").val(),
-                      "package":$("#txtPackage").val()
-                    }
-    var JSONguestData = JSON.stringify(guestData);
+ <div class="modal-success-booking">
+    <img src="/assets/success.png" alt="">
+    <p>Booking registered successfully!</p>
+ </div>
 
-    $.ajax({
-                    url:"http://localhost:3000/InsertBooking",
-                    type:"POST",
-                    data:JSONguestData,
-                    contentType:'application/json',
-                    success: function(data){
-                        alert(data.message);
-                        console.log(data);
-                        $('#btnSubmitbooking')[0].reset();
-                        //location.reload();
-                        //alert(data.message)
-                    },
-                    
-                    error: function(xhr, status, error){
-                        alert(error);
-                    }
 
-                })
 
+ <script>
+     var guestList = [];
+
+$.ajax({
+  type: "GET",
+  url: "http://localhost:3000/GuestOption", // Your server endpoint URL
+  success: function(data) {
+    const jsonData = data.guest; // Parse the JSON string
+
+    $.each(jsonData, function(index, guest) {
+      guestList.push(guest);
     });
 
+    // Display the villa list in a loop using HTML
+    for (var i = 0; i < guestList.length; i++) {
+
+      var guest_id = guestList[i].guest_id;
+      var full_name = guestList[i].full_name;
+      
+
+      var data_guest = `<option vlaue = ${guest_id}>${guest_id} ${full_name}</option> `;
+
+      $('#txtGuest').append(data_guest);
+      
+    }
+
+    
+  },
+  error: function(xhr, status, err) {
+    console.error('Error:', err);
+  }
+});
 
 
-</script>
+
+//_______PACKAGE OPTIONS___________
+var packageList = [];
+
+$.ajax({
+  type: "GET",
+  url: "http://localhost:3000/packages", // Your server endpoint URL
+  success: function(data) {
+    const jsonData = data.package; // Parse the JSON string
+
+    $.each(jsonData, function(index, package) {
+      packageList.push(package);
+    });
+
+    // Display the villa list in a loop using HTML
+    for (var x = 0; x < packageList.length; x++) {
+
+      var package_name = packageList[x].package_name;
+      var package_code = packageList[x].package_code;
+      var room_id = packageList[x].room_id;
+
+      var data_package = `<option value = ${package_code}>${package_name+" "+room_id}</option>`;
+
+      $('#txtPackage').append(data_package);
+      
+    }
+
+    
+  },
+  error: function(xhr, status, err) {
+    console.error('Error:', err);
+  }
+});
+
+//_______PACKAGE OPTIONS___________
+ </script>

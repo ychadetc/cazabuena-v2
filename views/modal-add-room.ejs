@@ -34,37 +34,8 @@
     <button id="btnSubmitRoom">ADD ROOM</button>
 </div>
 
-<script>
-     $(document).on('click', '#btnSubmitRoom', function(e){
 
-        e.preventDefault();
-        e.stopImmediatePropagation();
-
-        var roomData = {"room_name":$("#txtRoomName").val(), 
-                         "location":$("#txtRoomLocation").val(), 
-                         "room_status":$("#txtRoomStatus").val(), 
-                         "villa_id":$("#txtVillaID").val()
-                        }
-        var JsonRoomData = JSON.stringify(roomData);
-
-        
-        $.ajax({
-                    url:"http://localhost:3000/InsertRoom",
-                    type:"POST",
-                    data:JsonRoomData,
-                    contentType:'application/json',
-                    success: function(data){
-                        //alert(data.message);
-                        console.log(data.message);
-                       
-                        location.reload();
-                    },
-                    
-                    error: function(xhr, status, error){
-                        alert(error);
-                    }
-
-                })
-
-     })
-</script>
+<div class="modal-success-room">
+    <img src="/assets/success.png" alt="">
+    <p>Room registered successfully!</p>
+ </div>
