@@ -109,6 +109,38 @@ $('#btnCheckBill').on("click", function(e){
             //alert("it worked")
 
         });
+
+
+
+        $('#btnUpdateChanges').on("click", function(e){
+
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            var guest_status = $("#selectGuestStatus").val();
+            var transaction_id2 = $("#transaction_id3").val();
+            var package = $('#package_selected').val();
+            var txt = JSON.stringify({"guest_status":guest_status, "transaction_id2":transaction_id2, "package_code":package});
+
+            $.ajax({
+                    url:"http://localhost:3000/UpdateGuestTable",
+                    type:"POST",
+                    data:txt,
+                    contentType:'application/json',
+                    success: function(data){
+                        //alert(data.message);
+                        //console.log(data);
+                        $('#UpdateGuest')[0].reset();
+                        //location.reload();
+                        //alert(data.message)
+                    },
+                    
+                    error: function(xhr, status, error){
+                        alert(error);
+                    }
+
+                })
+
+        });
  
 
 </script>

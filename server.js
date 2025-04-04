@@ -316,10 +316,11 @@ app.post("/InsertPackage", (req, res)=>{
     var no_pax = req.body.no_pax;
     var package= req.body.package;
     var special_request = req.body.special_request;
-    var guest_status = 'PENDING';
+    var bookingType = req.body.bookingType;
+    var guest_status = bookingType;
     var check_in_datetime = Date.parse(req.body.check_in_datetime);
     var check_out_datetime = Date.parse(req.body.check_out_datetime);
-    var bookingType = req.body.bookingType;
+    console.log(bookingType);
 
 
     var millisecondsPerDay = 24 * 60 * 60 * 1000;
@@ -328,7 +329,7 @@ app.post("/InsertPackage", (req, res)=>{
 
     console.log(length_stay);
 
-    if (bookingType == "pending"){
+    if (bookingType === "pending"){
 
 
                 //____________________________PACKAGE INSERT____________________________________
@@ -505,7 +506,7 @@ app.post("/InsertPackage", (req, res)=>{
 
 
 
-       else if(bookingType == "reserved"){
+       else if(bookingType === "reserved"){
 
          //____________________________PACKAGE INSERT____________________________________
 
@@ -718,8 +719,9 @@ app.post("/InsertPackage", (req, res)=>{
 
   app.post("/UpdateGuestTable", (req, res)=>{
 
-    var transaction_id2 = req.body.transaction_id2_2;
-    var guest_status = req.body.guest_status2;
+    var transaction_id2 = req.body.transaction_id2;
+    var guest_status = req.body.guest_status;
+   // var package_code = req.body.package_code;
   
     console.log(guest_status);
   
@@ -727,8 +729,11 @@ app.post("/InsertPackage", (req, res)=>{
   
   
     //check the update status if CHECK_OUT
+
+
+    //____________________________UPDATE IF CHECK OUT_____________________________________________
   
-    if(guest_status == "CHECKED_OUT"){
+    if(guest_status === "CHECKED_OUT" || guest_status === "CANCELLED"){
   
               const sql = `update guest_table set guest_status = ? where transaction_id2 = ?`;
   
@@ -918,6 +923,208 @@ app.post("/InsertPackage", (req, res)=>{
   
   
         }
+
+        //____________________________UPDATE IF CHECK OUT_____________________________________________
+
+        //___________________________UPDATE IF CHECKED IN____________________________________________
+
+
+        else if(guest_status === "CHECKED_IN"){
+  
+          const sql = `update guest_table set guest_status = ? where transaction_id2 = ?`;
+
+          connection.query(sql,[guest_status, transaction_id2], (err, results)=>{
+
+            if (err) {
+              console.error('error running query:', err);
+              //return;
+            }
+
+            //get the accpmodation type
+
+            
+
+            var sql_select_package= `select * from guest_table where transaction_id2 = ?`;
+
+            connection.query(sql_select_package, [transaction_id2], (err, rows9)=>{
+
+              var package_code = rows9[0].package;
+
+              var sql_get_accom = `select * from packages where package_code = ?`;
+
+              connection.query(sql_get_accom, [package_code], (err, rows10)=>{
+
+                var accom_type = rows10[0].accom_type;
+
+                //if else of villa and room
+
+
+
+                                  
+                                if(accom_type == "villa"){
+                                  var package_code = rows10[0].package_code2;
+                                  console.log(package_code);
+
+                                  var sql_select_package = `select room_id from packages where package_code2 = ?`;
+
+                                  connection.query(sql_select_package, [package_code], (err, rows2)=>{
+
+                                    for(var rows2_c=0; rows2_c<rows2.length; rows2_c++){
+                                      var room_name = rows2[rows2_c].room_id;
+                                      var update_rooms = 'update rooms set room_status = ? where room_name = ?';
+                                      connection.query(update_rooms, ["inactive", room_name],(err, rows3)=>{
+
+                                    
+                                      
+
+                                      });
+                                    }
+
+                                        //update package using room
+
+                                        var sql_select_room_inactive = `select room_name from rooms where room_status = ?`;
+                                        connection.query(sql_select_room_inactive, ["inactive"], (err, rows4)=>{
+
+                                          for(var rows4_c = 0; rows4_c<rows4.length; rows4_c++){
+
+                                            var room_id_inactive = rows4[rows4_c].room_name;
+
+                                            console.log(room_id_inactive);
+
+                                            var update_package = 'update packages set package_status = ? where room_id = ?';
+
+                                            connection.query(update_package, ["inactive", room_id_inactive], (err, rows5)=>{
+
+                                              console.log("room updated");
+
+                                              console.log("package updated")
+
+                                              
+
+                                            });
+
+                                          }
+
+                                          var select_sql_reupdate = `select * from packages where package_status = ? and accom_type = ?`;
+
+                                              connection.query(select_sql_reupdate, ["inactive", "villa"], (err, rows6)=>{
+
+                                                for(var rows6_c = 0; rows6_c<rows6.length; rows6_c++){
+
+                                                  var package_code = rows6[rows6_c].package_code2;
+
+                                                  var sql_reupdate_package = `update packages set package_status = ? where package_code2 = ?`;
+
+                                                  connection.query(sql_reupdate_package, ["inactive", package_code], (err, rows7)=>{
+
+                                                  });
+
+                                                }
+
+                                                
+
+                                              });
+
+                                        });
+
+                          
+                                  });
+
+                                
+                                }
+
+
+
+
+                                else if(accom_type == "room"){
+
+                                  var package_code = rows10[0].package_code;
+                                  console.log(package_code);
+
+                                  var sql_select_package = `select room_id from packages where package_code = ?`;
+
+                                  connection.query(sql_select_package, [package_code], (err, rows2)=>{
+
+                                    for(var rows2_c=0; rows2_c<rows2.length; rows2_c++){
+                                      
+                                      var room_name = rows2[rows2_c].room_id;
+                                      var update_rooms = 'update rooms set room_status = ? where room_name = ?';
+                                      connection.query(update_rooms, ["inactive", room_name],(err, rows3)=>{
+
+                                    
+                                      });
+                                    }
+
+                                    
+
+                                      //update package using room
+
+                                      var sql_select_room_inactive = `select room_name from rooms where room_status = ?`;
+
+                                      connection.query(sql_select_room_inactive, ["inactive"], (err, rows4)=>{
+
+                                        for(var rows4_c = 0; rows4_c<rows4.length; rows4_c++){
+
+                                          var room_id_inactive = rows4[rows4_c].room_name;
+
+                                          console.log(room_id_inactive);
+
+                                          var update_package = 'update packages set package_status = ? where room_id = ?';
+
+                                          connection.query(update_package, ["inactive", room_id_inactive], (err, rows5)=>{
+
+                                            console.log("room updated");
+
+                                            console.log("package updated")
+
+                                            
+
+                                          });
+
+                                        }
+
+                                        var select_sql_reupdate = `select * from packages where package_status = ? and accom_type = ?`;
+
+                                        connection.query(select_sql_reupdate, ["inactive", "villa"], (err, rows6)=>{
+
+                                          for(var rows6_c = 0; rows6_c<rows6.length; rows6_c++){
+
+                                            var package_code = rows6[rows6_c].package_code2;
+
+                                            var sql_reupdate_package = `update packages set package_status = ? where package_code2 = ?`;
+
+                                            connection.query(sql_reupdate_package, ["inactive", package_code], (err, rows7)=>{
+
+                                            });
+
+                                          }
+
+                                        });
+
+                                      });
+
+                                    
+
+                                  });
+
+                                }
+
+      //if else of villa and room
+
+          });
+
+        });
+
+      });
+
+
+    }
+
+
+        //___________________________UPDATE IF CHECKED IN____________________________________________
+
+
+     
   
         //check the update status if CHECK_OUT
   

@@ -79,7 +79,7 @@ $.ajax({
                 var check_in_datetime = new Date(Number(guestList1[x].check_in_datetime));
                 var check_out_datetime = new Date(Number(guestList1[x].check_out_datetime));
                 var length_stay = guestList1[x].length_stay;
-                var guest_status = guestList1[x].guest_status;
+                var guest_status = guestList1[x].guest_status.toUpperCase();
                 var transaction_id2 = guestList1[x].transaction_id2;
 
 
