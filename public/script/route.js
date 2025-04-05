@@ -101,8 +101,8 @@ $(document).ready(function(){
                         var guest_status = guestList1[x].guest_status;
                         var transaction_id2 = guestList1[x].transaction_id2;
             
-                        var start = new Date(check_in_datetime).toISOString().replace("Z", "");
-                        var end = new Date(check_out_datetime).toISOString().replace("Z", "");
+                        var start = new Date(check_in_datetime);
+                        var end = new Date(check_out_datetime);
 
                         console.log(start)
                         console.log(end)

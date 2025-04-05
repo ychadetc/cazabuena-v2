@@ -1264,6 +1264,28 @@ app.post("/InsertPackage", (req, res)=>{
 
 
    //___________________________________________UPDATE GUEST TABLE________________________________
+
+   //______________________CALL TO CHANGE THE LIST OF PACKAGE______________________________
+
+   app.post("/changePackage", (req, res)=>{
+
+    var pax = req.body.pax;
+
+    console.log(pax)
+
+    var sql_select_set_package = `select * from packages where no_of_person <= ? and package_status = ?`
+
+    connection.query(sql_select_set_package, [pax, "active"], (err4, result_set)=>{
+      if (err4) {
+        console.error('error running query:', err4);
+        return;
+      }
+      res.send({package_set:result_set});
+
+    });
+
+   });
+   //______________________CALL TO CHANGE THE LIST OF PACKAGE______________________________
   
 
 
