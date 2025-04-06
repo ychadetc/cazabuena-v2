@@ -145,13 +145,29 @@
                             //console.log("i")
                         }
 
-                        else{
+                        else if(room_status=='active'){
                             
                             //$("#"+room_name.replace(/\s/g, '')).css("background-color", "yellow");
                             
                             $(".home-page .villa"+" "+"."+room_name.replace(/\s/g, '')).css({"width": "0",
                                                                     "height": "0",
                                                                     "border-right": "50px solid yellow", 
+                                                                    "border-bottom": "50px solid transparent",
+                                                                    "position": "absolute",
+                                                                    "top": "0",
+                                                                    "right": "0"});
+                            //console.log("a")
+                        }
+
+
+
+                        else if(room_status=='pending'){
+                            
+                            //$("#"+room_name.replace(/\s/g, '')).css("background-color", "yellow");
+                            
+                            $(".home-page .villa"+" "+"."+room_name.replace(/\s/g, '')).css({"width": "0",
+                                                                    "height": "0",
+                                                                    "border-right": "50px solid gray", 
                                                                     "border-bottom": "50px solid transparent",
                                                                     "position": "absolute",
                                                                     "top": "0",

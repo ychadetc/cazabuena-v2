@@ -16,7 +16,6 @@
 
 }
 .reservation-page .nav-slider{
-
     width: calc(100% - 40px);
     padding: 20px;
 }
@@ -77,7 +76,6 @@
 .reservation-page .page-container .page-calendar section button{
     width: 120px;
     height: 25px;
-    font-size: 15px;
     cursor: pointer;
     font-size: 13px;
     background-color: transparent;
@@ -85,7 +83,38 @@
     color: var(--cazaBlue);
 }
 .reservation-page .page-container .page-calendar #calendar{
-    border: 1px solid var(--border);
+    overflow-y: scroll;
     height: calc(100% - 70px);
     width: 100%;
+}
+#txtSearchBooking{
+    width: 200px;
+    height: 25px;
+    outline: none;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    font-size: 16px;
+    color: var(--font-color);
+    padding-left: 10px;
+    padding-top: 3px;
+    border-right: none;
+}
+.reservation-page .page-container .page-reservation section{
+    align-items: center;
+    color: var(--font-color);
+}
+.reservation-page .page-container .page-reservation section i{
+    border: 1px solid var(--border);
+    border-left: none;
+    font-size: 18px;
+    padding: 5.1px;
+}
+.reservation-page .page-container .page-reservation .reservation table tbody tr td:nth-child(8){
+    display: flex;
+    justify-content: right;
+    
+}
+.reservation-page .page-container .page-reservation .reservation table tbody tr td:nth-child(8) a{
+    color: var(--cazaBlue);
+    cursor: pointer;
 }

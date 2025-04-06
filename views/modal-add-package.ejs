@@ -28,13 +28,19 @@
             <section class="text-field row"><span>Room ID</span>
                 
                 
-
-                <select id="txtRoomID" multiple="multiple" class="textbox js-example-basic-multiple">
-                    <!--<option value="" disabled hidden selected></option>-->
-                    <option value="ROOM 101">ROOM 101</option>
+                <!-- js-example-basic-multiple -->
+                <select id="txtRoomID" class="textbox"> 
+                    <option value="" disabled hidden selected>--Select room--</option>
+                    <!--<option value="ROOM 101">ROOM 101</option>
                     <option value="ROOM 102">ROOM 102</option>
-                    <option value="ROOM 103">ROOM 103</option>
+                    <option value="ROOM 103">ROOM 103</option>-->
                 </select>
+                <div id="tag-container">
+                    <p>Rooms <i class="fas fa-door-open"></i></p>
+                    <section id="selected-rooms">
+                            <!-- selected rooms -->
+                    </section>
+                </div>
             
             </section>
             <section class="text-field row"><span>Number of rooms</span><input type="text" id="txtNoRooms" class="textbox"></section>
@@ -50,72 +56,63 @@
     <button id="btnSubmitPackage">ADD PACKAGE</button>
 </div>
 
-<script>
-     
-     $(document).ready(function() {
-     
-     $('#txtRoomID').select2();
-
-     
-
-     
-
-     $(document).on('click', '#btnSubmitPackage', function(e){
-        e.preventDefault();
-        e.stopImmediatePropagation();
-        
-        var multiple_rooms = $('#txtRoomID').select2('data');
-
-        var package_code = Math.floor(Math.random()*90000) + 10000;
-
-        var data_json_rooms = []
-
-        for(var multiple_rooms_len = 0; multiple_rooms_len<multiple_rooms.length; multiple_rooms_len++){
-
-            var rooms_selected = JSON.stringify({"rooms":multiple_rooms[multiple_rooms_len].text});
-
-            console.log(multiple_rooms[multiple_rooms_len].text)
-
-            var packageData = {
-                           "package_name":$("#txtPackageName").val(), 
-                           "no_of_person":$("#txtNoPax").val(), 
-                           "room_id":multiple_rooms[multiple_rooms_len].text, 
-                           "location":$("#txtPackageLocation").val(), 
-                           "no_of_rooms":$("#txtNoRooms").val(), 
-                           "package_rate":$("#txtPackageRate").val(), 
-                           "accom_type":$("#txtAccomodation").val(),
-                           "package_code":package_code,
-                           "package_status":$("#txtVillaStatus").val()
-                          };
-        
-             var JsonPackageData = JSON.stringify(packageData);
+<div class="modal-success-package">
+    <img src="/assets/success.png" alt="">
+    <p>Package registered successfully!</p>
+ </div>
 
 
-             console.log(JsonPackageData)
+ <script>
+      //__________GET ROOM LIST______________
 
-             $.ajax({
-                          url:"http://localhost:3000/InsertPackage",
-                          type:"POST",
-                          data:JsonPackageData,
-                          contentType:'application/json',
-                          success: function(data){
-                              //alert(data.message);
-                              console.log(data);
-                              $('#btnSubmitPackage')[0].reset();
-                              //location.reload();
-                          },
-                          
-                          error: function(xhr, status, error){
-                              alert(error);
-                          }
+            var roomlist = [];
 
-                      });
+                
+            
+            $.ajax({
+                type: "GET",
+                url: "http://localhost:3000/roomList", // Your server endpoint URL
+                success: function(data) {
+                
+                const jsonData = data.room; // Parse the JSON string
+                
+
+                $.each(jsonData, function(index, room) {
+                    roomlist.push(room);
+                });
+
+                // Display the villa list in a loop using HTML
+                for (var i = 0; i < roomlist.length; i++) {
 
 
-        }
+                    var room_id = roomlist[i].room_id;
+                    var room_name = roomlist[i].room_name;
+                    console.log(room_id)
 
-        
+                    var data_room = `
 
-     });
-  }); 
-</script>
+                    <option value=${room_name}>${room_name}</option>
+                    
+                    `;
+
+                    $('#txtRoomID').append(data_room);
+                    
+                }
+
+                console.log("static list")
+
+                console.log(roomlist[1].room_name)
+
+                //var packageTable = new DataTable('#packageTable');
+                },
+                error: function(xhr, status, err) {
+                console.error('Error:', err);
+                }
+            });
+
+
+
+            //__________GET ROOM LIST______________
+
+ </script>
+

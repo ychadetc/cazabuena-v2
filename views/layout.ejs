@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="/assets/blue-logo.png" type="image/x-icon">
     <title><%= title %></title>
+
     <link rel="stylesheet" href="/style/layout.css">
     <link rel="stylesheet" href="/style/home.css">
     <link rel="stylesheet" href="/style/modal.css">
@@ -16,11 +17,18 @@
     <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/main.min.css' rel='stylesheet' />
     <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/main.min.js'></script>
 
+
     <!-- namespaces -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.js"></script>
+   
 </head>
 <body>
     <div id="modal-handler">
@@ -45,7 +53,7 @@
         </section>
     </aside>
     <div class="nav-main">
-        <nav class="nav-bar"></nav>
+        <nav class="nav-bar"><i class="fas fa-sign-out-alt"></i></nav>
         <main id="content-contain"><%- include(content) %></main>
     </div>
 
@@ -55,5 +63,8 @@
 <script src="/script/route.js"></script>
 <script src="/script/villa-reg.js"></script>
 <script src="/script/reservation.js"></script>
+<script src="/script/room-reg.js"></script>
+<script src="/script/package-reg.js"></script>
+
 </body>
 </html>

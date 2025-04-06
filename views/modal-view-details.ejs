@@ -1,0 +1,146 @@
+<div class="modal-view-details">
+    <section class="title"><span>Reservation Details</span><button id="btnCloseModal" class="fas fa-times"></button></section>
+    <section class="detail-row">
+        <div class="detail-lr detail-left"><span class="label">Guest:</span><span class="detail-data" id="full_name"></span></div>
+        <div class="detail-lr detail-right"><span class="label">Check-In:</span><span class="detail-data" id="check_in_datetime"></span></div>
+    </section>
+
+    <section class="detail-row">
+        <div class="detail-lr detail-left"><span class="label">Guest ID:</span><span class="detail-data" id="guest_id"></span></div>
+        <div class="detail-lr detail-right"><span class="label">Check-Out:</span><span class="detail-data" id="check_out_datetime"></span></div>
+    </section>
+
+    <section class="detail-row">
+        <div class="detail-lr detail-left"><span class="label">Transaction ID:</span><span class="detail-data" id="transaction_id2"></span></div>
+        <div class="detail-lr detail-right"><span class="label">Length of stay:</span><span class="detail-data" id="length_stay"></span></div>
+    </section>
+
+    <section class="detail-row">
+        <div class="detail-lr detail-left"><span class="label">Package Availed:</span><span class="detail-data" id="package"></span></div>
+        <div class="detail-lr detail-right"><span class="label">Current Bill:</span><span class="detail-data" id="currbill"></span></div>
+        <input type="hidden" id="package_selected">
+        <input type="hidden" id="transaction_id3">
+        <input type="hidden" id="package_name_val">
+        <input type="hidden" id="guest_status_2">
+    </section>
+
+    <section class="detail-row">
+        <div class="detail-lr detail-left"><span class="label">Guest Status:</span><span class="detail-data" id="guest_status"></span></div>
+        <div class="detail-lr detail-right"><span class="label">Current stay:</span><span class="detail-data" id="currstay"></span></div>
+    </section>
+
+
+    <section class="detail-action">
+        <div class="selecttags">
+            <select id="selectGuestStatus">
+                <option value="" hidden disabled selected>--Select status--</option>
+                <option value="PENDING">Pending</option>
+                <option value="CHECKED_IN">Checked-In</option>
+                <option value="CHECKED_OUT">Checked-Out</option>
+                <option value="CANCELLED">Cancel</option>
+            </select>
+            <select id="selectPackage">
+                <option value="" hidden disabled selected>--Select package--</option>
+                <!--<option value="">49643</option>-->
+            </select>
+        </div>
+        <button id="btnUpdateChanges"><i class="fas fa-save"></i>Save</button>
+        <button id="btnCheckBill"><i class="fas fa-receipt"></i>Check bill</button>
+    </section>
+</div>
+
+<script>
+
+
+$('#btnCheckBill').on("click", function(e){
+            e.preventDefault();
+            e.stopImmediatePropagation();
+
+            var package = $('#package_selected').val();
+            var transaction_id2= $('#transaction_id3').val();
+            //alert(package);
+            var txt = JSON.stringify({"package":package, "transaction_id2":transaction_id2})
+
+            $.ajax({
+                url:"http://localhost:3000/UpdateBill",
+                type:"POST",
+                data:txt,
+                contentType:'application/json',
+                success:function(data1){
+                 var currList = [];
+
+                 const jsonData = data1.current_status;
+
+                 $.each(jsonData, function(index, currStats) {
+                    currList.push(currStats);
+                });
+
+                for (var i = 0; i < currList.length; i++) {
+                    var current_bill = currList[i].current_bill;
+                    var current_stay = currList[i].current_stay;
+
+                }
+
+                $("#currbill").html("₱"+current_bill);
+
+              if(current_stay<0){
+
+                $("#currstay").html(Math.abs(current_stay)+" "+"Day/s Before Check-In Day");
+
+              }
+
+              else{
+
+                $("#currstay").html(current_stay+" "+"Day/s");
+
+              }
+
+              
+              
+
+
+                },
+
+                error:function(xhr, status, error){
+                    alert(error);
+                }
+            });
+
+            //alert("it worked")
+
+        });
+
+
+
+        $('#btnUpdateChanges').on("click", function(e){
+
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            var guest_status = $("#selectGuestStatus").val();
+            var transaction_id2 = $("#transaction_id3").val();
+            var package = $('#package_selected').val();
+            var txt = JSON.stringify({"guest_status":guest_status, "transaction_id2":transaction_id2, "package_code":package});
+
+            $.ajax({
+                    url:"http://localhost:3000/UpdateGuestTable",
+                    type:"POST",
+                    data:txt,
+                    contentType:'application/json',
+                    success: function(data){
+                        //alert(data.message);
+                        //console.log(data);
+                        $('#UpdateGuest')[0].reset();
+                        //location.reload();
+                        //alert(data.message)
+                    },
+                    
+                    error: function(xhr, status, error){
+                        alert(error);
+                    }
+
+                })
+
+        });
+ 
+
+</script>
