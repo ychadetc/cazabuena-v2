@@ -35,21 +35,21 @@ app.use('/assets', express.static(path.join(__dirname, 'assets')));
 
 app.get('/', (req, res) => {
 
-            if (req.session.user) {
-             // res.send({ validation: "session", user: req.session.user });
-          
-                res.render('layout',{
-                  title: "Home",
-                  content: 'home.ejs'
-              });
-            } 
-            
-            else {
-                //res.send({ validation: "no_session" });
-                res.render('login-page.ejs')
-          
-              //res.render('login-page.ejs');
-            }
+      if (req.session.user) {
+        // res.send({ validation: "session", user: req.session.user });
+    
+          res.render('layout',{
+            title: "Home",
+            content: 'home.ejs'
+        });
+      } 
+      
+      else {
+          //res.send({ validation: "no_session" });
+          res.render('login-page.ejs')
+    
+        //res.render('login-page.ejs');
+      }
   
   });
 
@@ -570,7 +570,7 @@ app.post("/InsertPackage", (req, res)=>{
                        var room_name = rows2[rows2_c].room_id;
                        var update_rooms = 'update rooms set room_status = ? where room_name = ?';
                        
-                       connection.query(update_rooms, ["inactive", room_name],(err, rows3)=>{
+                       connection.query(update_rooms, ["reserved", room_name],(err, rows3)=>{
            
                      
                        
@@ -585,7 +585,7 @@ app.post("/InsertPackage", (req, res)=>{
                      var sql_select_room_inactive = `select room_name from rooms where room_status = ?`;
 
 
-                     connection.query(sql_select_room_inactive, ["inactive"], (err, rows4)=>{
+                     connection.query(sql_select_room_inactive, ["reserved"], (err, rows4)=>{
 
                        for(var rows4_c = 0; rows4_c<rows4.length; rows4_c++){
        
@@ -651,7 +651,7 @@ app.post("/InsertPackage", (req, res)=>{
                  
                  var room_name = rows2[rows2_c].room_id;
                  var update_rooms = 'update rooms set room_status = ? where room_name = ?';
-                 connection.query(update_rooms, ["pending", room_name],(err, rows3)=>{
+                 connection.query(update_rooms, ["reserved", room_name],(err, rows3)=>{
 
                
                  });
@@ -663,7 +663,7 @@ app.post("/InsertPackage", (req, res)=>{
 
                  var sql_select_room_inactive = `select room_name from rooms where room_status = ? or room_status = ?`;
 
-                 connection.query(sql_select_room_inactive, ["inactive", "pending"], (err, rows4)=>{
+                 connection.query(sql_select_room_inactive, ["reserved", "pending"], (err, rows4)=>{
 
                    for(var rows4_c = 0; rows4_c<rows4.length; rows4_c++){
 
@@ -767,10 +767,206 @@ app.post("/InsertPackage", (req, res)=>{
   
     //check the update status if CHECK_OUT
 
+    //_______________________________UPDATE IF CLEANING____________________________________
+
+    
+    if(guest_status === "CLEANING"){
+  
+      const sql = `update guest_table set guest_status = ? where transaction_id2 = ?`;
+
+      connection.query(sql,[guest_status, transaction_id2], (err, results)=>{
+
+        if (err) {
+          console.error('error running query:', err);
+          //return;
+        }
+
+        //get the accpmodation type
+
+        
+
+        var sql_select_package= `select * from guest_table where transaction_id2 = ?`;
+
+        connection.query(sql_select_package, [transaction_id2], (err, rows9)=>{
+
+          var package_code = rows9[0].package;
+
+          var sql_get_accom = `select * from packages where package_code = ?`;
+
+          connection.query(sql_get_accom, [package_code], (err, rows10)=>{
+
+            var accom_type = rows10[0].accom_type;
+
+            //if else of villa and room
+
+
+
+                              
+                            if(accom_type == "villa"){
+                              var package_code = rows10[0].package_code2;
+                              console.log(package_code);
+
+                              var sql_select_package = `select room_id from packages where package_code2 = ?`;
+
+                              connection.query(sql_select_package, [package_code], (err, rows2)=>{
+
+                                for(var rows2_c=0; rows2_c<rows2.length; rows2_c++){
+                                  var room_name = rows2[rows2_c].room_id;
+                                  var update_rooms = 'update rooms set room_status = ? where room_name = ?';
+                                  connection.query(update_rooms, ["cleaning", room_name],(err, rows3)=>{
+
+                                
+                                  
+
+                                  });
+                                }
+
+                                    //update package using room
+
+                                    var sql_select_room_inactive = `select room_name from rooms where room_status = ?`;
+                                    connection.query(sql_select_room_inactive, ["cleaning"], (err, rows4)=>{
+
+                                      for(var rows4_c = 0; rows4_c<rows4.length; rows4_c++){
+
+                                        var room_id_inactive = rows4[rows4_c].room_name;
+
+                                        console.log(room_id_inactive);
+
+                                        var update_package = 'update packages set package_status = ? where room_id = ?';
+
+                                        connection.query(update_package, ["inactive", room_id_inactive], (err, rows5)=>{
+
+                                          console.log("room updated");
+
+                                          console.log("package updated")
+
+                                          
+
+                                        });
+
+                                      }
+
+                                      var select_sql_reupdate = `select * from packages where package_status = ? and accom_type = ?`;
+
+                                          connection.query(select_sql_reupdate, ["inactive", "villa"], (err, rows6)=>{
+
+                                            for(var rows6_c = 0; rows6_c<rows6.length; rows6_c++){
+
+                                              var package_code = rows6[rows6_c].package_code2;
+
+                                              var sql_reupdate_package = `update packages set package_status = ? where package_code2 = ?`;
+
+                                              connection.query(sql_reupdate_package, ["inactive", package_code], (err, rows7)=>{
+
+                                              });
+
+                                            }
+
+                                            
+
+                                          });
+
+                                    });
+
+                      
+                              });
+
+                            
+                            }
+
+
+
+
+                            else if(accom_type == "room"){
+
+                              var package_code = rows10[0].package_code;
+                              console.log(package_code);
+
+                              var sql_select_package = `select room_id from packages where package_code = ?`;
+
+                              connection.query(sql_select_package, [package_code], (err, rows2)=>{
+
+                                for(var rows2_c=0; rows2_c<rows2.length; rows2_c++){
+                                  
+                                  var room_name = rows2[rows2_c].room_id;
+                                  var update_rooms = 'update rooms set room_status = ? where room_name = ?';
+                                  connection.query(update_rooms, ["cleaning", room_name],(err, rows3)=>{
+
+                                
+                                  });
+                                }
+
+                                
+
+                                  //update package using room
+
+                                  var sql_select_room_inactive = `select room_name from rooms where room_status = ?`;
+
+                                  connection.query(sql_select_room_inactive, ["cleaning"], (err, rows4)=>{
+
+                                    for(var rows4_c = 0; rows4_c<rows4.length; rows4_c++){
+
+                                      var room_id_inactive = rows4[rows4_c].room_name;
+
+                                      console.log(room_id_inactive);
+
+                                      var update_package = 'update packages set package_status = ? where room_id = ?';
+
+                                      connection.query(update_package, ["inactive", room_id_inactive], (err, rows5)=>{
+
+                                        console.log("room updated");
+
+                                        console.log("package updated")
+
+                                        
+
+                                      });
+
+                                    }
+
+                                    var select_sql_reupdate = `select * from packages where package_status = ? and accom_type = ?`;
+
+                                    connection.query(select_sql_reupdate, ["inactive", "villa"], (err, rows6)=>{
+
+                                      for(var rows6_c = 0; rows6_c<rows6.length; rows6_c++){
+
+                                        var package_code = rows6[rows6_c].package_code2;
+
+                                        var sql_reupdate_package = `update packages set package_status = ? where package_code2 = ?`;
+
+                                        connection.query(sql_reupdate_package, ["inactive", package_code], (err, rows7)=>{
+
+                                        });
+
+                                      }
+
+                                    });
+
+                                  });
+
+                                
+
+                              });
+
+                            }
+
+  //if else of villa and room
+
+      });
+
+    });
+
+  });
+
+
+}
+
+    //_______________________________UPDATE IF CLEANING___________________________________
+
 
     //____________________________UPDATE IF CHECK OUT_____________________________________________
   
-    if(guest_status === "CHECKED_OUT" || guest_status === "CANCELLED"){
+    else if(guest_status === "CHECKED_OUT" || guest_status ==="CANCELLED"){
   
               const sql = `update guest_table set guest_status = ? where transaction_id2 = ?`;
   
@@ -1009,7 +1205,7 @@ app.post("/InsertPackage", (req, res)=>{
                                     for(var rows2_c=0; rows2_c<rows2.length; rows2_c++){
                                       var room_name = rows2[rows2_c].room_id;
                                       var update_rooms = 'update rooms set room_status = ? where room_name = ?';
-                                      connection.query(update_rooms, ["inactive", room_name],(err, rows3)=>{
+                                      connection.query(update_rooms, ["occupied", room_name],(err, rows3)=>{
 
                                     
                                       
@@ -1020,7 +1216,7 @@ app.post("/InsertPackage", (req, res)=>{
                                         //update package using room
 
                                         var sql_select_room_inactive = `select room_name from rooms where room_status = ?`;
-                                        connection.query(sql_select_room_inactive, ["inactive"], (err, rows4)=>{
+                                        connection.query(sql_select_room_inactive, ["occupied"], (err, rows4)=>{
 
                                           for(var rows4_c = 0; rows4_c<rows4.length; rows4_c++){
 
@@ -1086,7 +1282,7 @@ app.post("/InsertPackage", (req, res)=>{
                                       
                                       var room_name = rows2[rows2_c].room_id;
                                       var update_rooms = 'update rooms set room_status = ? where room_name = ?';
-                                      connection.query(update_rooms, ["inactive", room_name],(err, rows3)=>{
+                                      connection.query(update_rooms, ["occupied", room_name],(err, rows3)=>{
 
                                     
                                       });
@@ -1098,7 +1294,7 @@ app.post("/InsertPackage", (req, res)=>{
 
                                       var sql_select_room_inactive = `select room_name from rooms where room_status = ?`;
 
-                                      connection.query(sql_select_room_inactive, ["inactive"], (err, rows4)=>{
+                                      connection.query(sql_select_room_inactive, ["occupied"], (err, rows4)=>{
 
                                         for(var rows4_c = 0; rows4_c<rows4.length; rows4_c++){
 

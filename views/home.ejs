@@ -151,7 +151,7 @@
                             
                             $(".home-page .villa"+" "+"."+room_name.replace(/\s/g, '')).css({"width": "0",
                                                                     "height": "0",
-                                                                    "border-right": "50px solid yellow", 
+                                                                    "border-right": "50px solid white", 
                                                                     "border-bottom": "50px solid transparent",
                                                                     "position": "absolute",
                                                                     "top": "0",
@@ -162,6 +162,56 @@
 
 
                         else if(room_status=='pending'){
+                            
+                            //$("#"+room_name.replace(/\s/g, '')).css("background-color", "yellow");
+                            
+                            $(".home-page .villa"+" "+"."+room_name.replace(/\s/g, '')).css({"width": "0",
+                                                                    "height": "0",
+                                                                    "border-right": "50px solid yellow", 
+                                                                    "border-bottom": "50px solid transparent",
+                                                                    "position": "absolute",
+                                                                    "top": "0",
+                                                                    "right": "0"});
+                            //console.log("a")
+                        }
+
+
+                        else if(room_status=='reserved'){
+                            
+                            //$("#"+room_name.replace(/\s/g, '')).css("background-color", "yellow");
+                            
+                            $(".home-page .villa"+" "+"."+room_name.replace(/\s/g, '')).css({"width": "0",
+                                                                    "height": "0",
+                                                                    "border-right": "50px solid blue", 
+                                                                    "border-bottom": "50px solid transparent",
+                                                                    "position": "absolute",
+                                                                    "top": "0",
+                                                                    "right": "0"});
+                            //console.log("a")
+                        }
+
+
+                    
+
+
+
+                        else if(room_status=='occupied'){
+                            
+                            //$("#"+room_name.replace(/\s/g, '')).css("background-color", "yellow");
+                            
+                            $(".home-page .villa"+" "+"."+room_name.replace(/\s/g, '')).css({"width": "0",
+                                                                    "height": "0",
+                                                                    "border-right": "50px solid green", 
+                                                                    "border-bottom": "50px solid transparent",
+                                                                    "position": "absolute",
+                                                                    "top": "0",
+                                                                    "right": "0"});
+                            //console.log("a")
+                        }
+
+
+
+                        else if(room_status=='cleaning'){
                             
                             //$("#"+room_name.replace(/\s/g, '')).css("background-color", "yellow");
                             
