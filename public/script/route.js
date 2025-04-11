@@ -1,6 +1,9 @@
 $(document).ready(function(){
 
-
+    $(document).on('click', '#btnLogOut', function(){
+        window.location.href = '/login';
+        //padestroy ng session HAHAHA
+    });
 
     //___________________________________________________________SIDEBAR START____________________________________________________
     $(document).on('click', '#btnOpenHome', function(){
@@ -161,6 +164,19 @@ $(document).ready(function(){
     });
 
 
+    $(document).on('click', '#btnOpenBilling', function(){
+        $.ajax({
+            url: '/billing-page',
+            method: 'GET',
+            success: function(data){
+                $('#content-contain').html(data); 
+            },
+            error: function(err){
+                console.error(err)
+            }
+        });
+    });
+
 
 
     
@@ -236,6 +252,21 @@ $(document).ready(function(){
     });
 
 
+    $(document).on('click', '#t-b-billing tr td .btnOpenBillingModal', function () {
+        // alert($(this).data('id'));
+        $.ajax({
+            url: '/modal-billing',
+            method: 'GET',
+            success: function(data){
+                $('#modal-handler').css('display', 'flex');
+                $('#modal-handler').html(data);
+            },
+            error: function(){
+                console.error(err);
+            }
+        });
+    });
+    
 
 
 });

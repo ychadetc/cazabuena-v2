@@ -4,6 +4,7 @@
     --shadow:  -11px -2px 13px -8px rgba(0,0,0,0.38);
     --border: rgba(165, 165, 165, 0.473);
     --font-color: rgb(88, 88, 88);
+    --cazaBlue: #4a89bf;
 }
 
 
@@ -120,8 +121,28 @@ body{
     width: 100%;
     height: 65px;
     border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: right;
 }
 .nav-main #content-contain{
     width: 100%;
     height: calc(100% - 65px);
+}
+
+
+#btnLogOut{
+    width: 100px;
+    height: 30px;
+    border-radius: 20px;
+    color: var(--white);
+    background-color: var(--cazaBlue);
+    margin-right: 20px;
+    outline: none;
+    cursor: pointer;
+    font-family: 'inter', sans-serif;
+    transition: background-color .5s;
+}
+#btnLogOut:hover{
+    background-color: rgb(58, 58, 58);
 }

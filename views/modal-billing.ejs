@@ -1,0 +1,170 @@
+<button class="btncontroller" id="btnPrevBillingPhase"><img src="/assets/previous.png" alt=""></button>
+<div class="modal-billing-container">
+    <section class="title"><span id="billing-modal-title">Details</span><button id="btnCloseModal" class="fas fa-times"></button></section>
+    <div class="slideface billing-details">
+        <section class="detail-row">
+            <div class="detail-lr detail-left"><span class="label">Guest:</span><input type="text" class="billingdTextField" readonly></span></div>
+            <div class="detail-lr detail-right"><span class="label">Check-In:</span><input type="text" class="billingdTextField" readonly></div>
+        </section>
+
+        <section class="detail-row">
+            <div class="detail-lr detail-left"><span class="label">Guest ID:</span><input type="text" class="billingdTextField" readonly></span></div>
+            <div class="detail-lr detail-right"><span class="label">Check-Out:</span><input type="text" class="billingdTextField" readonly></div>
+        </section>
+
+        <section class="detail-row">
+            <div class="detail-lr detail-left"><span class="label">Transaction ID:</span><input type="text" class="billingdTextField" readonly></span></div>
+            <div class="detail-lr detail-right"><span class="label">Length of stay:</span><input type="text" class="billingdTextField" readonly></span></div>
+        </section>
+
+        <section class="detail-row">
+            <div class="detail-lr detail-left"><span class="label">Package Availed:</span><input type="text" class="billingdTextField" readonly></div>
+            <div class="detail-lr detail-right"><span class="label">Current Bill:</span><input type="text" class="billingdTextField" readonly></div>
+            <input type="hidden" id="package_selected">
+            <input type="hidden" id="transaction_id3">
+            <input type="hidden" id="package_name_val">
+            <input type="hidden" id="guest_status_2">
+        </section>
+
+        <section class="detail-row">
+            <div class="detail-lr detail-left"><span class="label">Guest Status:</span><input type="text" class="billingdTextField" readonly></span></div>
+            <div class="detail-lr detail-right"><span class="label">Current stay:</span><input type="text" class="billingdTextField" readonly></div>
+        </section>
+
+    </div>
+
+
+
+    <div class="slideface billing-add-ons">
+        <table>
+            <thead>
+              <tr>
+                <th>Add ons</th>
+                <th>Amount</th>
+                <th>Remarks</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Test</td>
+                    <td>₱50,000</td>
+                    <td>Nakkss</td>
+                    <td>4/11/2024 | 9:41AM</td>
+                </tr>
+                <tr>
+                    <td>Test</td>
+                    <td>₱50,000</td>
+                    <td>Nakkss</td>
+                    <td>4/11/2024 | 9:41AM</td>
+                </tr>
+                <tr>
+                    <td>Test</td>
+                    <td>₱50,000</td>
+                    <td>Nakkss</td>
+                    <td>4/11/2024 | 9:41AM</td>
+                </tr>
+            </tbody>
+          </table>
+            <section class="add-ons-row">
+                
+                <select class="add-ons-textbox" id="">
+                    <option value="" selected hidden>Select add on--</option>
+                    <option value="sample">test</option>
+                    <option value="test">Test</option>
+                </select>
+
+                <!-- <input type="text" class="add-ons-textbox" placeholder="Remarks..."> -->
+                 <textarea name="" id="" class="add-ons-textbox" placeholder="Remarks..."></textarea>
+                <button id="btnSubmitAddOns">Submit</button>
+
+            </section>
+    </div>
+    <div class="slideface billing-discounts">
+
+        <table>
+            <thead>
+              <tr>
+                <th>Add ons</th>
+                <th>Amount</th>
+                <th>Remarks</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Test</td>
+                    <td>₱50,000</td>
+                    <td>Nakkss</td>
+                    <td>4/11/2024 | 9:41AM</td>
+                </tr>
+                <tr>
+                    <td>Test</td>
+                    <td>₱50,000</td>
+                    <td>Nakkss</td>
+                    <td>4/11/2024 | 9:41AM</td>
+                </tr>
+                <tr>
+                    <td>Test</td>
+                    <td>₱50,000</td>
+                    <td>Nakkss</td>
+                    <td>4/11/2024 | 9:41AM</td>
+                </tr>
+            </tbody>
+          </table>
+        <section class="discounts-row">
+            <select class="discounts-textbox" id="">
+                <option value="" selected hidden>Select discount--</option>
+                <option value="sample">test</option>
+                <option value="test">Test</option>
+            </select>
+            <button id="btnSubmitAddOns">Submit</button>
+
+        </section>
+    </div>
+
+    <div class="slideface billing-adjustment">
+        <table>
+            <thead>
+              <tr>
+                <th>Add ons</th>
+                <th>Amount</th>
+                <th>Remarks</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Test</td>
+                    <td>₱50,000</td>
+                    <td>Nakkss</td>
+                    <td>4/11/2024 | 9:41AM</td>
+                </tr>
+                <tr>
+                    <td>Test</td>
+                    <td>₱50,000</td>
+                    <td>Nakkss</td>
+                    <td>4/11/2024 | 9:41AM</td>
+                </tr>
+                <tr>
+                    <td>Test</td>
+                    <td>₱50,000</td>
+                    <td>Nakkss</td>
+                    <td>4/11/2024 | 9:41AM</td>
+                </tr>
+            </tbody>
+          </table>
+        <section class="adjustment-row">
+            <input type="number" name="" id="" class="adjustment-textbox" placeholder="Amount...">
+            <select class="adjustment-textbox" id="">
+                <option value="" selected hidden>Selecta--</option>
+                <option value="sample">test</option>
+                <option value="test">Test</option>
+            </select>
+            <textarea name="" id="" class="adjustment-textbox" placeholder="Remarks..."></textarea>
+            <button id="btnSubmitAdjustment">Submit</button>
+
+        </section>
+    </div>
+</div>
+<button class="btncontroller" id="btnNextBillingPhase"><img src="/assets/next.png" alt=""></button>

@@ -876,3 +876,310 @@ input[type=number]::-webkit-outer-spin-button {
 #tag-container #selected-rooms p i{
     cursor: pointer;
 }
+
+
+
+
+
+/* _____________________BILLING MODAL___________________________ */
+
+
+.modal-billing-container{
+    height: 600px;
+    width: 750px;
+    margin: 0px 10px 0px 10px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.modal-billing-container .title{
+    display: flex;
+    justify-content: space-between;
+    color: var(--font-color);
+    height: 50px;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+    padding: 0px 20px 0px 20px;
+    background-color: var(--white);
+    z-index: 2;
+}
+.modal-billing-container .title span{
+    font-size: 17px;
+}
+.modal-billing-container .title button{
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: var(--font-color);
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+}
+.modal-billing-container .title button:hover{
+    background-color: #eeeeee;
+}
+.modal-billing-container .slideface{
+    height: calc(100% - 50px);
+    width: 100%;
+    overflow: hidden;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transition: width .5s;
+}
+.btncontroller{
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    transition: transform .2s;
+}
+.btncontroller:hover{
+    transform: scale(1.1);
+}
+
+.modal-billing-container .billing-details{
+    width: 100%;
+    background-color:  var(--white);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+}
+
+.modal-billing-container .billing-details .detail-row{
+    display: flex;
+    flex-direction: row;
+    height: auto;
+    margin-bottom: 15px;
+
+    padding: 0px 20px 0px 20px;
+}
+.modal-billing-container .billing-details .detail-row .detail-lr{
+    width: 50%;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+.modal-billing-container .billing-details .detail-row .detail-lr span{
+    font-size: 16px;
+    color: var(--font-color);
+    
+}
+.modal-billing-container .billing-details .detail-row .detail-lr span:nth-child(1){
+    font-weight: 600;
+
+}
+.modal-billing-container .billing-details .detail-row .detail-lr .billingdTextField{
+    border: 1px solid var(--border);
+    margin-left: auto;
+    margin-right: 50px;
+    height: 30px;
+    width: 180px;
+    outline: none;
+    font-size: 15px;
+    padding-left: 8px;
+    color: var(--font-color);
+}
+
+
+
+
+
+
+
+
+
+.modal-billing-container .billing-add-ons{
+    width: 0%;
+    background-color: var(--white);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: 'inter', sans-serif;
+}
+.modal-billing-container .slideface table {
+    border-collapse: collapse;
+    width: 370px;
+    margin-bottom: 20px;
+  }
+
+.modal-billing-container .slideface thead {
+    background-color: transparent;
+  }
+
+.modal-billing-container .slideface table thead th{
+    font-size: 13px;
+    color: var(--font-color);
+}
+
+.modal-billing-container .slideface thead th, .modal-billing-container .slideface td {
+    border: 1px solid #cccccc8c;
+    text-align: left;
+}
+.modal-billing-container .slideface table tbody tr td{
+    font-size: 12px;
+}
+
+.modal-billing-container .slideface table tbody {
+    display: block;
+    max-height: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border-bottom: 1px solid #cccccc8c;
+    scrollbar-width: thin;              /* Firefox */
+    scrollbar-color: #999 transparent;  /* Firefox */
+  }
+  
+  /* WebKit (Chrome, Edge, Safari) */
+  .modal-billing-container .slideface table tbody::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .modal-billing-container .slideface table tbody::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  .modal-billing-container .slideface table tbody::-webkit-scrollbar-thumb {
+    background-color: #999;
+    border-radius: 3px;
+  }
+
+.modal-billing-container .slideface thead,.modal-billing-container .slideface tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+  }
+.modal-billing-container .billing-add-ons .add-ons-row{
+    gap: 10px;
+    width: 370px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+.modal-billing-container .billing-add-ons .add-ons-row .add-ons-textbox{
+    width: 100%;
+    height: 30px;
+    border: 1px solid var(--border);
+    color: var(--font-color);
+    outline: none;
+    padding: 0;
+    margin: 0;
+    padding: 0px 10px 0px 10px;
+
+}
+.modal-billing-container .billing-add-ons .add-ons-row .add-ons-textbox:nth-child(2){
+    width: calc(100% - 20px);
+    resize: none;
+    height: 80px;
+    padding: 10px;
+    font-family: 'inter', sans-serif;
+}
+
+.modal-billing-container .billing-add-ons .add-ons-row .add-ons-textbox::placeholder{
+    color: var(--font-color);
+}
+.modal-billing-container .billing-add-ons .add-ons-row button{
+    border: 1px solid var(--cazaBlue);
+    color: var(--cazaBlue);
+    font-size: 15px;
+    width: 370px;
+    height: 30px;
+    background-color: transparent;
+}
+
+
+.modal-billing-container .billing-discounts{
+    width: 0%;
+    background-color: var(--white);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: 'inter', sans-serif;
+}
+.modal-billing-container .billing-discounts .discounts-row{
+    gap: 10px;
+    width: 370px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.modal-billing-container .billing-discounts .discounts-row .discounts-textbox{
+    width: 100%;
+    height: 30px;
+    border: 1px solid var(--border);
+    color: var(--font-color);
+    outline: none;
+    padding: 0;
+    margin: 0;
+    padding: 0px 10px 0px 10px;
+}
+.modal-billing-container .billing-discounts .discounts-row button{
+    border: 1px solid var(--cazaBlue);
+    color: var(--cazaBlue);
+    font-size: 15px;
+    width: 370px;
+    height: 30px;
+    background-color: transparent;
+}
+
+.modal-billing-container .billing-adjustment{
+    width: 0%;
+    background-color: var(--white);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: 'inter', sans-serif;
+}
+
+.modal-billing-container .billing-adjustment .adjustment-row{
+    gap: 10px;
+    width: 370px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.modal-billing-container .billing-adjustment .adjustment-row .adjustment-textbox{
+    width: 100%;
+    height: 30px;
+    border: 1px solid var(--border);
+    color: var(--font-color);
+    outline: none;
+    padding: 0;
+    margin: 0;
+    padding: 0px 10px 0px 10px;
+}
+.modal-billing-container .billing-adjustment .adjustment-row .adjustment-textbox:nth-child(1){
+    width: calc(100% - 20px);
+}
+.modal-billing-container .billing-adjustment .adjustment-row .adjustment-textbox:nth-child(3){
+    width: calc(100% - 20px);
+    resize: none;
+    height: 100px;
+    padding: 10px;
+    font-family: 'inter', sans-serif;
+}
+.modal-billing-container .billing-adjustment .adjustment-row button{
+    border: 1px solid var(--cazaBlue);
+    color: var(--cazaBlue);
+    font-size: 15px;
+    width: 370px;
+    height: 30px;
+    background-color: transparent;
+}
+
+
+
+

@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+:root{
+    --white: #FFFFFF;
+    --shadow:  -11px -2px 13px -8px rgba(0,0,0,0.38);
+    --border: rgba(165, 165, 165, 0.473);
+    --font-color: rgb(88, 88, 88);
+    --text-field: rgb(156, 156, 156);
+    --cazaBlue: #4a89bf;
+}
+.billing-page{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.billing-page .billing-content{
+    width: calc(100% - 60px);
+    height: calc(100% - 70px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+
+}
+.billing-page .billing-content section{
+    width: 100%;
+}
+.billing-page .billing-content .billing-action{
+    display: flex;
+    align-items: center;
+    justify-content: right;
+}
+#txtSearchBilling{
+    width: 200px;
+    height: 25px;
+    font-size: 15px;
+    background-color: transparent;
+    border: 1px solid var(--border);
+    color: var(--font-color);
+    outline: none;
+    padding-left: 10px;
+    font-family: 'inter', sans-serif;
+}
+#txtSearchBilling::placeholder{
+    color: var(--border);
+    font-style: italic;
+}
+.billing-page .billing-content .billing-table{
+    max-height: calc(100% - 100px);
+    border: 1px solid #ccc;
+    overflow-y: auto;
+}
+#t-b-billing tr td:nth-child(6){
+    text-align: right;
+}
+#t-b-billing tr td .btnOpenBillingModal{
+    border: 1px solid var(--cazaBlue);
+    color: var(--cazaBlue);
+    background-color: transparent;
+    outline: none;
+    height: 25px;
+    width: 80px;
+    cursor: pointer;
+}

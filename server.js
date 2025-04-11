@@ -11,7 +11,7 @@ const connection = mysql.createConnection({
   user: 'root',
   password: '',
   database: 'cazabuena',
-  port: 3306
+  port: 3307
 })
 
 var bodyParser = require("body-parser");
@@ -70,8 +70,16 @@ app.get('/modal-add-villa', (req, res)=>{
   res.render('modal-add-villa.ejs');
 });
 
+app.get('/modal-billing', (req, res)=>{
+  res.render('modal-billing.ejs');
+});
+
 app.get('/room-registration', (req, res)=>{
 res.render('room-registration.ejs');
+});
+
+app.get('/billing-page', (req, res)=>{
+  res.render('billing.ejs');
 });
 
 app.get('/modal-add-room', (req, res)=>{
@@ -97,6 +105,10 @@ app.get('/modal-add-booking', (req, res) =>{
 
 app.get('/modal-view-details', (req, res) =>{
   res.render('modal-view-details.ejs')
+});
+
+app.get('/test', (req, res) =>{
+
 });
 
 
