@@ -250,16 +250,20 @@ $(document).ready(function(){
             }
         });
     });
+   
 
 
     $(document).on('click', '#t-b-billing tr td .btnOpenBillingModal', function () {
         // alert($(this).data('id'));
+        var transaction_id2 = $(this).val();
         $.ajax({
             url: '/modal-billing',
             method: 'GET',
             success: function(data){
                 $('#modal-handler').css('display', 'flex');
                 $('#modal-handler').html(data);
+                $("#transaction_text").val(transaction_id2);
+               
             },
             error: function(){
                 console.error(err);

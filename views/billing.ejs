@@ -8,22 +8,25 @@
             <table>
                 <thead>
                     <tr>
+                        <th>Transaction ID</th>
                         <th>Guest</th>
                         <th>Package</th>
                         <th>No. of Person</th>
                         <th>Check-In</th>
                         <th>Check-Out</th>
+                        <th>Length of stay</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody id="t-b-billing">
                     <tr>
+                       <!-- <td>11589</td>
                         <td>Cardo Dimagiba</td>
                         <td>Package 1</td>
                         <td>4</td>
                         <td>Oct. 8, 2025 | 9:30AM</td>
                         <td>Oct. 9, 2025 | 10:00AM</td>
-                        <td><button class="btnOpenBillingModal" data-id="1">Pay</button></td>
+                        <td><button class="btnOpenBillingModal" data-id="1">Pay</button></td>-->
                     </tr>
                 </tbody>
                 
@@ -31,3 +34,57 @@
         </section>
     </main>
 </div>
+
+<script>
+
+var guestCheckedOut = [];
+
+$.ajax({
+    type: "GET",
+    url:"http://localhost:3000/checkedOut",
+    success:function(data){
+        const jsonData = data.guesttoBill;
+        
+        $.each(jsonData, function(index, guest) {
+            guestCheckedOut.push(guest);
+          });
+
+
+          for (var x = 0; x < guestCheckedOut.length; x++) {
+
+            var guest_id = guestCheckedOut[x].guest_id;
+            var transaction_id2 = guestCheckedOut[x].transaction_id2;
+            var package = guestCheckedOut[x].package;
+            var check_in_datetime = guestCheckedOut[x].check_in_datetime;
+            var check_out_datetime = guestCheckedOut[x].check_out_datetime;
+            var no_pax = guestCheckedOut[x].no_pax;
+            var full_name = guestCheckedOut[x].full_name;
+            var length_stay = guestCheckedOut[x].length_stay;
+
+
+            var guestData = `
+                        <tr>
+                        <td>${transaction_id2}</td>
+                        <td>${full_name}</td>
+                        <td>${package}</td>
+                        <td>${no_pax}</td>
+                        <td>${new Date(Number(check_in_datetime))}</td>
+                        <td>${new Date(Number(check_out_datetime))}</td>
+                        <td>${length_stay} Day/s</td>
+                        <td><button class="btnOpenBillingModal" data-id="1" value = "${transaction_id2}">Edit</button></td>
+                        </tr>
+                        
+                        `;
+
+
+                        $('#t-b-billing').append(guestData);
+
+          }
+
+    },
+    error:function(xhr, err){
+        console.error("Error:", err)
+    }
+})
+    
+</script>

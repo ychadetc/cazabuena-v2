@@ -155,16 +155,58 @@
             </tbody>
           </table>
         <section class="adjustment-row">
-            <input type="number" name="" id="" class="adjustment-textbox" placeholder="Amount...">
-            <select class="adjustment-textbox" id="">
+            <input type="hidden" id="transaction_text">
+            <input type="number" name="" id="adjustment_amount" class="adjustment-textbox" placeholder="Amount...">
+            <select class="adjustment-textbox" id="adjustment_type">
                 <option value="" selected hidden>Selecta--</option>
-                <option value="sample">test</option>
-                <option value="test">Test</option>
+                <option value="add">Add</option>
+                <option value="minus">Minus</option>
             </select>
-            <textarea name="" id="" class="adjustment-textbox" placeholder="Remarks..."></textarea>
+            <textarea name="" id="adjustment_remarks" class="adjustment-textbox" placeholder="Remarks..."></textarea>
             <button id="btnSubmitAdjustment">Submit</button>
 
         </section>
     </div>
 </div>
 <button class="btncontroller" id="btnNextBillingPhase"><img src="/assets/next.png" alt=""></button>
+
+<script>
+
+$(document).on('click', '#btnSubmitAdjustment', function(e){
+    e.preventDefault();
+    e.stopImmediatePropagation();
+
+
+    const adjustment_amount = $("#adjustment_amount").val();
+    const adjustment_type = $("#adjustment_type").val();
+    const adjustment_remarks = $("#adjustment_remarks").val();
+    const transaction_text = $("#transaction_text").val();
+
+    const adjustment_data = {
+        "adjustment_amount":adjustment_amount,
+        "adjustment_type":adjustment_type,
+        "adjustment_remarks":adjustment_remarks,
+        "transaction_text":transaction_text
+    }
+
+    var jsonAdjustments = JSON.stringify(adjustment_data)
+
+    $.ajax({
+        url:"http://localhost:3000/UpdateGuestBill",
+        type:"POST",
+        data:jsonAdjustments,
+        contentType:'application/json',
+        success:function(data){
+
+        },
+
+        error:function(xhr, err){
+            alert(err);
+        }
+
+    });
+})
+
+    
+
+</script>
