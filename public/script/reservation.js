@@ -42,7 +42,8 @@ $(document).ready(function(){
             "special_request":$("#txtSR").val(),
             "no_pax":$("#txtNoPax").val(),
             "package":$("#txtPackage").val(),
-            "bookingType":$("#txtBookingType").val()
+            "bookingType":$("#txtBookingType").val(),
+            "rate_no":$("#rate_no").val()
           }
             var JSONguestData = JSON.stringify(guestData);
 

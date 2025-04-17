@@ -385,8 +385,70 @@ app.post("/InsertPackage", (req, res)=>{
     var guest_status = bookingType;
     var check_in_datetime = Date.parse(req.body.check_in_datetime);
     var check_out_datetime = Date.parse(req.body.check_out_datetime);
+    var rate_no = req.body.rate_no;
     console.log(bookingType);
+   
+    //________________________GET THE NEW BILL__________________________________
 
+    var selectRateType  = `select * from rate_type where rate_no=?`;
+
+    connection.query(selectRateType, [rate_no], (err, rows15)=>{
+
+      var rate_percent = rows15[0].rate_percent;
+
+      var selectPackagePrice = `select package_rate from packages where package_code = ?`;
+
+      connection.query(selectPackagePrice, [package], (err, rows16)=>{
+
+        var packagePrice = rows16[0].package_rate;
+
+        console.log(packagePrice);
+
+        var percentNewCurrentBill = packagePrice * rate_percent;
+        var newCurrentBill = percentNewCurrentBill + packagePrice;
+
+        console.log("This is new CurrentBill")
+
+        console.log(rate_percent);
+
+        console.log(newCurrentBill)
+
+                      //____________________________INSERt GUEST into guest table__________________________________
+
+                  var sql_select_guest = `select full_name from personal_details_table where guest_id = ?`;
+
+                  connection.query(sql_select_guest, [guest_id], (err, result)=>{
+              
+                        var full_name = result[0].full_name;
+              
+              
+                        var sql_insert_book = `INSERT INTO guest_table (guest_id, check_in_datetime, check_out_datetime,
+                        no_pax, package, special_request, length_stay, guest_status, full_name, current_bill) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+                          connection.query(sql_insert_book, [guest_id, check_in_datetime, check_out_datetime,
+                            no_pax, package, special_request, length_stay, guest_status, full_name, newCurrentBill], (err, results) => {
+                              if (err) {
+                                  console.error(err);
+                                  res.status(500).send('Error inserting data');
+                              } else {
+                                  console.log('Data inserted successfully');
+                                  //res.send('Data inserted successfully');
+                                  res.send({ message: "Booking details inserted successfully" });
+                              }
+                          });
+              
+                  }); 
+
+                  //____________________________INSERt GUEST into guest table__________________________________
+
+
+      })
+
+    });
+
+
+
+
+    //________________________GET THE NEW BILL__________________________________
 
     var millisecondsPerDay = 24 * 60 * 60 * 1000;
 
@@ -746,33 +808,7 @@ app.post("/InsertPackage", (req, res)=>{
        }
 
 
-    //____________________________INSERt GUEST into guest table__________________________________
-
-    var sql_select_guest = `select full_name from personal_details_table where guest_id = ?`;
-
-    connection.query(sql_select_guest, [guest_id], (err, result)=>{
- 
-          var full_name = result[0].full_name;
- 
- 
-          var sql_insert_book = `INSERT INTO guest_table (guest_id, check_in_datetime, check_out_datetime,
-          no_pax, package, special_request, length_stay, guest_status, full_name) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
-             connection.query(sql_insert_book, [guest_id, check_in_datetime, check_out_datetime,
-               no_pax, package, special_request, length_stay, guest_status, full_name], (err, results) => {
-                 if (err) {
-                     console.error(err);
-                     res.status(500).send('Error inserting data');
-                 } else {
-                     console.log('Data inserted successfully');
-                     //res.send('Data inserted successfully');
-                     res.send({ message: "Booking details inserted successfully" });
-                 }
-             });
- 
-    }); 
-
-     //____________________________INSERt GUEST into guest table__________________________________
-
+    
 
   });
 
@@ -1895,6 +1931,7 @@ app.post("/InsertPackage", (req, res)=>{
   
           var check_in_datetime = results_transactionid[0].check_in_datetime;
           var length_stay = results_transactionid[0].length_stay;
+          var bill = results_transactionid[0].current_bill;
   
           //var new_check_in_datetime = new Date(check_in_datetime).getTime();
   
@@ -1912,12 +1949,12 @@ app.post("/InsertPackage", (req, res)=>{
           //check if the current day is lessthan 0 or current day is equal to zero
           
           if(parseInt(current_days) <= 0){
-            var current_bill = length_stay * package_rate;
+            var current_bill = length_stay * bill;
           }
   
           else if(parseInt(current_days) > 0){
   
-            var current_bill = parseInt(current_days) * package_rate;
+            var current_bill = parseInt(current_days) * bill;
   
           }
   
