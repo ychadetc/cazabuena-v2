@@ -1925,13 +1925,15 @@ app.post("/InsertPackage", (req, res)=>{
   
       var package_rate = results[0].package_rate;
   
-      var sql_select_guest_table = `select * from guest_table where transaction_id2 = ?`;
+      var sql_select_guest_table = `select guest_table.*, SUM(addons_amount) as totalAddons from guest_table
+                                    inner join addons_table on guest_table.transaction_id2 = addons_table.transaction_id2 where guest_table.transaction_id2 = ?`;
   
         connection.query(sql_select_guest_table,[transaction_id2], (err2, results_transactionid)=>{
   
           var check_in_datetime = results_transactionid[0].check_in_datetime;
           var length_stay = results_transactionid[0].length_stay;
           var bill = results_transactionid[0].current_bill;
+          var addons_amount = results_transactionid[0].totalAddons;
   
           //var new_check_in_datetime = new Date(check_in_datetime).getTime();
   
@@ -1949,12 +1951,14 @@ app.post("/InsertPackage", (req, res)=>{
           //check if the current day is lessthan 0 or current day is equal to zero
           
           if(parseInt(current_days) <= 0){
-            var current_bill = length_stay * bill;
+            var current_bill_raw = length_stay * bill;
+            var current_bill = current_bill_raw + addons_amount;
           }
   
           else if(parseInt(current_days) > 0){
   
-            var current_bill = parseInt(current_days) * bill;
+            var current_bill_raw = parseInt(current_days) * bill;
+            var current_bill = current_bill_raw + addons_amount;
   
           }
   
@@ -2095,6 +2099,26 @@ app.post("/InsertPackage", (req, res)=>{
 
   //__________________UPDATE GUEST BILL_______________________________
   
+  //_________________BILLING ADDONS___________________________________
+
+  app.post("/addons", (req, res)=>{
+    var addons_remarks = req.body.addons_remarks;
+    var addons_amount = req.body.addons_amount;
+    var addons_description = req.body.addons_description;
+    var transaction_id2 = req.body.transaction_id2;
+
+    var sqlInsertAddons = `insert into addons_table (transaction_id2, addons_amount, addons_remarks, addons_description) values(?, ?, ?, ?)`;
+
+    connection.query(sqlInsertAddons, [transaction_id2, addons_amount, addons_remarks, addons_description], (err, rows17)=>{
+
+      console.log("Addons added")
+
+    });
+
+  });
+
+
+  //_________________BILLING ADDONS___________________________________
 
 
 app.listen(port, () => {

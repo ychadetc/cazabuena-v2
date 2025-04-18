@@ -68,14 +68,15 @@
           </table>
             <section class="add-ons-row">
                 
-                <select class="add-ons-textbox" id="">
+                <!--<select class="add-ons-textbox" id="">
                     <option value="" selected hidden>Select add on--</option>
-                    <option value="sample">test</option>
+                    <option value="1">Guest</option>
                     <option value="test">Test</option>
-                </select>
+                </select>-->
 
-                <!-- <input type="text" class="add-ons-textbox" placeholder="Remarks..."> -->
-                 <textarea name="" id="" class="add-ons-textbox" placeholder="Remarks..."></textarea>
+                <input type="text" class="add-ons-textbox" id="addons_description" placeholder="Add-ons">
+                <input type="number" class="add-ons-textbox" id="addons_amount" placeholder="Addons Amount">
+                <textarea name="" id="addons_remarks" class="add-ons-textbox" placeholder="Remarks..."></textarea>
                 <button id="btnSubmitAddOns">Submit</button>
 
             </section>
@@ -189,7 +190,7 @@ $(document).on('click', '#btnSubmitAdjustment', function(e){
         "transaction_text":transaction_text
     }
 
-    var jsonAdjustments = JSON.stringify(adjustment_data)
+    var jsonAdjustments = JSON.stringify(adjustment_data);
 
     $.ajax({
         url:"http://localhost:3000/UpdateGuestBill",
@@ -206,6 +207,36 @@ $(document).on('click', '#btnSubmitAdjustment', function(e){
 
     });
 })
+
+
+$(document).on('click', '#btnSubmitAddOns', function(e){
+    e.preventDefault();
+    e.stopImmediatePropagation();
+
+    const addons_data = {
+          "addons_remarks":$("#addons_remarks").val(),
+          "addons_amount":$("#addons_amount").val(),
+          "addons_description":$("#addons_description").val(),
+          "transaction_id2":$("#transaction_text").val()
+    }
+
+    var jsonAddons = JSON.stringify(addons_data);
+
+    $.ajax({
+        url:"http://localhost:3000/addons",
+        type:"POST",
+        data:jsonAddons,
+        contentType:'application/json',
+        success:function(data){
+
+        },
+        error:function(xhr, err){
+            alert(err)
+        }
+
+    })
+
+});
 
     
 
