@@ -23,9 +23,11 @@
             </section>
         </div>
         <div class="bookingtxt package-r">
+          <input type="hidden" id="basePrice">
+            <section class="text-field row"><span>Package Price: </span><input type="text" id="txtPrice" class="textbox" disabled></section>
             <section class="text-field row"><span>No. of Pax</span><input type="number" id="txtNoPax" class="textbox" onkeyup="checkInputNumber(this.value)"></section>
             <section class="text-field row"><span>Select package</span>
-                <select id="txtPackage" class="textbox">
+                <select id="txtPackage" class="textbox" onchange="checkInputSelect(this.value)">
                     <option value="" disabled hidden selected></option>
                     <!--<option value="44373">Couple</option>
                     <option value="44386">Suite</option>-->
@@ -33,7 +35,7 @@
             </section>
             <section class="text-field row">
               <span>Rate Type</span>
-              <select id="rate_no" class="textbox">
+              <select id="rate_no" class="textbox" onchange="checkInputRate(this.value)">
                 <option value="1">Holiday</option>
                 <option value="2">Weekend</option>
               </select>
@@ -178,6 +180,78 @@ _______PACKAGE OPTIONS___________*/
 
 });*/
 
+function checkInputSelect(package_code){
+
+  var packageData = {"package_code":package_code};
+  var JSONpackageData = JSON.stringify(packageData);
+  
+
+  $.ajax({
+    url:"http://localhost:3000/onchangePackage",
+    type:"POST",
+    data: JSONpackageData,
+    contentType:'application/json',
+    success: function(data3){
+
+      const jsonDataPackage = data3.packageCodeData;
+
+      $("#basePrice").val(jsonDataPackage[0].package_rate);
+
+    },
+
+    error:function(xhr, error){
+      alert(error)
+    }
+
+  });
+
+}
+
+
+function checkInputRate(rate_no){
+
+//$("#txtPrice").val("");
+
+var rateData = {"rate_no":rate_no};
+var JSONrateData = JSON.stringify(rateData);
+
+
+$.ajax({
+  url:"http://localhost:3000/onchangeRate",
+  type:"POST",
+  data: JSONrateData,
+  contentType:'application/json',
+  success: function(data4){
+
+    
+
+    const jsonrateData = data4.rateData;
+
+        var priceData = Number($("#basePrice").val());
+
+        var newPrice = (Number(jsonrateData[0].rate_percent) * priceData) + priceData;
+
+        $("#txtPrice").val(newPrice);
+
+
+
+    
+    
+
+    
+
+  },
+
+  error:function(xhr, error){
+    alert(error)
+  }
+
+});
+
+
+
+}
+
 
 function checkInputNumber(paxNo){
   $('#txtPackage').html("");
@@ -210,12 +284,15 @@ function checkInputNumber(paxNo){
                             var package_name = packageList2[x].package_name;
                             var package_code = packageList2[x].package_code;
                             var room_id = packageList2[x].room_id;
+                            var package_rate = packageList2[x].package_rate;
 
                             var data_package = `<option value = ${package_code}>${package_name+" "+room_id}</option>`;
 
                             $('#txtPackage').append(data_package);
                             
                           }
+
+                         
 
                           console.log(packageList2);
                     

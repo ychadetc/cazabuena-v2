@@ -2005,7 +2005,50 @@ app.post("/InsertPackage", (req, res)=>{
     });
 
    });
+
+
    //______________________CALL TO CHANGE THE LIST OF PACKAGE______________________________
+
+
+   //__________________________CALL TO CHANGE THE PRICE_____________________________________
+
+   app.post("/onchangePackage", (req, res)=>{
+
+    var package_code = req.body.package_code;
+    console.log(package_code);
+
+    var sqlSelectPackage = `select package_rate from packages where package_code = ?`;
+
+    connection.query(sqlSelectPackage, [package_code], (err, rows18)=>{
+      res.send({packageCodeData:rows18})
+    })
+
+   });
+
+
+   //__________________________CALL TO CHANGE THE PRICE_____________________________________
+
+
+   //______________________________CALL TO CHANGE PRICE BASED ON RATE_______________________
+
+    app.post("/onchangeRate", (req, res)=>{
+
+      var rate_no = req.body.rate_no;
+
+      var sqlSelectRate = `select rate_percent from rate_type where rate_no = ?`;
+
+      connection.query(sqlSelectRate, [rate_no], (err, rows19)=>{
+
+        res.send({rateData:rows19})
+
+      });
+
+    });
+
+    //______________________________CALL TO CHANGE PRICE BASED ON RATE_______________________
+   
+
+   
 
 
 

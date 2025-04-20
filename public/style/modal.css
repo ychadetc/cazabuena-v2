@@ -387,7 +387,7 @@ input[type=number]::-webkit-outer-spin-button {
     display: flex;
     justify-content: space-between;
     color: var(--font-color);
-    height: 50px;
+    height: 60px;
     align-items: center;
     border-bottom: 1px solid var(--border);
     margin-bottom: 30px;
@@ -423,7 +423,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .modal-add-booking .booking-l-r{
-    height: 220px;
+    height: 320px;
     width: 650px;
     display: flex;
     flex-direction: row;
