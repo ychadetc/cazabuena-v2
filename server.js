@@ -401,17 +401,35 @@ app.post("/InsertPackage", (req, res)=>{
       connection.query(selectPackagePrice, [package], (err, rows16)=>{
 
         var packagePrice = rows16[0].package_rate;
+        
 
         console.log(packagePrice);
 
-        var percentNewCurrentBill = packagePrice * rate_percent;
-        var newCurrentBill = percentNewCurrentBill + packagePrice;
+        if(rate_no === 3){
+          var newCurrentBill = packagePrice
+          console.log("Rate is regular")
+        }
 
-        console.log("This is new CurrentBill")
+        else{
 
-        console.log(rate_percent);
 
-        console.log(newCurrentBill)
+          var percentNewCurrentBill = packagePrice * rate_percent;
+          var newCurrentBill = percentNewCurrentBill + packagePrice;
+  
+          console.log("This is new CurrentBill")
+  
+          console.log(rate_percent);
+  
+          console.log(newCurrentBill)
+
+        }
+
+        //___________________________PUT CONDITION HERE_______________________________
+
+
+        //___________________________PUT CONDITION HERE_______________________________
+
+      
 
                       //____________________________INSERt GUEST into guest table__________________________________
 
@@ -1927,13 +1945,18 @@ app.post("/InsertPackage", (req, res)=>{
   
       var sql_select_guest_table = `select guest_table.*, SUM(addons_amount) as totalAddons from guest_table
                                     inner join addons_table on guest_table.transaction_id2 = addons_table.transaction_id2 where guest_table.transaction_id2 = ?`;
-  
+
+      var sumAddons = `select SUM(addons_amount) as totalAddonsTable from addons_table where transaction_id2 = ?`;
+
+      connection.query(sumAddons,[transaction_id2], (err, rows20)=>{
+
         connection.query(sql_select_guest_table,[transaction_id2], (err2, results_transactionid)=>{
   
           var check_in_datetime = results_transactionid[0].check_in_datetime;
           var length_stay = results_transactionid[0].length_stay;
           var bill = results_transactionid[0].current_bill;
-          var addons_amount = results_transactionid[0].totalAddons;
+          var addons_amount = rows20[0].totalAddonsTable;
+          
   
           //var new_check_in_datetime = new Date(check_in_datetime).getTime();
   
@@ -1978,6 +2001,10 @@ app.post("/InsertPackage", (req, res)=>{
   
           });
         });
+
+      });
+  
+       
     });
   
   });
@@ -2035,7 +2062,7 @@ app.post("/InsertPackage", (req, res)=>{
 
       var rate_no = req.body.rate_no;
 
-      var sqlSelectRate = `select rate_percent from rate_type where rate_no = ?`;
+      var sqlSelectRate = `select * from rate_type where rate_no = ?`;
 
       connection.query(sqlSelectRate, [rate_no], (err, rows19)=>{
 

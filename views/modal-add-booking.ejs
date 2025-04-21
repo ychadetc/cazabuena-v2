@@ -38,6 +38,7 @@
               <select id="rate_no" class="textbox" onchange="checkInputRate(this.value)">
                 <option value="1">Holiday</option>
                 <option value="2">Weekend</option>
+                <option value="3">Regular</option>
               </select>
             </section>
             <section class="text-field row"><span>Special request</span><input type="text" id="txtSR" class="textbox"></section>
@@ -227,11 +228,24 @@ $.ajax({
 
     const jsonrateData = data4.rateData;
 
-        var priceData = Number($("#basePrice").val());
+    if(rate_no === 3){
+      var priceData = Number($("#basePrice").val());
+
+      $("#txtPrice").val(priceData);
+
+    }
+
+    else{
+
+      var priceData = Number($("#basePrice").val());
 
         var newPrice = (Number(jsonrateData[0].rate_percent) * priceData) + priceData;
 
         $("#txtPrice").val(newPrice);
+
+    }
+
+        
 
 
 
