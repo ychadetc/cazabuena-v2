@@ -22,11 +22,46 @@
         <input type="hidden" id="transaction_id3">
         <input type="hidden" id="package_name_val">
         <input type="hidden" id="guest_status_2">
+        <input type="hidden" id="addonsSum">
     </section>
 
     <section class="detail-row">
         <div class="detail-lr detail-left"><span class="label">Guest Status:</span><span class="detail-data" id="guest_status"></span></div>
         <div class="detail-lr detail-right"><span class="label">Current stay:</span><span class="detail-data" id="currstay"></span></div>
+    </section>
+
+
+    <section class="detail-row">
+                
+        <!--<select class="add-ons-textbox" id="">
+            <option value="" selected hidden>Select add on--</option>
+            <option value="1">Guest</option>
+            <option value="test">Test</option>
+        </select>-->
+
+
+        <input type="hidden" id="transaction_text">
+
+        <input type="text" class="add-ons-textbox" id="addons_description" placeholder="Add-ons">
+        <input type="number" class="add-ons-textbox" id="addons_amount" placeholder="Addons Amount">
+        <textarea name="" id="addons_remarks" class="add-ons-textbox" placeholder="Remarks..."></textarea>
+        <button id="btnSubmitAddOns">Submit</button>
+
+    </section>
+
+
+
+    <section class="detail-row">
+   
+        <input type="number" name="" id="adjustment_amount" class="adjustment-textbox" placeholder="Amount...">
+        <select class="adjustment-textbox" id="adjustment_type">
+            <option value="" selected hidden>Selecta--</option>
+            <option value="add">Add</option>
+            <option value="minus">Minus</option>
+        </select>
+        <textarea name="" id="adjustment_remarks" class="adjustment-textbox" placeholder="Remarks..."></textarea>
+        <button id="btnSubmitAdjustmentDetails">Submit</button>
+
     </section>
 
 
@@ -70,12 +105,19 @@ $('#btnCheckBill').on("click", function(e){
                 contentType:'application/json',
                 success:function(data1){
                  var currList = [];
+                 var addOnsList = [];
 
                  const jsonData = data1.current_status;
+                 const jsonDataAddons = data1.add_ons_sum;
+
+                 $("#addonsSum").val(jsonDataAddons[0].SUMADDONS)
 
                  $.each(jsonData, function(index, currStats) {
                     currList.push(currStats);
                 });
+
+
+           
 
                 for (var i = 0; i < currList.length; i++) {
                     var current_bill = currList[i].current_bill;
@@ -83,7 +125,9 @@ $('#btnCheckBill').on("click", function(e){
 
                 }
 
-                $("#currbill").html("₱"+current_bill);
+                
+
+                $("#currbill").html(Number(current_bill)+Number($("#addonsSum").val()));
 
               if(current_stay<0){
 
@@ -143,6 +187,74 @@ $('#btnCheckBill').on("click", function(e){
                 })
 
         });
+
+
+
+        $(document).on('click', '#btnSubmitAddOns', function(e){
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
+
+                    const addons_data = {
+                        "addons_remarks":$("#addons_remarks").val(),
+                        "addons_amount":$("#addons_amount").val(),
+                        "addons_description":$("#addons_description").val(),
+                        "transaction_id2":$("#transaction_text").val()
+                    }
+
+                    var jsonAddons = JSON.stringify(addons_data);
+
+                    $.ajax({
+                        url:"http://localhost:3000/addons",
+                        type:"POST",
+                        data:jsonAddons,
+                        contentType:'application/json',
+                        success:function(data){
+
+                        },
+                        error:function(xhr, err){
+                            alert(err)
+                        }
+
+                    })
+
+});
+
+
+
+$(document).on('click', '#btnSubmitAdjustmentDetails', function(e){
+    e.preventDefault();
+    e.stopImmediatePropagation();
+
+
+    const adjustment_amount = $("#adjustment_amount").val();
+    const adjustment_type = $("#adjustment_type").val();
+    const adjustment_remarks = $("#adjustment_remarks").val();
+    const transaction_text = $("#transaction_text").val();
+
+    const adjustment_data = {
+        "adjustment_amount":adjustment_amount,
+        "adjustment_type":adjustment_type,
+        "adjustment_remarks":adjustment_remarks,
+        "transaction_text":transaction_text
+    }
+
+    var jsonAdjustments = JSON.stringify(adjustment_data);
+
+    $.ajax({
+        url:"http://localhost:3000/UpdateGuestBilNotFinal",
+        type:"POST",
+        data:jsonAdjustments,
+        contentType:'application/json',
+        success:function(data){
+
+        },
+
+        error:function(xhr, err){
+            alert(err);
+        }
+
+    });
+})
  
 
 </script>

@@ -129,6 +129,7 @@ $(document).ready(function(){
                     $("#transaction_id3").val(transaction_id2);
                     $("#package_name_val").val(package_name);
                     $("#guest_status_2").val(guest_status);
+                    $("#transaction_text").val(transaction_id2);
 
                    
                     

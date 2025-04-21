@@ -1975,29 +1975,41 @@ app.post("/InsertPackage", (req, res)=>{
           
           if(parseInt(current_days) <= 0){
             var current_bill_raw = length_stay * bill;
-            var current_bill = current_bill_raw + addons_amount;
+            var current_bill = current_bill_raw;
+
+            var addons = addons_amount;
           }
   
           else if(parseInt(current_days) > 0){
   
             var current_bill_raw = parseInt(current_days) * bill;
-            var current_bill = current_bill_raw + addons_amount;
+            var current_bill = current_bill_raw;
+            var addons = addons_amount;
   
           }
   
-          var sql_update_guest = `update guest_table set current_stay = ?, current_bill = ? where transaction_id2 = ?`;
+          var sql_update_guest = `update guest_table set current_stay = ?, current_bill = ?  where transaction_id2 = ?`;
   
           connection.query(sql_update_guest, [parseInt(current_days), current_bill, transaction_id2], (err, results_update)=>{
   
             var sql_update_front = `select * from guest_table where transaction_id2 = ?`;
-  
+
+            var sql_sum_addons = `select SUM(addons_amount) as SUMADDONS from addons_table where transaction_id2 = ?`
+
+            connection.query(sql_sum_addons, [transaction_id2], (err, rows22)=>{
+
               connection.query(sql_update_front, [transaction_id2], (err3, results_update_front)=>{
   
                 res.send({
-                  current_status:results_update_front
+                  current_status:results_update_front,
+                  add_ons_sum:rows22 
                 });
   
               });
+
+            });
+  
+             
   
           });
         });
@@ -2168,6 +2180,64 @@ app.post("/InsertPackage", (req, res)=>{
 
 
   //__________________UPDATE GUEST BILL_______________________________
+
+
+
+
+
+    //__________________UPDATE GUEST BILL not final_______________________________
+
+    app.post("/UpdateGuestBilNotFinal", (req, res)=>{
+
+      var adjustment_amount = req.body.adjustment_amount;
+      var adjustment_remarks = req.body.adjustment_remarks;
+      var adjustment_type = req.body.adjustment_type;
+      var transaction_text = req.body.transaction_text;
+  
+      console.log([adjustment_remarks, adjustment_amount, adjustment_type, transaction_text])
+  
+      if (req.body.adjustment_type === "add"){
+        var selectBill = `select * from guest_table where transaction_id2 = ?`;
+  
+        connection.query(selectBill, [transaction_text], (err, rows13)=>{
+  
+          var bill = rows13[0].current_bill;
+          var newBill = Number(bill) + Number(adjustment_amount);
+  
+          var sqlUpdateBill = `update guest_table set current_bill = ?, adjustment_remarks = ?, adjustment_amount = ?, adjustment_type = ? where transaction_id2 = ?`;
+  
+          connection.query(sqlUpdateBill, [newBill, adjustment_remarks, adjustment_amount, adjustment_type, transaction_text], (err, rows14)=>{
+            console.log("bill updated");
+          })
+  
+        });
+  
+      }
+  
+      else if (req.body.adjustment_type === "minus"){
+  
+        var selectBill = `select * from guest_table where transaction_id2 = ?`;
+  
+        connection.query(selectBill, [transaction_text], (err, rows13)=>{
+  
+          var bill = rows13[0].current_bill;
+          var newBill = Number(bill) - Number(adjustment_amount);
+  
+          var sqlUpdateBill = `update guest_table set current_bill = ?, adjustment_remarks = ?, adjustment_amount = ?, adjustment_type = ? where transaction_id2 = ?`;
+  
+         
+          connection.query(sqlUpdateBill, [newBill, adjustment_remarks, adjustment_amount, adjustment_type, transaction_text], (err, rows14)=>{
+            console.log("bill updated");
+          })
+  
+        });
+        
+      }
+  
+    })
+  
+  
+    //__________________UPDATE GUEST BILL not final_______________________________
   
   //_________________BILLING ADDONS___________________________________
 
