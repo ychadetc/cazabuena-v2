@@ -789,14 +789,49 @@ input[type=number]::-webkit-outer-spin-button {
 }
 .modal-view-details .detail-action{
     margin-top: 20px;
-    height: 30px;
+    min-height: 30px;
     display: flex;
     align-items: end;
     justify-content: right;
     gap: 10px;
     position: relative;
-    border-top: 1px solid var(--border);
+    
     padding-top: 10px;
+}
+.modal-view-details .first-da{
+    border-top: 1px solid var(--border);
+}
+.modal-view-details .new-da{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+    position: relative;
+}
+.modal-view-details .new-da button{
+    position: absolute;
+    right: 20px;
+    width: 90px;
+    height: 25px;
+    border: 1px solid var(--cazaBlue);
+    background-color: transparent;
+    font-size: 13px;
+    color: var(--cazaBlue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    cursor: pointer;
+}
+.modal-view-details .new-da .add-ons-textbox, .modal-view-details .new-da .adjustment-textbox{
+    color: var(--font-color);
+    font-size: 13px;
+    height: 25px;
+    outline: none;
+    border: 1px solid var(--border);
+    resize: none;
+    width: 200px;
+    padding-left: 10px;
 }
 
 #btnCheckBill,#btnUpdateChanges{

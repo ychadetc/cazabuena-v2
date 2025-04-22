@@ -31,36 +31,30 @@
     </section>
 
 
-    <section class="detail-row">
+    <section class="detail-action first-da new-da">
                 
-        <!--<select class="add-ons-textbox" id="">
-            <option value="" selected hidden>Select add on--</option>
-            <option value="1">Guest</option>
-            <option value="test">Test</option>
-        </select>-->
-
 
         <input type="hidden" id="transaction_text">
 
         <input type="text" class="add-ons-textbox" id="addons_description" placeholder="Add-ons">
         <input type="number" class="add-ons-textbox" id="addons_amount" placeholder="Addons Amount">
         <textarea name="" id="addons_remarks" class="add-ons-textbox" placeholder="Remarks..."></textarea>
-        <button id="btnSubmitAddOns">Submit</button>
+        <button id="btnSubmitAddOns"><i class="fas fa-paper-plane"></i>Submit</button>
 
     </section>
 
 
 
-    <section class="detail-row">
+    <section class="detail-action new-da">
    
-        <input type="number" name="" id="adjustment_amount" class="adjustment-textbox" placeholder="Amount...">
+        <input type="number" name="" id="adjustment_amount" class="adjustment-textbox" placeholder="Amount adjustment...">
         <select class="adjustment-textbox" id="adjustment_type">
-            <option value="" selected hidden>Selecta--</option>
+            <option value="" selected hidden>Select--</option>
             <option value="add">Add</option>
             <option value="minus">Minus</option>
         </select>
         <textarea name="" id="adjustment_remarks" class="adjustment-textbox" placeholder="Remarks..."></textarea>
-        <button id="btnSubmitAdjustmentDetails">Submit</button>
+        <button id="btnSubmitAdjustmentDetails"><i class="fas fa-paper-plane"></i>Submit</button>
 
     </section>
 
@@ -83,6 +77,7 @@
         </div>
         <button id="btnUpdateChanges"><i class="fas fa-save"></i>Save</button>
         <button id="btnCheckBill"><i class="fas fa-receipt"></i>Check bill</button>
+
     </section>
 </div>
 
