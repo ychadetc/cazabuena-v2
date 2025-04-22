@@ -19,6 +19,7 @@ body{
     flex-direction: row;
     font-family: 'inter', sans-serif;
     position: relative;
+    overflow-x: hidden;
 }
 #modal-handler{
     background-color: rgba(0, 0, 0, 0.377);
@@ -145,4 +146,20 @@ body{
 }
 #btnLogOut:hover{
     background-color: rgb(58, 58, 58);
+}
+
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.fade-in-right {
+    animation: fadeInRight 0.5s ease forwards;
 }

@@ -1,13 +1,44 @@
 $(document).ready(function(){
 
     $(document).on('click', '#btnLogOut', function(){
-        window.location.href = '/login';
-        //padestroy ng session HAHAHA
+        $.ajax({
+            url: '/logout',
+            method: 'GET',
+            xhrFields: {
+              withCredentials: true // sends cookies
+            },
+            success: function(response) {
+              window.location.href = '/login';
+            },
+            error: function(err) {
+              console.error('Logout failed:', err);
+            }
+          });
     });
 
     //___________________________________________________________SIDEBAR START____________________________________________________
     $(document).on('click', '#btnOpenHome', function(){
         window.location.href = '/';
+    });
+
+    $(document).on('click', '#btnOpenHomev2', function(){
+        $.ajax({
+            url: '/home',
+            method: 'GET',
+            success: function(data) {
+                const $container = $('#content-contain');
+                $container.removeClass('fade-in-right'); 
+                $container.html(data);
+                void $container[0].offsetWidth; 
+                $container.addClass('fade-in-right');
+                $('.villa-border .villa-figure').css({
+                    'transform': 'rotate(0deg) translateX(0px) translateY(0px)'
+                });
+            },
+            error: function(err) {
+                console.error("Error loading modal:", err);
+            }
+        });
     });
 
 
@@ -17,7 +48,8 @@ $(document).ready(function(){
             method: 'GET',
             success: function(data) {
                 $('#modal-handler').css('display', 'flex');
-                $('#modal-handler').html(data); 
+                $('#modal-handler').hide().html(data).fadeIn(100); 
+                
             },
             error: function(err) {
                 console.error("Error loading modal:", err);
@@ -31,7 +63,11 @@ $(document).ready(function(){
             url: '/villa-registration',
             method: 'GET',
             success: function(data) {
-                $('#content-contain').html(data); 
+                const $container = $('#content-contain');
+                $container.removeClass('fade-in-right'); 
+                $container.html(data);
+                void $container[0].offsetWidth; 
+                $container.addClass('fade-in-right');
             },
             error: function(err) {
                 console.error("Error loading modal:", err);
@@ -45,7 +81,11 @@ $(document).ready(function(){
             url: '/room-registration',
             method: 'GET',
             success: function(data){
-                $('#content-contain').html(data); 
+                const $container = $('#content-contain');
+                $container.removeClass('fade-in-right'); 
+                $container.html(data);
+                void $container[0].offsetWidth; 
+                $container.addClass('fade-in-right'); 
             },
             error: function(err){
                 console.error(err);
@@ -58,7 +98,11 @@ $(document).ready(function(){
             url: '/package-registration',
             method: 'GET',
             success: function(data){
-                $('#content-contain').html(data); 
+                const $container = $('#content-contain');
+                $container.removeClass('fade-in-right'); 
+                $container.html(data);
+                void $container[0].offsetWidth; 
+                $container.addClass('fade-in-right'); 
             },
             error: function(err){
                 console.error(err);
@@ -74,7 +118,11 @@ $(document).ready(function(){
             method: 'GET',
             success: function(data){
 
-                $("#content-contain").html(data)
+                const $container = $('#content-contain');
+                $container.removeClass('fade-in-right'); 
+                $container.html(data);
+                void $container[0].offsetWidth; 
+                $container.addClass('fade-in-right');
 
                 var events = [];
                 var guestList1 = [];
@@ -169,7 +217,11 @@ $(document).ready(function(){
             url: '/billing-page',
             method: 'GET',
             success: function(data){
-                $('#content-contain').html(data); 
+                const $container = $('#content-contain');
+                $container.removeClass('fade-in-right'); 
+                $container.html(data);
+                void $container[0].offsetWidth; 
+                $container.addClass('fade-in-right');
             },
             error: function(err){
                 console.error(err)
@@ -201,7 +253,8 @@ $(document).ready(function(){
             method: 'GET',
             success: function(data){
                 $('#modal-handler').css('display', 'flex');
-                $('#modal-handler').html(data); 
+                $('#modal-handler').hide().html(data).fadeIn(100);
+
             },
             error: function(err){
                 console.error(err);
@@ -215,7 +268,7 @@ $(document).ready(function(){
             method: 'GET',
             success: function(data){
                 $('#modal-handler').css('display', 'flex');
-                $('#modal-handler').html(data);
+                $('#modal-handler').hide().html(data).fadeIn(100);
             },
             error: function(err){
                 console.error(err);
@@ -229,7 +282,7 @@ $(document).ready(function(){
             method: 'GET',
             success: function(data){
                 $('#modal-handler').css('display', 'flex');
-                $('#modal-handler').html(data);
+                $('#modal-handler').hide().html(data).fadeIn(100);
             },
             error: function(err){
                 console.error(err);
@@ -243,7 +296,7 @@ $(document).ready(function(){
             method: 'GET',
             success: function(data){
                 $('#modal-handler').css('display', 'flex');
-                $('#modal-handler').html(data);
+                $('#modal-handler').hide().html(data).fadeIn(100);
             },
             error: function(err){
                 console.error(err);
@@ -254,14 +307,14 @@ $(document).ready(function(){
 
 
     $(document).on('click', '#t-b-billing tr td .btnOpenBillingModal', function () {
-        // alert($(this).data('id'));
+
         var transaction_id2 = $(this).val();
         $.ajax({
             url: '/modal-billing',
             method: 'GET',
             success: function(data){
                 $('#modal-handler').css('display', 'flex');
-                $('#modal-handler').html(data);
+                $('#modal-handler').hide().html(data).fadeIn(100);
                 $("#transaction_text").val(transaction_id2);
                
             },

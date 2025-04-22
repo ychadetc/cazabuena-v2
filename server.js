@@ -11,7 +11,7 @@ const connection = mysql.createConnection({
   user: 'root',
   password: '',
   database: 'cazabuena',
-  port: 3306
+  port: 3307
 })
 
 var bodyParser = require("body-parser");
@@ -53,8 +53,23 @@ app.get('/', (req, res) => {
   
   });
 
+  app.get('/home', (req, res)=>{ /* for new homepage/dashboard | singit muna*/
+    res.render('homeV2.ejs');
+  });
+
 app.get('/login', (req, res)=>{
   res.render('login-page.ejs');
+});
+
+
+app.get('/logout', (req, res) => {
+  req.session.destroy(err => {
+    if (err) {
+      return res.status(500).send('Could not log out');
+    }
+    res.clearCookie('connect.sid'); 
+    res.redirect('/login'); 
+  });
 });
 
 app.get('/guest-register', (req, res) =>{

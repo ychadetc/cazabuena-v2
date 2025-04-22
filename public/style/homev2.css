@@ -1,0 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+:root{
+    --white: #FFFFFF;
+    --shadow:  -11px -2px 13px -8px rgba(0,0,0,0.38);
+    --border: rgba(165, 165, 165, 0.473);
+    --font-color: rgb(88, 88, 88);
+    --text-field: rgb(156, 156, 156);
+    --cazaBlue: #4a89bf;
+}
+
+.villa-border{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+}
+.villa-border .villa-figure{
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    height: 500px;
+    width: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: -1px 4px 17px 0px rgba(0, 0, 0, 0.404);
+    background-color: var(--white);
+    cursor: pointer;
+    position: relative;
+    font-family: 'inter', sans-serif;
+    transition: transform 0.9s ease;
+    transition-delay: 0.2s;
+
+}
+.villa-border .villa-figure img{
+    height: 350px;
+    width: auto;
+}
+.villa-border .villa-figure .suit-name{
+    position: absolute;
+    bottom: 18px;
+    left: 30px;
+    color: var(--font-color);
+    font-size: 20px;
+    border-bottom: 2px solid rgb(139, 139, 139);
+    width: 100px;
+    font-weight: 200;
+    height: 25px;
+}
+.villa-border .villa-figure .pin-lang{
+    position: absolute;
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    background-color: var(--cazaBlue);
+    top: 12px;
+    right: 12px;
+}
+.villa-border .villa-figure:nth-child(1){
+    transform: rotate(-25deg) translateX(270px) translateY(-10px);
+}
+.villa-border .villa-figure:nth-child(2){
+    transform: rotate(0deg) translateX(-20px) translateY(-90px);
+}
+.villa-border .villa-figure:nth-child(3){
+    transform: rotate(25deg) translateX(-290px) translateY(120px);
+}
+
+
+
