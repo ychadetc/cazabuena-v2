@@ -547,9 +547,9 @@ app.post("/InsertPackage", (req, res)=>{
               
                                       var package_code = rows6[rows6_c].package_code2;
               
-                                      var sql_reupdate_package = `update packages set package_status = ? where package_code2 = ?`;
+                                      var sql_reupdate_package = `update packages set package_status = ?, check_in = ?, check_out = ? where package_code2 = ?`;
               
-                                      connection.query(sql_reupdate_package, ["inactive", package_code], (err, rows7)=>{
+                                      connection.query(sql_reupdate_package, ["inactive", new Date(Number(check_in_datetime)), new Date(Number(check_out_datetime)), package_code], (err, rows7)=>{
               
                                       });
               
@@ -625,9 +625,9 @@ app.post("/InsertPackage", (req, res)=>{
 
                               var package_code = rows6[rows6_c].package_code2;
 
-                              var sql_reupdate_package = `update packages set package_status = ? where package_code2 = ?`;
+                              var sql_reupdate_package = `update packages set package_status = ?, check_in = ?, check_out = ? where package_code2 = ?`;
 
-                              connection.query(sql_reupdate_package, ["inactive", package_code], (err, rows7)=>{
+                              connection.query(sql_reupdate_package, ["inactive", new Date(Number(check_in_datetime)), new Date(Number(check_out_datetime)), package_code], (err, rows7)=>{
 
                               });
 
@@ -2024,29 +2024,154 @@ app.post("/InsertPackage", (req, res)=>{
 
    //___________________________________________UPDATE GUEST TABLE________________________________
 
-   //______________________CALL TO CHANGE THE LIST OF PACKAGE______________________________
+   //______________________CALL TO CHANGE THE LIST OF PACKAGE CHECK PACKAGE IF IT IS IN GUEST TABLE______________________________
 
    app.post("/changePackage", (req, res)=>{
 
     var pax = req.body.pax;
+    var check_in = Date.parse(req.body.check_in);
+    var check_out = Date.parse(req.body.check_out);
+
+    console.log([check_in, check_out]);
+
+    if(pax && check_in && check_out){
+
+      var checkGuestTable = `select * from guest_table where check_in_datetime = ? and check_out_datetime = ?`;
+
+      connection.query(checkGuestTable, [check_in, check_out], (err, rows23)=>{
+      
+      
+
+      if(rows23.length > 0){
+
+        var package = rows23[0].package;
+
+                var sqlCheckPackageAccom = `select accom_type, package_code2, package_code from packages where package_code = ?`;
+
+                connection.query(sqlCheckPackageAccom, [package], (err, rows24)=>{
+
+                  var accom_type = rows24[0].accom_type;
+
+                  if(accom_type == "villa"){
+
+                    var package_code = rows24[0].package_code2;
+
+                  }
+
+                  else if(accom_type == "room"){
+
+                    var package_code = rows24[0].package_code;
+
+                  }
+
+
+                 // var sql_select_set_package = `select * from packages where no_of_person <= ? and package_code != ?`;
+
+                  var sql_select_set_package = `select * from packages where no_of_person <= ? and package_status = ?`;
+
+                  connection.query(sql_select_set_package, [pax, "active"], (err4, result_set)=>{
+                    if (err4) {
+                      console.error('error running query:', err4);
+                      return;
+                    }
+                    res.send({package_set:result_set});
+      
+                  });
+
+                 /* connection.query(sql_select_set_package, [pax, package_code], (err4, result_set)=>{
+                    if (err4) {
+                      console.error('error running query:', err4);
+                      return;
+                    }
+                    res.send({package_set:result_set});
+
+                  });*/
+
+                });
+
+      }
+
+      else if(rows23.length == 0){
+        
+      /* var sqlCheckPackageAccom = `select accom_type, package_code2, package_code from packages where package_code = ?`;
+
+          connection.query(sqlCheckPackageAccom, [package], (err, rows24)=>{
+
+            var accom_type = rows24[0].accom_type;
+
+            if(accom_type == "villa"){
+
+              var package_code = rows24[0].package_code2;
+
+            }
+
+            else if(accom_type == "room"){
+
+              var package_code = rows24[0].package_code;
+
+            }
+
+
+            
+
+          });*/
+
+
+          var sql_select_set_package = `select * from packages where no_of_person <= ?`;
+
+            connection.query(sql_select_set_package, [pax], (err4, result_set)=>{
+              if (err4) {
+                console.error('error running query:', err4);
+                return;
+              }
+              res.send({package_set:result_set});
+
+            });
+      }
+
+      
+
+
+      //var sql_select_set_package = `select * from packages where no_of_person <= ? and package_code`;
+
+           /* connection.query(sql_select_set_package, [pax, "active"], (err4, result_set)=>{
+              if (err4) {
+                console.error('error running query:', err4);
+                return;
+              }
+              res.send({package_set:result_set});
+
+            });*/
+      })
+
+
+
+    }
+
+
+    else{
+
+       /*var sql_select_set_package = `select * from packages where no_of_person <= ? and package_status = ?`;
+
+            connection.query(sql_select_set_package, [pax, "active"], (err4, result_set)=>{
+              if (err4) {
+                console.error('error running query:', err4);
+                return;
+              }
+              res.send({package_set:result_set});
+
+            });*/
+
+    }
 
     console.log(pax)
 
-    var sql_select_set_package = `select * from packages where no_of_person <= ? and package_status = ?`
-
-    connection.query(sql_select_set_package, [pax, "active"], (err4, result_set)=>{
-      if (err4) {
-        console.error('error running query:', err4);
-        return;
-      }
-      res.send({package_set:result_set});
-
-    });
+    
 
    });
 
 
-   //______________________CALL TO CHANGE THE LIST OF PACKAGE______________________________
+   //______________________CALL TO CHANGE THE LIST OF PACKAGE CHECK PACKAGE IF IT IS IN GUEST TABLE______________________________
 
 
    //__________________________CALL TO CHANGE THE PRICE_____________________________________

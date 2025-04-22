@@ -11,7 +11,7 @@
                 </select>
             </section>
             <section class="text-field row"><span>Check-In Time</span><input type="datetime-local"  id="txtCheckIn" class="textbox"></section>
-            <section class="text-field row"><span>Check-Out Time</span><input type="datetime-local" id="txtCheckOut" class="textbox"></section>
+            <section class="text-field row"><span>Check-Out Time</span><input type="datetime-local" id="txtCheckOut" class="textbox" onchange="checkDateAvailable()"></section>
 
             <section class="text-field row"><span>Booking Type</span>
 
@@ -24,6 +24,7 @@
         </div>
         <div class="bookingtxt package-r">
           <input type="hidden" id="basePrice">
+          <input type="hidden" id="packageSelected">
             <section class="text-field row"><span>Package Price: </span><input type="text" id="txtPrice" class="textbox" disabled></section>
             <section class="text-field row"><span>No. of Pax</span><input type="number" id="txtNoPax" class="textbox" onkeyup="checkInputNumber(this.value)"></section>
             <section class="text-field row"><span>Select package</span>
@@ -181,10 +182,23 @@ _______PACKAGE OPTIONS___________*/
 
 });*/
 
+
+function checkDateAvailable(){
+
+  var getDateIn = $("#txtCheckIn").val();
+  var getDateOut = $("#txtCheckOut").val();
+
+  console.log(getDateIn+" "+getDateOut)
+  
+
+}
+
 function checkInputSelect(package_code){
 
   var packageData = {"package_code":package_code};
   var JSONpackageData = JSON.stringify(packageData);
+  $("#packageSelected").val(package_code);
+  console.log($("#packageSelected").val())
   
 
   $.ajax({
@@ -212,6 +226,9 @@ function checkInputSelect(package_code){
 function checkInputRate(rate_no){
 
 //$("#txtPrice").val("");
+
+
+
 
 var rateData = {"rate_no":rate_no};
 var JSONrateData = JSON.stringify(rateData);
@@ -245,14 +262,7 @@ $.ajax({
 
     }
 
-        
 
-
-
-    
-    
-
-    
 
   },
 
@@ -272,11 +282,14 @@ function checkInputNumber(paxNo){
 
   var packageList2 = [];
 
+  var getDateIn = $("#txtCheckIn").val();
+var getDateOut = $("#txtCheckOut").val();
+
   
   //var pax = $(this).val();
   var pax = paxNo;
   console.log(pax);
-  var guestData ={"pax":pax};
+  var guestData ={"pax":pax, "check_in":getDateIn, "check_out":getDateOut};
   var JSONguestData = JSON.stringify(guestData);
   
   $.ajax({
@@ -326,13 +339,24 @@ function checkInputNumber(paxNo){
 //______CHANGE PACKAGES DEPENDING ON PAX INPUT_____
 
 
+//_________FUNCTION CHANGE THE LIST OF PACKAGE_________
+
+
+
+
+
+
+
+//_________FUNCTION CHANGE THE LIST OF PACKAGE_________
+
+
 
 //__________SET DEFAULT 2:00PM__________________
 
-const today1 = new Date();
-const year1 = today1.getFullYear();
-const month1 = String(today1.getMonth() + 1).padStart(2, '0');
-const day1 = String(today1.getDate()).padStart(2, '0');
+var today1 = new Date();
+var year1 = today1.getFullYear();
+var month1 = String(today1.getMonth() + 1).padStart(2, '0');
+var day1 = String(today1.getDate()).padStart(2, '0');
 
 // Set time to 14:00 (2:00 PM)
 const defaultDateTimeCheckIn = `${year1}-${month1}-${day1}T13:00`;
