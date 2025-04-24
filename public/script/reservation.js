@@ -15,6 +15,11 @@ $(document).ready(function(){
 
 
 
+    // $(document).on('click' ,'#btnUpdateChanges', function(){
+    //     alert('test');
+    // });
+
+
 
     // booking
     $(document).on('click', '#btnSubmitbooking', function(){

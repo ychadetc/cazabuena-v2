@@ -119,7 +119,7 @@
                 <option value="sample">test</option>
                 <option value="test">Test</option>
             </select>
-            <button id="btnSubmitAddOns">Submit</button>
+            <button id="btnSubmitDiscount">Submit</button>
 
         </section>
     </div>
@@ -170,6 +170,17 @@
     </div>
 </div>
 <button class="btncontroller" id="btnNextBillingPhase"><img src="/assets/next.png" alt=""></button>
+
+<div class="modal-confirm-billing-changes">
+    <img src="/assets/question.png" alt="">
+    <p id="billing-message">Do you want to confirm this changes?</p>
+    <section><button id="btnCancelBillingChanges">Cancel</button><button id="btnYesBillingChanges">Yes</button></section>
+</div>
+
+<div class="modal-success-billing-changes">
+    <img src="/assets/success.png" alt="">
+    <p id="billing-success-message">Changes saved successfully!</p>
+</div>
 
 <script>
 

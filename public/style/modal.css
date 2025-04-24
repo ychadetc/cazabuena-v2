@@ -1127,6 +1127,7 @@ input[type=number]::-webkit-outer-spin-button {
     width: 370px;
     height: 30px;
     background-color: transparent;
+    cursor: pointer;
 }
 
 
@@ -1165,6 +1166,7 @@ input[type=number]::-webkit-outer-spin-button {
     width: 370px;
     height: 30px;
     background-color: transparent;
+    cursor: pointer;
 }
 
 .modal-billing-container .billing-adjustment{
@@ -1213,8 +1215,159 @@ input[type=number]::-webkit-outer-spin-button {
     width: 370px;
     height: 30px;
     background-color: transparent;
+    cursor: pointer;
 }
 
 
 
 
+
+/* Billing_____________________________________________ */
+
+.modal-confirm-save-changes{
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    background-color: var(--white);
+    width: 350px;
+    height: auto;
+    border-radius: 10px;
+}
+.modal-confirm-save-changes img{
+    height: 90px;
+    width: auto;
+    position: absolute;
+    top: -40px;
+}
+
+.modal-confirm-save-changes p{
+    font-size: 17px;
+    color: var(--font-color);
+    margin-top: 90px;
+}
+.modal-confirm-save-changes section{
+    width: calc(100% - 40px);
+    display: flex;
+    justify-content: right;
+    padding-bottom: 20px;
+    padding-top: 20px;
+    gap: 8px;
+}
+.modal-confirm-save-changes section button{
+    width: 80px;
+    height: 25px;
+    border: 1px solid var(--cazaBlue);
+    font-size: 13px;
+    cursor: pointer;
+}
+.modal-confirm-save-changes section button:nth-child(1){
+    color: var(--cazaBlue);
+    background-color: transparent;
+}
+.modal-confirm-save-changes section button:nth-child(2){
+    color: var(--white);
+    background-color: var(--cazaBlue);
+}
+
+/* SUCCESS________________________________________________________ */
+
+.modal-success-save-changes{
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    background-color: var(--white);
+    width: 350px;
+    height: auto;
+    border-radius: 10px;
+}
+.modal-success-save-changes img{
+    height: 90px;
+    width: auto;
+    position: absolute;
+    top: -40px;
+}
+.modal-success-save-changes p{
+    color: var(--font-color);
+    font-size: 16px;
+    padding-top: 40px;
+    padding-bottom: 10px;
+}
+
+
+
+
+/* _________________________________BILLING CHANGES__________________ */
+
+
+.modal-confirm-billing-changes{
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    background-color: var(--white);
+    width: 350px;
+    height: auto;
+    border-radius: 10px;
+}
+.modal-confirm-billing-changes img{
+    height: 90px;
+    width: auto;
+    position: absolute;
+    top: -40px;
+}
+
+.modal-confirm-billing-changes p{
+    font-size: 17px;
+    color: var(--font-color);
+    margin-top: 90px;
+}
+.modal-confirm-billing-changes section{
+    width: calc(100% - 40px);
+    display: flex;
+    justify-content: right;
+    padding-bottom: 20px;
+    padding-top: 20px;
+    gap: 8px;
+}
+.modal-confirm-billing-changes section button{
+    width: 80px;
+    height: 25px;
+    border: 1px solid var(--cazaBlue);
+    font-size: 13px;
+    cursor: pointer;
+}
+.modal-confirm-billing-changes section button:nth-child(1){
+    color: var(--cazaBlue);
+    background-color: transparent;
+}
+.modal-confirm-billing-changes section button:nth-child(2){
+    color: var(--white);
+    background-color: var(--cazaBlue);
+}
+
+
+
+.modal-success-billing-changes{
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    background-color: var(--white);
+    width: 350px;
+    height: auto;
+    border-radius: 10px;
+}
+.modal-success-billing-changes img{
+    height: 90px;
+    width: auto;
+    position: absolute;
+    top: -40px;
+}
+.modal-success-billing-changes p{
+    color: var(--font-color);
+    font-size: 16px;
+    padding-top: 40px;
+    padding-bottom: 10px;
+}

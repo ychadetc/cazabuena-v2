@@ -109,12 +109,15 @@
     font-size: 18px;
     padding: 5.1px;
 }
-.reservation-page .page-container .page-reservation .reservation table tbody tr td:nth-child(8){
+.reservation-page .page-container .page-reservation .reservation table tbody tr td:nth-child(7){
     display: flex;
     justify-content: right;
     
 }
-.reservation-page .page-container .page-reservation .reservation table tbody tr td:nth-child(8) a{
-    color: var(--cazaBlue);
-    cursor: pointer;
+.reservation-page .page-container .page-reservation .reservation table tbody tr td:nth-child(7) a{
+    transition: transform .2s;
 }
+.reservation-page .page-container .page-reservation .reservation table tbody tr td:nth-child(7) a:hover{
+   transform: scale(1.1);
+}
+

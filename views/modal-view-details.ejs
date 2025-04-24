@@ -81,6 +81,17 @@
     </section>
 </div>
 
+<div class="modal-confirm-save-changes">
+    <img src="/assets/question.png" alt="">
+    <p>Do you want to confirm this changes?</p>
+    <section><button id="btnCancelChanges">Cancel</button><button id="btnYesChanges">Yes</button></section>
+</div>
+
+<div class="modal-success-save-changes">
+    <img src="/assets/success.png" alt="">
+    <p>Changes saved successfully!</p>
+</div>
+
 <script>
 
 
@@ -152,27 +163,54 @@ $('#btnCheckBill').on("click", function(e){
         });
 
 
+        $(document).on('click', '#btnCancelChanges', function(){
+            $('.modal-confirm-save-changes').fadeOut(100, function(){
+                $('.modal-view-details').css('display', 'flex').hide().fadeIn(100);
+            });
+        });
+
+
 
         $('#btnUpdateChanges').on("click", function(e){
 
+            $('.modal-view-details').fadeOut(100, function() {
+            $('.modal-confirm-save-changes')
+                .css('display', 'flex')
+                .hide()
+                .fadeIn(100);
+            });
+
+        });
+
+        $(document).on('click', '#btnYesChanges', function(e){
             e.preventDefault();
             e.stopImmediatePropagation();
             var guest_status = $("#selectGuestStatus").val();
             var transaction_id2 = $("#transaction_id3").val();
             var package = $('#package_selected').val();
             var txt = JSON.stringify({"guest_status":guest_status, "transaction_id2":transaction_id2, "package_code":package});
-
+                
             $.ajax({
-                    url:"http://localhost:3000/UpdateGuestTable",
+                    url:"/UpdateGuestTable",
                     type:"POST",
                     data:txt,
                     contentType:'application/json',
                     success: function(data){
-                        //alert(data.message);
-                        //console.log(data);
-                        $('#UpdateGuest')[0].reset();
-                        //location.reload();
-                        //alert(data.message)
+                      
+                        
+                        $('.modal-confirm-save-changes').fadeOut(100, function() {
+                            $('.modal-success-save-changes')
+                                .css('display', 'flex')
+                                .hide()
+                                .fadeIn(100);
+                        });
+
+                        setTimeout(function() {
+                            $('#modal-handler .modal-success-save-changes').fadeOut();
+                            $('#modal-handler').fadeOut();
+                            $('#UpdateGuest')[0].reset();
+                        }, 2000);
+
                     },
                     
                     error: function(xhr, status, error){
