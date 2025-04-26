@@ -11,7 +11,7 @@ const connection = mysql.createConnection({
   user: 'root',
   password: '',
   database: 'cazabuena',
-  port: 3307
+  port: 3306
 })
 
 var bodyParser = require("body-parser");
@@ -1885,6 +1885,8 @@ app.post("/InsertPackage", (req, res)=>{
               });
   
         }
+
+        res.send({message:"Guest Updated"})
   
   });
 
@@ -2348,6 +2350,7 @@ app.post("/InsertPackage", (req, res)=>{
   
           connection.query(sqlUpdateBill, [newBill, adjustment_remarks, adjustment_amount, adjustment_type, transaction_text], (err, rows14)=>{
             console.log("bill updated");
+            res.send({message:"Bill Updated"})
           })
   
         });
@@ -2368,6 +2371,7 @@ app.post("/InsertPackage", (req, res)=>{
          
           connection.query(sqlUpdateBill, [newBill, adjustment_remarks, adjustment_amount, adjustment_type, transaction_text], (err, rows14)=>{
             console.log("bill updated");
+            res.send({message:"Bill Updated"})
           })
   
         });
@@ -2392,6 +2396,7 @@ app.post("/InsertPackage", (req, res)=>{
     connection.query(sqlInsertAddons, [transaction_id2, addons_amount, addons_remarks, addons_description], (err, rows17)=>{
 
       console.log("Addons added")
+      res.send({rows:rows17})
 
     });
 

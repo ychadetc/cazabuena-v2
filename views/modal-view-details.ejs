@@ -189,9 +189,10 @@ $('#btnCheckBill').on("click", function(e){
             var transaction_id2 = $("#transaction_id3").val();
             var package = $('#package_selected').val();
             var txt = JSON.stringify({"guest_status":guest_status, "transaction_id2":transaction_id2, "package_code":package});
+            console.log(txt);
                 
             $.ajax({
-                    url:"/UpdateGuestTable",
+                    url:"http://localhost:3000/UpdateGuestTable",
                     type:"POST",
                     data:txt,
                     contentType:'application/json',
@@ -242,6 +243,19 @@ $('#btnCheckBill').on("click", function(e){
                         data:jsonAddons,
                         contentType:'application/json',
                         success:function(data){
+                            $('.modal-confirm-save-changes').fadeOut(100, function() {
+                            $('.modal-success-save-changes')
+                                .css('display', 'flex')
+                                .hide()
+                                .fadeIn(100);
+                        });
+
+                        setTimeout(function() {
+                            $('#modal-handler .modal-success-save-changes').fadeOut();
+                            $('#modal-handler').fadeOut();
+                            $('#UpdateGuest')[0].reset();
+                        }, 2000);
+
 
                         },
                         error:function(xhr, err){
@@ -279,6 +293,20 @@ $(document).on('click', '#btnSubmitAdjustmentDetails', function(e){
         data:jsonAdjustments,
         contentType:'application/json',
         success:function(data){
+            
+            $('.modal-confirm-save-changes').fadeOut(100, function() {
+                            $('.modal-success-save-changes')
+                                .css('display', 'flex')
+                                .hide()
+                                .fadeIn(100);
+                        });
+
+                        setTimeout(function() {
+                            $('#modal-handler .modal-success-save-changes').fadeOut();
+                            $('#modal-handler').fadeOut();
+                            $('#UpdateGuest')[0].reset();
+                        }, 2000);
+
 
         },
 
