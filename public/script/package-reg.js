@@ -10,7 +10,7 @@ $(document).ready(function(){
 
         // Collect all data-roomID values
         $("#selected-rooms p").each(function(){
-            multiple_rooms.push($(this).attr("data-roomID"));
+            multiple_rooms.push($(this).attr("data-roomID").replace(/([a-zA-Z])([0-9])/g, '$1 $2'));
         });
 
         // Check if no rooms are selected
@@ -98,6 +98,7 @@ $(document).ready(function(){
     // Handle selection change
     $(document).on("change", "#txtRoomID", function () {
         let selectedRoom = $(this).val(); 
+        console.log(selectedRoom);
         let selectedText = $("#txtRoomID option:selected").text();
 
         if (selectedRoom) {
