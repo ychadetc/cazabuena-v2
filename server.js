@@ -2293,6 +2293,7 @@ app.post("/InsertPackage", (req, res)=>{
 
         connection.query(sqlUpdateBill, [newBill, adjustment_remarks, adjustment_amount, adjustment_type, transaction_text], (err, rows14)=>{
           console.log("bill updated");
+          res.send({message:"Bill updated"})
         })
 
       });
@@ -2312,6 +2313,7 @@ app.post("/InsertPackage", (req, res)=>{
 
         connection.query(sqlUpdateBill, [newBill, adjustment_remarks, adjustment_amount, adjustment_type, transaction_text], (err, rows14)=>{
           console.log("bill updated");
+          res.send({message:"Bill updated"})
         })
 
       });

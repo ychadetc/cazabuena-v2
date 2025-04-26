@@ -52,32 +52,12 @@ $(document).ready(function () {
         });
     });
 
-    $(document).on('click', '#btnYesBillingChanges', function(){
-        
-        // _______________Palagay sa success ajax__________________
-        $.when(
-            $('.modal-confirm-billing-changes').fadeOut(100)
-        ).then(function(){
-            $('.modal-success-billing-changes').css('display', 'flex').hide();
-        $('.modal-success-billing-changes #billing-success-message').text(modShifter === 1 ? 'Added successfully!' : modShifter === 2 ? 'Discount submitted successfully' : 'Adjustment saved successfully')
-            $('.modal-success-billing-changes').fadeIn(100)
-            setTimeout(function(){
-                $('.modal-success-billing-changes').fadeOut();
-            }, 2000)
-            
-        });
+    $(document).on('click', '#btnYesBillingChanges', function(e){
 
-        $.when(
-            setTimeout(function(){
-                $('.modal-success-billing-changes').fadeOut();
-            }, 2000)
-        ).then(function(){
-           setTimeout(function(){
-                $('.btncontroller').fadeIn(100)
-                $('.modal-billing-container').fadeIn(100)
-           }, 2500);
-        })
-        // _______________Palagay sa success ajax END________________
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        
+      
 
         /* 
             Ganito nalang yung ajax, use switch case statement
@@ -86,15 +66,62 @@ $(document).ready(function () {
         */
             switch (modShifter){
                 case 1:
+                        const addons_data = {
+                                "addons_remarks":$("#addons_remarks").val(),
+                                "addons_amount":$("#addons_amount").val(),
+                                "addons_description":$("#addons_description").val(),
+                                "transaction_id2":$("#transaction_text").val()
+                        }
+                    
+                        var jsonAddons = JSON.stringify(addons_data);
+                    
+                        $.ajax({
+                            url:"http://localhost:3000/addons",
+                            type:"POST",
+                            data:jsonAddons,
+                            contentType:'application/json',
+                            success:function(data){
+
+                                 // _______________Palagay sa success ajax__________________
+                                $.when(
+                                    $('.modal-confirm-billing-changes').fadeOut(100)
+                                ).then(function(){
+                                    $('.modal-success-billing-changes').css('display', 'flex').hide();
+                                $('.modal-success-billing-changes #billing-success-message').text(modShifter === 1 ? 'Added successfully!' : modShifter === 2 ? 'Discount submitted successfully' : 'Adjustment saved successfully')
+                                    $('.modal-success-billing-changes').fadeIn(100)
+                                    setTimeout(function(){
+                                        $('.modal-success-billing-changes').fadeOut();
+                                    }, 2000)
+                                    
+                                });
+
+                                $.when(
+                                    setTimeout(function(){
+                                        $('.modal-success-billing-changes').fadeOut();
+                                    }, 2000)
+                                ).then(function(){
+                                setTimeout(function(){
+                                        $('.btncontroller').fadeIn(100)
+                                        $('.modal-billing-container').fadeIn(100)
+                                }, 2500);
+                                })
+                                // _______________Palagay sa success ajax END________________
+                    
+                            },
+                            error:function(xhr, err){
+                                alert(err)
+                            }
+                    
+                            })
                     // ditp yung ajax for add-ons
-                    $.ajax({
+                   /* $.ajax({
                         url: '/add-ons',
                         method: 'POST',
                         data: '',
                         success: function(){
                             //dito lalagay yung when then when then sa taas
                         }
-                    });
+                    });*/
                     break;
                 case 2:
                     // ditp yung ajax for discount
@@ -108,16 +135,72 @@ $(document).ready(function () {
                     });
                     break;
                 case 3:
-                    // ditp yung ajax for adjustment
-                    $.ajax({
-                        url: '/adjustment',
-                        method: 'POST',
-                        data: '',
-                        success: function(){
-                            //dito lalagay yung when then when then sa taas
-                        }
-                    });
-                    break;
+
+
+                            const adjustment_amount = $("#adjustment_amount").val();
+                            const adjustment_type = $("#adjustment_type").val();
+                            const adjustment_remarks = $("#adjustment_remarks").val();
+                            const transaction_text = $("#transaction_text").val();
+                        
+                            const adjustment_data = {
+                                "adjustment_amount":adjustment_amount,
+                                "adjustment_type":adjustment_type,
+                                "adjustment_remarks":adjustment_remarks,
+                                "transaction_text":transaction_text
+                            }
+                        
+                            var jsonAdjustments = JSON.stringify(adjustment_data);
+                        
+                            $.ajax({
+                                url:"http://localhost:3000/UpdateGuestBill",
+                                type:"POST",
+                                data:jsonAdjustments,
+                                contentType:'application/json',
+                                success:function(data){
+
+                                                    
+                                                // _______________Palagay sa success ajax__________________
+                                                $.when(
+                                                    $('.modal-confirm-billing-changes').fadeOut(100)
+                                                ).then(function(){
+                                                    $('.modal-success-billing-changes').css('display', 'flex').hide();
+                                                $('.modal-success-billing-changes #billing-success-message').text(modShifter === 1 ? 'Added successfully!' : modShifter === 2 ? 'Discount submitted successfully' : 'Adjustment saved successfully')
+                                                    $('.modal-success-billing-changes').fadeIn(100)
+                                                    setTimeout(function(){
+                                                        $('.modal-success-billing-changes').fadeOut();
+                                                    }, 2000)
+                                                    
+                                                });
+
+                                                $.when(
+                                                    setTimeout(function(){
+                                                        $('.modal-success-billing-changes').fadeOut();
+                                                    }, 2000)
+                                                ).then(function(){
+                                                setTimeout(function(){
+                                                        $('.btncontroller').fadeIn(100)
+                                                        $('.modal-billing-container').fadeIn(100)
+                                                }, 2500);
+                                                })
+                                                // _______________Palagay sa success ajax END________________
+                        
+                                },
+                        
+                                error:function(xhr, err){
+                                    alert(err);
+                                }
+                        
+                            });
+                                // ditp yung ajax for adjustment
+                            /* $.ajax({
+                                    url: '/adjustment',
+                                    method: 'POST',
+                                    data: '',
+                                    success: function(){
+                                        //dito lalagay yung when then when then sa taas
+                                    }
+                                });*/
+                                break;
             }
 
     });
