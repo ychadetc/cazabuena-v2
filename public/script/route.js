@@ -22,6 +22,7 @@ $(document).ready(function(){
     });
 
     $(document).on('click', '#btnOpenHomev2', function(){
+        $('#loading').css('display', 'flex');
         $.ajax({
             url: '/home',
             method: 'GET',
@@ -34,31 +35,36 @@ $(document).ready(function(){
                 $('.villa-border .villa-figure').css({
                     'transform': 'rotate(0deg) translateX(0px) translateY(0px)'
                 });
+                $('#loading').hide();
             },
             error: function(err) {
                 console.error("Error loading modal:", err);
+                $('#loading').hide();
             }
         });
     });
 
 
     $(document).on('click', '#btnOpenGuestRegistration', function(){
+        $('#loading').css('display', 'flex');
         $.ajax({
             url: '/guest-register',
             method: 'GET',
             success: function(data) {
                 $('#modal-handler').css('display', 'flex');
                 $('#modal-handler').hide().html(data).fadeIn(100); 
-                
+                $('#loading').hide();
             },
             error: function(err) {
                 console.error("Error loading modal:", err);
+                $('#loading').hide();
             }
         });
         
     });
 
     $(document).on('click', '#btnOpenVillaRegistration', function(){
+        $('#loading').css('display', 'flex');
         $.ajax({
             url: '/villa-registration',
             method: 'GET',
@@ -68,15 +74,18 @@ $(document).ready(function(){
                 $container.html(data);
                 void $container[0].offsetWidth; 
                 $container.addClass('fade-in-right');
+                $('#loading').hide();
             },
             error: function(err) {
                 console.error("Error loading modal:", err);
+                $('#loading').hide();
             }
         });
     });
 
 
     $(document).on('click', '#btnOpenRoomRegistration', function(){
+        $('#loading').css('display', 'flex');
         $.ajax({
             url: '/room-registration',
             method: 'GET',
@@ -86,14 +95,17 @@ $(document).ready(function(){
                 $container.html(data);
                 void $container[0].offsetWidth; 
                 $container.addClass('fade-in-right'); 
+                $('#loading').hide();
             },
             error: function(err){
                 console.error(err);
+                $('#loading').hide();
             }
         });
     });
 
     $(document).on('click', '#btnOpenPackageRegistration', function(){
+        $('#loading').css('display', 'flex');
         $.ajax({
             url: '/package-registration',
             method: 'GET',
@@ -103,9 +115,11 @@ $(document).ready(function(){
                 $container.html(data);
                 void $container[0].offsetWidth; 
                 $container.addClass('fade-in-right'); 
+                $('#loading').hide();
             },
             error: function(err){
                 console.error(err);
+                $('#loading').hide();
             }
         });
     });
@@ -113,6 +127,7 @@ $(document).ready(function(){
     
 
     $(document).on('click', '#btnOpenReservation', function(){
+        $('#loading').css('display', 'flex');
         $.ajax({
             url: '/reservation-page',
             method: 'GET',
@@ -188,13 +203,13 @@ $(document).ready(function(){
         
                     });
                 
-            
+                    $('#loading').hide();
                     },
             
                     error:function(xhr, status, err){
             
                         console.error("Error:", err)
-            
+                        $('#loading').hide();
                     }
             
                 })
@@ -207,12 +222,14 @@ $(document).ready(function(){
             
             error: function(err){
                 console.error(err);
+                $('#loading').hide();
             }
         });
     });
 
 
     $(document).on('click', '#btnOpenBilling', function(){
+        $('#loading').css('display', 'flex');
         $.ajax({
             url: '/billing-page',
             method: 'GET',
@@ -222,9 +239,11 @@ $(document).ready(function(){
                 $container.html(data);
                 void $container[0].offsetWidth; 
                 $container.addClass('fade-in-right');
+                $('#loading').hide();
             },
             error: function(err){
                 console.error(err)
+                $('#loading').hide();
             }
         });
     });
@@ -248,58 +267,69 @@ $(document).ready(function(){
     //________________________________MODALS____________________________________
     
     $(document).on('click', '#btnOpenAddVilla', function(){
+        $('#loading').css('display', 'flex');
         $.ajax({
             url: '/modal-add-villa',
             method: 'GET',
             success: function(data){
                 $('#modal-handler').css('display', 'flex');
                 $('#modal-handler').hide().html(data).fadeIn(100);
-
+                $('#loading').hide();
             },
             error: function(err){
                 console.error(err);
+                $('#loading').hide();
             }
         });
     });
 
     $(document).on('click', '#btnOpenAddRoom', function(){
+        $('#loading').css('display', 'flex');
         $.ajax({
             url: '/modal-add-room',
             method: 'GET',
             success: function(data){
                 $('#modal-handler').css('display', 'flex');
                 $('#modal-handler').hide().html(data).fadeIn(100);
+                $('#loading').hide();
             },
             error: function(err){
                 console.error(err);
+                $('#loading').hide();
             }
         });
     });
 
     $(document).on('click','#btnOpenAddpackage', function(){
+        $('#loading').css('display', 'flex');
         $.ajax({
             url: '/modal-add-package',
             method: 'GET',
             success: function(data){
                 $('#modal-handler').css('display', 'flex');
                 $('#modal-handler').hide().html(data).fadeIn(100);
+                $('#loading').hide();
             },
             error: function(err){
                 console.error(err);
+                $('#loading').hide();
             }
         });
     });
 
     $(document).on('click','#btnAddBooking', function(){
+        $('#loading').css('display', 'flex');
         $.ajax({
             url: '/modal-add-booking',
             method: 'GET',
             success: function(data){
                 $('#modal-handler').css('display', 'flex');
                 $('#modal-handler').hide().html(data).fadeIn(100);
+                $('#loading').hide()
             },
             error: function(err){
                 console.error(err);
+                $('#loading').hide();
             }
         });
     });
@@ -309,6 +339,7 @@ $(document).ready(function(){
     $(document).on('click', '#t-b-billing tr td .btnOpenBillingModal', function () {
 
         var transaction_id2 = $(this).val();
+        $('#loading').css('display', 'flex');
         $.ajax({
             url: '/modal-billing',
             method: 'GET',
@@ -316,10 +347,11 @@ $(document).ready(function(){
                 $('#modal-handler').css('display', 'flex');
                 $('#modal-handler').hide().html(data).fadeIn(100);
                 $("#transaction_text").val(transaction_id2);
-               
+                $('#loading').hide();
             },
             error: function(){
                 console.error(err);
+                $('#loading').hide();
             }
         });
     });

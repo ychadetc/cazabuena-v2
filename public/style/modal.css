@@ -1109,14 +1109,11 @@ input[type=number]::-webkit-outer-spin-button {
     padding: 0;
     margin: 0;
     padding: 0px 10px 0px 10px;
+    resize: none;
 
 }
 .modal-billing-container .billing-add-ons .add-ons-row .add-ons-textbox:nth-child(2){
-    width: calc(100% - 20px);
-    resize: none;
-    height: 80px;
-    padding: 10px;
-    font-family: 'inter', sans-serif;
+ 
 }
 
 .modal-billing-container .billing-add-ons .add-ons-row .add-ons-textbox::placeholder{
@@ -1126,7 +1123,7 @@ input[type=number]::-webkit-outer-spin-button {
     border: 1px solid var(--cazaBlue);
     color: var(--cazaBlue);
     font-size: 15px;
-    width: 370px;
+    width: calc(100% + 22px);
     height: 30px;
     background-color: transparent;
     cursor: pointer;
@@ -1199,22 +1196,20 @@ input[type=number]::-webkit-outer-spin-button {
     padding: 0;
     margin: 0;
     padding: 0px 10px 0px 10px;
-}
-.modal-billing-container .billing-adjustment .adjustment-row .adjustment-textbox:nth-child(1){
-    width: calc(100% - 20px);
-}
-.modal-billing-container .billing-adjustment .adjustment-row .adjustment-textbox:nth-child(3){
-    width: calc(100% - 20px);
     resize: none;
-    height: 100px;
-    padding: 10px;
+}
+
+.modal-billing-container .billing-adjustment .adjustment-row .adjustment-textbox:nth-child(3){
+    width: calc(100% + 22px);
+    resize: none;
+    height: 30px;
     font-family: 'inter', sans-serif;
 }
 .modal-billing-container .billing-adjustment .adjustment-row button{
     border: 1px solid var(--cazaBlue);
     color: var(--cazaBlue);
     font-size: 15px;
-    width: 370px;
+    width: calc(100% + 22px);
     height: 30px;
     background-color: transparent;
     cursor: pointer;

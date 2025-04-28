@@ -216,12 +216,12 @@ $('#btnCheckBill').on("click", function(e){
                                 $.when(
                                     setTimeout(function(){
                                         $('#modal-handler .modal-success-save-changes').fadeOut();
-                                        }, 2000)
+                                        }, 1000)
                                     ).then(function(){
                                     setTimeout(function(){
                                         $('#modal-handler .modal-view-details').fadeIn()
                                         $('#UpdateGuest')[0].reset();
-                                    }, 2500);
+                                    }, 1500);
                                     })
 
                             },
@@ -261,12 +261,12 @@ $('#btnCheckBill').on("click", function(e){
                         $.when(
                             setTimeout(function(){
                                 $('#modal-handler .modal-success-save-changes').fadeOut();
-                                }, 2000)
+                                }, 1000)
                             ).then(function(){
                             setTimeout(function(){
                                 $('#modal-handler .modal-view-details').fadeIn()
                                 
-                            }, 2500);
+                            }, 1500);
                             })
 
 
@@ -278,6 +278,7 @@ $('#btnCheckBill').on("click", function(e){
                     })
                     break;
                 case "adjustment":
+                   
                     e.preventDefault();
                     e.stopImmediatePropagation();
 
@@ -302,33 +303,32 @@ $('#btnCheckBill').on("click", function(e){
                         data:jsonAdjustments,
                         contentType:'application/json',
                         success:function(data){
-                            
                             $('.modal-confirm-save-changes').fadeOut(100, function() {
                             $('.modal-success-save-changes')
                                 .css('display', 'flex')
                                 .hide()
                                 .fadeIn(100);
-                            });
+                        });
 
-                            $.when(
+                        $.when(
                             setTimeout(function(){
                                 $('#modal-handler .modal-success-save-changes').fadeOut();
-                                }, 2000)
+                                }, 1000)
                             ).then(function(){
                             setTimeout(function(){
                                 $('#modal-handler .modal-view-details').fadeIn()
                                 
-                            }, 2500);
+                            }, 1500);
                             })
 
 
                         },
 
                         error:function(xhr, err){
-                            alert(err);
+                            console.error(err);
                         }
 
-                    });
+                    })
                     break;
             }
 
