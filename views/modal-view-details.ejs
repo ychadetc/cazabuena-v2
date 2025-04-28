@@ -39,7 +39,7 @@
         <input type="text" class="add-ons-textbox" id="addons_description" placeholder="Add-ons">
         <input type="number" class="add-ons-textbox" id="addons_amount" placeholder="Addons Amount">
         <textarea name="" id="addons_remarks" class="add-ons-textbox" placeholder="Remarks..."></textarea>
-        <button id="btnSubmitAddOns"><i class="fas fa-paper-plane"></i>Submit</button>
+        <button id="btnSubmitAddOns-view-details"><i class="fas fa-paper-plane"></i>Submit</button>
 
     </section>
 
@@ -84,7 +84,7 @@
 <div class="modal-confirm-save-changes">
     <img src="/assets/question.png" alt="">
     <p>Do you want to confirm this changes?</p>
-    <section><button id="btnCancelChanges">Cancel</button><button id="btnYesChanges">Yes</button></section>
+    <section><button id="btnCancelChanges">Cancel</button><button id="btnYesChanges" data-shift="">Yes</button></section>
 </div>
 
 <div class="modal-success-save-changes">
@@ -180,51 +180,59 @@ $('#btnCheckBill').on("click", function(e){
                 .fadeIn(100);
             });
 
+            $('#btnYesChanges').data('shift', 'general');
+
         });
 
         $(document).on('click', '#btnYesChanges', function(e){
-            e.preventDefault();
-            e.stopImmediatePropagation();
-            var guest_status = $("#selectGuestStatus").val();
-            var transaction_id2 = $("#transaction_id3").val();
-            var package = $('#package_selected').val();
-            var txt = JSON.stringify({"guest_status":guest_status, "transaction_id2":transaction_id2, "package_code":package});
-            console.log(txt);
-                
-            $.ajax({
-                    url:"http://localhost:3000/UpdateGuestTable",
-                    type:"POST",
-                    data:txt,
-                    contentType:'application/json',
-                    success: function(data){
-                      
+            let switchModal = $('#btnYesChanges').data('shift');
+            switch (switchModal){
+                case "general":
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
+                    var guest_status = $("#selectGuestStatus").val();
+                    var transaction_id2 = $("#transaction_id3").val();
+                    var package = $('#package_selected').val();
+                    var txt = JSON.stringify({"guest_status":guest_status, "transaction_id2":transaction_id2, "package_code":package});
+                    console.log(txt);
                         
-                        $('.modal-confirm-save-changes').fadeOut(100, function() {
-                            $('.modal-success-save-changes')
-                                .css('display', 'flex')
-                                .hide()
-                                .fadeIn(100);
+                    $.ajax({
+                            url:"http://localhost:3000/UpdateGuestTable",
+                            type:"POST",
+                            data:txt,
+                            contentType:'application/json',
+                            success: function(data){
+                            
+                                
+                                $('.modal-confirm-save-changes').fadeOut(100, function() {
+                                    $('.modal-success-save-changes')
+                                        .css('display', 'flex')
+                                        .hide()
+                                        .fadeIn(100);
+                                });
+
+                
+
+                                $.when(
+                                    setTimeout(function(){
+                                        $('#modal-handler .modal-success-save-changes').fadeOut();
+                                        }, 2000)
+                                    ).then(function(){
+                                    setTimeout(function(){
+                                        $('#modal-handler .modal-view-details').fadeIn()
+                                        $('#UpdateGuest')[0].reset();
+                                    }, 2500);
+                                    })
+
+                            },
+                            
+                            error: function(xhr, status, error){
+                                alert(error);
+                            }
+
                         });
-
-                        setTimeout(function() {
-                            $('#modal-handler .modal-success-save-changes').fadeOut();
-                            $('#modal-handler').fadeOut();
-                            $('#UpdateGuest')[0].reset();
-                        }, 2000);
-
-                    },
-                    
-                    error: function(xhr, status, error){
-                        alert(error);
-                    }
-
-                })
-
-        });
-
-
-
-        $(document).on('click', '#btnSubmitAddOns', function(e){
+                    break;
+                case "add-ons":
                     e.preventDefault();
                     e.stopImmediatePropagation();
 
@@ -250,11 +258,16 @@ $('#btnCheckBill').on("click", function(e){
                                 .fadeIn(100);
                         });
 
-                        setTimeout(function() {
-                            $('#modal-handler .modal-success-save-changes').fadeOut();
-                            $('#modal-handler').fadeOut();
-                            $('#UpdateGuest')[0].reset();
-                        }, 2000);
+                        $.when(
+                            setTimeout(function(){
+                                $('#modal-handler .modal-success-save-changes').fadeOut();
+                                }, 2000)
+                            ).then(function(){
+                            setTimeout(function(){
+                                $('#modal-handler .modal-view-details').fadeIn()
+                                
+                            }, 2500);
+                            })
 
 
                         },
@@ -263,58 +276,95 @@ $('#btnCheckBill').on("click", function(e){
                         }
 
                     })
+                    break;
+                case "adjustment":
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
+
+
+                    const adjustment_amount = $("#adjustment_amount").val();
+                    const adjustment_type = $("#adjustment_type").val();
+                    const adjustment_remarks = $("#adjustment_remarks").val();
+                    const transaction_text = $("#transaction_text").val();
+
+                    const adjustment_data = {
+                        "adjustment_amount":adjustment_amount,
+                        "adjustment_type":adjustment_type,
+                        "adjustment_remarks":adjustment_remarks,
+                        "transaction_text":transaction_text
+                    }
+
+                    var jsonAdjustments = JSON.stringify(adjustment_data);
+
+                    $.ajax({
+                        url:"http://localhost:3000/UpdateGuestBilNotFinal",
+                        type:"POST",
+                        data:jsonAdjustments,
+                        contentType:'application/json',
+                        success:function(data){
+                            
+                            $('.modal-confirm-save-changes').fadeOut(100, function() {
+                            $('.modal-success-save-changes')
+                                .css('display', 'flex')
+                                .hide()
+                                .fadeIn(100);
+                            });
+
+                            $.when(
+                            setTimeout(function(){
+                                $('#modal-handler .modal-success-save-changes').fadeOut();
+                                }, 2000)
+                            ).then(function(){
+                            setTimeout(function(){
+                                $('#modal-handler .modal-view-details').fadeIn()
+                                
+                            }, 2500);
+                            })
+
+
+                        },
+
+                        error:function(xhr, err){
+                            alert(err);
+                        }
+
+                    });
+                    break;
+            }
+
+        });
+
+
+
+        $(document).on('click', '#btnSubmitAddOns-view-details', function(e){
+                    
+
+                    $.when(
+                        $('.modal-view-details').fadeOut(100)
+                    ).then(function() {
+                        $('.modal-confirm-save-changes')
+                            .css('display', 'flex')
+                            .hide()
+                            .fadeIn(100);
+                    });
+                    $('#btnYesChanges').data('shift', 'add-ons');
 
 });
 
 
 
 $(document).on('click', '#btnSubmitAdjustmentDetails', function(e){
-    e.preventDefault();
-    e.stopImmediatePropagation();
+    
 
-
-    const adjustment_amount = $("#adjustment_amount").val();
-    const adjustment_type = $("#adjustment_type").val();
-    const adjustment_remarks = $("#adjustment_remarks").val();
-    const transaction_text = $("#transaction_text").val();
-
-    const adjustment_data = {
-        "adjustment_amount":adjustment_amount,
-        "adjustment_type":adjustment_type,
-        "adjustment_remarks":adjustment_remarks,
-        "transaction_text":transaction_text
-    }
-
-    var jsonAdjustments = JSON.stringify(adjustment_data);
-
-    $.ajax({
-        url:"http://localhost:3000/UpdateGuestBilNotFinal",
-        type:"POST",
-        data:jsonAdjustments,
-        contentType:'application/json',
-        success:function(data){
-            
-            $('.modal-confirm-save-changes').fadeOut(100, function() {
-                            $('.modal-success-save-changes')
-                                .css('display', 'flex')
-                                .hide()
-                                .fadeIn(100);
-                        });
-
-                        setTimeout(function() {
-                            $('#modal-handler .modal-success-save-changes').fadeOut();
-                            $('#modal-handler').fadeOut();
-                            $('#UpdateGuest')[0].reset();
-                        }, 2000);
-
-
-        },
-
-        error:function(xhr, err){
-            alert(err);
-        }
-
-    });
+                    $.when(
+                        $('.modal-view-details').fadeOut(100)
+                    ).then(function() {
+                        $('.modal-confirm-save-changes')
+                            .css('display', 'flex')
+                            .hide()
+                            .fadeIn(100);
+                    });
+                    $('#btnYesChanges').data('shift', 'adjustment');
 })
  
 
