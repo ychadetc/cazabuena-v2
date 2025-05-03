@@ -43,10 +43,10 @@
 
                     for(var room_count = 0; room_count<roomData.length; room_count++){
 
-                        var room_name = roomData[room_count].room_name;
+                        var room_name = roomData[room_count].room_name+" "+room_count.toString();
                         var villa_id = roomData[room_count].villa_id;
-                        var room_status = roomData[room_count].room_status;
-                        var villa_name = roomData[room_count].villa_name;
+                        var room_status = roomData[room_count].guest_status.toLowerCase();
+                        var villa_name = roomData[room_count].villa_id;
 
                         console.log(villa_name);
                         villaList.push(villa_name);
@@ -110,7 +110,7 @@
 
                                     //$("#"+newSetVilla[b]).append(`<div id=${room_name.replace(/\s/g, '')}>${room_name}</div>`);
 
-                                    $("#"+newSetVilla[b]).append(`<section class="rooms" id=${room_name.replace(/\s/g, '')}>${room_name}<div class="triangle ${room_name.replace(/\s/g, '')}"></div></section>`);
+                                    $("#"+newSetVilla[b]).append(`<section class="rooms" id=${room_name.replace(/\s/g, '')}>${room_name.split(" ").filter((_, i) => i !== 2).join(" ")}<div class="triangle ${room_name.replace(/\s/g, '')}"></div></section>`);
 
                                     
 
@@ -131,6 +131,9 @@
                         var room_status = roomlistPlotting[c].room_status;
                         var room_name = roomlistPlotting[c].room_name;
 
+                        console.log(room_status);
+                        console.log(room_name);
+
                         if(room_status == 'inactive'){
                            
                             //$("#"+room_name.replace(/\s/g, '')).css("background-color", "red");
@@ -145,7 +148,7 @@
                             //console.log("i")
                         }
 
-                        else if(room_status=='active'){
+                        else if(room_status=='nostatus'){
                             
                             //$("#"+room_name.replace(/\s/g, '')).css("background-color", "yellow");
                             
