@@ -7,6 +7,10 @@
     --cazaBlue: #4a89bf;
 }
 
+*{
+  box-sizing: border-box;
+}
+
 
 html,body{
     height: 100%;

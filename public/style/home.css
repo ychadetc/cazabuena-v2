@@ -15,7 +15,7 @@
     gap: 40px;
     color: var(--font-color);
     font-family: 'inter', sans-serif;
- 
+    position: relative;
 }
 .home-page .villa{
     width: 340px;
@@ -74,3 +74,27 @@
 #villa-3-dot{
     background-color: #880c4e;
 }
+
+
+.date-time-home{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    
+}
+.date-time-home #date-time-local-home{
+    border: none;
+    border-bottom: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    color: var(--font-color);
+    height: 21px;
+    width: 200px;
+    padding: 5px 5px 5px 10px;
+    font-size: 14px;
+    cursor: pointer;
+    outline: none;
+    
+}
+/* .date-time-home #date-time-local-home:focus{
+    border: 1px solid blue;
+} */

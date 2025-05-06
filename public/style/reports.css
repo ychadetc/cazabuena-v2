@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+:root{
+    --white: #FFFFFF;
+    --shadow:  -11px -2px 13px -8px rgba(0,0,0,0.38);
+    --border: rgba(165, 165, 165, 0.473);
+    --font-color: rgb(88, 88, 88);
+    --text-field: rgb(156, 156, 156);
+    --cazaBlue: #4a89bf;
+}
+
+.report-page{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 0px 10px 8px 10px;
+    gap: 20px;
+}
+.report-page .a-r-section{
+    width: 100%;
+    height: 40px;
+    padding-left: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    position: relative;
+}
+.report-page .a-r-section span{
+    font-size: 16px;
+    color: var(--font-color);
+    cursor: pointer;
+}
+.report-page .a-r-slider{
+    width: 75px;
+    border: 1px solid var(--cazaBlue);
+    position: absolute;
+    bottom: 0;
+    left: 19px;
+    transition: left .3s;
+}
+.report-page .a-r-content{
+    width: 100%;
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+}
+.report-page .a-r-content .ar-sub-con{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    border-radius: 10px;
+}
+.report-page .a-r-content .analytics-content{
+    background-color: #487c81;
+    top: 0;
+    left: 0px;
+    transition: transform 0.4s, opacity 0.4s;
+    opacity: 1;
+    transform: scale(1);
+}
+.report-page .a-r-content .reports-content{
+    background-color: #312c46;
+    top: 0;
+    left: 100%;
+    transition: left .5s;
+}

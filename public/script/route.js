@@ -250,6 +250,29 @@ $(document).ready(function(){
 
 
 
+
+    $(document).on('click', '#btnOpenReports', function(){
+        $('#loading').css('display', 'flex');
+        $.ajax({
+            url: '/fetch-reports',
+            method: 'GET',
+            success: function(data){
+                const $container = $('#content-contain');
+                $container.removeClass('fade-in-right'); 
+                $container.html(data);
+                void $container[0].offsetWidth; 
+                $container.addClass('fade-in-right');
+                $('#loading').hide();
+            },
+            error: function(err){
+                console.error(err)
+                $('#loading').hide();
+            }
+        });
+    });
+
+
+
     
 
 //________________________________________________SIDEBAR END________________________________________________________________________________

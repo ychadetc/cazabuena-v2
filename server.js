@@ -11,7 +11,7 @@ const connection = mysql.createConnection({
   user: 'root',
   password: '',
   database: 'cazabuena',
-  port: 3306
+  port: 3307
 })
 
 var bodyParser = require("body-parser");
@@ -79,6 +79,14 @@ app.get('/guest-register', (req, res) =>{
 app.get('/villa-registration', (req, res)=>{
     res.render('villa-registration.ejs');
 })
+
+
+//REPORT______________
+
+app.get('/fetch-reports', (req, res) =>{
+  res.render('reports.ejs');
+});
+//REPORT END_____________
 
 
 app.get('/modal-add-villa', (req, res)=>{
