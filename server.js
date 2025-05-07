@@ -11,7 +11,7 @@ const connection = mysql.createConnection({
   user: 'root',
   password: '',
   database: 'cazabuena',
-  port: 3307
+  port: 3306
 })
 
 var bodyParser = require("body-parser");
@@ -305,16 +305,58 @@ WHERE rn = 1;
 });
 
 app.post("/roomListPlot", (req, res)=>{
+  
+  console.log(Date.parse(req.body.check_in_datetime))
 
-  var sql_view_plot = `select villas.villa_name, rooms.room_name, rooms.villa_id, rooms.room_status
-   from rooms inner join villas on villas.villa_name = rooms.villa_id`;
+  var sql_view_plot = `WITH base_data AS (
+    SELECT 
+        COALESCE(guest_status_sub.guest_status, 'nostatus') AS guest_status,
+        COALESCE(guest_status_sub.check_in_datetime, 'nocheckin') AS check_in_datetime,
+        COALESCE(p.package_code, 'nopackage') AS package_code,
+        COALESCE(p.package_code2, 'nopackage code2') AS package_code2,
+        r.room_name,
+        r.villa_id,
+        COALESCE(p.accom_type, 'noaccomtype') AS accom_type,
+        -- assign priority: 1 if it's not 'nostatus', 2 otherwise
+        CASE WHEN COALESCE(guest_status_sub.guest_status, 'nostatus') = 'nostatus' THEN 2 ELSE 1 END AS status_priority
+    FROM rooms r
+    LEFT JOIN packages p ON r.room_name = p.room_id
+    LEFT JOIN (
+        SELECT 
+            g.guest_status,
+            g.check_in_datetime,
+            pk.package_code2
+        FROM guest_table g
+        JOIN packages pk ON g.package = pk.package_code
+    ) guest_status_sub 
+    ON guest_status_sub.package_code2 = p.package_code2 
+       AND guest_status_sub.check_in_datetime = ?
+),
+ranked_data AS (
+    SELECT *,
+           ROW_NUMBER() OVER (PARTITION BY room_name ORDER BY status_priority) AS rn
+    FROM base_data
+)
+SELECT guest_status, check_in_datetime, package_code, package_code2, room_name, villa_id, accom_type
+FROM ranked_data
+WHERE rn = 1;
 
-  connection.query(sql_view_plot, (err, rows_plot)=>{
 
-    res.send({toplotRoom:rows_plot});
+`;
 
-  });
 
+connection.query(sql_view_plot,[Date.parse(req.body.check_in_datetime)], (err, rows_plot)=>{
+
+  res.send({toplotRoom:rows_plot});
+
+});
+
+  /*var sql_view_plot = `select villas.villa_name, rooms.room_name, rooms.villa_id, rooms.room_status
+   from rooms inner join villas on villas.villa_name = rooms.villa_id`;*/
+
+  
+
+ 
 });
 
 
