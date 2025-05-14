@@ -14,11 +14,11 @@
                         <th>No. of Rooms</th>
                         <th>No. of Person</th>
                         <th>Package Rate</th>
-                        <th>Status</th>
+                       
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
+                <tbody id="packageBody">
+                    <!--<tr>
                         <td>Package 1</td>
                         <td>1st Floor</td>
                         <td>Room 104</td>
@@ -44,10 +44,62 @@
                         <td>2</td>
                         <td>3300</td>
                         <td>Active</td>
-                    </tr>
+                    </tr>-->
                 </tbody>
                 
             </table>
         </section>
     </main>
 </div>
+
+
+<script>
+     const packageList = [];
+    
+    $.ajax({
+        type:"GET",
+        url:"http://localhost:3000/packageDisplay",
+        success:function(data){
+            const jsonPackageData = data.toDisplayPackage;
+            
+            $.each(jsonPackageData, function(index, package) {
+            packageList.push(package);
+          });
+
+
+          for (var x = 0; x < packageList.length; x++) {
+
+            var package_code = packageList[x].package_code;
+            var package_name = packageList[x].package_name;
+            var no_of_rooms = packageList[x].no_of_rooms;
+            var room_id = packageList[x].room_id;
+            var location = packageList[x].location;
+            var package_rate = packageList[x].package_rate;
+            var no_of_person = packageList[x].no_of_person;
+       
+
+            var packageData = `
+
+                <tr>
+                <td>${package_name}</td>
+                <td>${location}</td>
+                <td>${room_id}</td>
+                <td>${no_of_rooms}</td>
+                <td>${no_of_person}</td>
+                <td>${package_rate}</td>
+                </tr>
+            `
+
+
+            $('#packageBody').append(packageData);
+
+          }
+
+        },
+
+        error:function(xhr, error){
+
+        } 
+
+    })
+</script>

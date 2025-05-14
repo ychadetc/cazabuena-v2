@@ -304,6 +304,21 @@ WHERE rn = 1;
 
 });
 
+//_____________DISPLAY PACKAGES___________________________
+app.get("/packageDisplay", (req, res)=>{
+  
+  var sqlDisplayPackage = `Select * from packages`;
+
+  connection.query(sqlDisplayPackage, (err, rows26)=>{
+
+    res.send({toDisplayPackage:rows26});
+
+  });
+
+});
+
+//_____________DISPLAY PACKAGES___________________________
+
 app.post("/roomListPlot", (req, res)=>{
   
   console.log(Date.parse(req.body.check_in_datetime))
