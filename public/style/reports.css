@@ -46,21 +46,44 @@
 }
 .report-page .a-r-content .ar-sub-con{
     position: absolute;
-    height: 100%;
+ 
     width: 100%;
     border-radius: 10px;
 }
 .report-page .a-r-content .analytics-content{
-    background-color: #487c81;
+    /* border: 1px solid var(--border); */
     top: 0;
     left: 0px;
     transition: transform 0.4s, opacity 0.4s;
     opacity: 1;
     transform: scale(1);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+    padding-top: 20px;
+    align-items: center;
 }
 .report-page .a-r-content .reports-content{
-    background-color: #312c46;
+    border: 1px solid var(--border);
     top: 0;
     left: 100%;
     transition: left .5s;
+    height: 100%;
+}
+
+.report-page .a-r-content .analytics-content .analytics-cnv{
+    flex: 1 1 0;
+    height: 300px;
+    border: 1px solid var(--border);
+    max-width: 45%;
+    border-radius: 8px;
+    box-shadow: -8px 8px 10px -3px rgba(0, 0, 0, 0.199);
+}
+
+#myLineChart{
+    width: 100% !important;
+    height: 100% !important;
+    border: 1px solid var(--border);
+    
 }

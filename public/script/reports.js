@@ -14,5 +14,31 @@ $(document).ready(function(){
         $('.report-page .a-r-content .analytics-content').css('opacity', '.10')
     });
 
+    
+    const ctx = $('#myLineChart')[0].getContext('2d');
+
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+        datasets: [{
+          label: 'Sales',
+          data: [12, 19, 3, 5, 2],
+          borderColor: 'rgba(75, 192, 192, 1)',
+          backgroundColor: 'rgba(75, 192, 192, 0.2)',
+          fill: true,
+          tension: 0.3
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+
 
 });
