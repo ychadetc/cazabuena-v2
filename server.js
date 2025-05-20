@@ -2063,10 +2063,14 @@ app.post("/InsertPackage", (req, res)=>{
 
    app.post("/UpdateBill", (req, res)=>{
 
+    //get the inputs
+
     var package = req.body.package;
     var transaction_id2 = req.body.transaction_id2;
     console.log(package);
     console.log(transaction_id2);
+
+    //ready for overstay computation
     
     var date_now_over_stay_time = new Date().toLocaleTimeString([], {year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit'});
    
@@ -2074,6 +2078,8 @@ app.post("/InsertPackage", (req, res)=>{
   
     console.log("Millis of time now")
     console.log(millis_now);
+
+    //get the package info
     
     var sql = `select * from packages where package_code = ?`;
   
@@ -2082,9 +2088,14 @@ app.post("/InsertPackage", (req, res)=>{
       console.log(results[0].package_rate);
   
       var package_rate = results[0].package_rate;
+
+      //get the guest table dpeneding on transaction id
   
-      var sql_select_guest_table = `select guest_table.*, SUM(addons_amount) as totalAddons from guest_table
-                                    inner join addons_table on guest_table.transaction_id2 = addons_table.transaction_id2 where guest_table.transaction_id2 = ?`;
+      var sql_select_guest_table = `select guest_table.* , packages.package_rate from guest_table inner join packages on packages.package_code = guest_table.package
+                                     where transaction_id2 = ?`;
+
+
+      //get the addons table dpeneding on transaction id
 
       var sumAddons = `select SUM(addons_amount) as totalAddonsTable from addons_table where transaction_id2 = ?`;
 
@@ -2094,7 +2105,7 @@ app.post("/InsertPackage", (req, res)=>{
   
           var check_in_datetime = results_transactionid[0].check_in_datetime;
           var length_stay = results_transactionid[0].length_stay;
-          var bill = results_transactionid[0].current_bill;
+          var bill = results_transactionid[0].package_rate;
           var addons_amount = rows20[0].totalAddonsTable;
           
   
@@ -2107,51 +2118,84 @@ app.post("/InsertPackage", (req, res)=>{
           //var current_stay  = new_check_in_datetime - millis_now;
           var current_stay  = millis_now - check_in_datetime;
   
-          var current_days = current_stay/(1000*60*60*24)
+          var current_days = parseInt(Math.round(current_stay/(1000*60*60*24)))
   
           console.log(current_days);
+          console.log(typeof(current_days))
           
           //check if the current day is lessthan 0 or current day is equal to zero
           
-          if(parseInt(current_days) <= 0){
-            var current_bill_raw = length_stay * bill;
-            var current_bill = current_bill_raw;
-
+          if(current_days <= 0){
             var addons = addons_amount;
+            var current_bill_raw = parseInt(length_stay) * bill;
+            var current_bill = current_bill_raw + parseInt(addons_amount);
+
+            
+
+
+                            var sql_update_guest = `update guest_table set current_stay = ?, current_bill = ?  where transaction_id2 = ?`;
+                  
+                          connection.query(sql_update_guest, [parseInt(current_days), current_bill, transaction_id2], (err, results_update)=>{
+                  
+                            var sql_update_front = `select * from guest_table where transaction_id2 = ?`;
+
+                            var sql_sum_addons = `select SUM(addons_amount) as SUMADDONS from addons_table where transaction_id2 = ?`
+
+                            connection.query(sql_sum_addons, [transaction_id2], (err, rows22)=>{
+
+                              connection.query(sql_update_front, [transaction_id2], (err3, results_update_front)=>{
+                  
+                                res.send({
+                                  current_status:results_update_front,
+                                  add_ons_sum:rows22 
+                                });
+                  
+                              });
+
+                            });
+                  
+                            
+                  
+                          });
           }
   
-          else if(parseInt(current_days) > 0){
-  
+          else if(current_days > 0){
+            var addons = addons_amount;
             var current_bill_raw = parseInt(current_days) * bill;
-            var current_bill = current_bill_raw;
-            var addons = addons_amount;
+            var current_bill = current_bill_raw + parseInt(addons_amount);
+            
+
+
+
+            
+                            var sql_update_guest = `update guest_table set current_stay = ?, current_bill = ?  where transaction_id2 = ?`;
+                  
+                          connection.query(sql_update_guest, [parseInt(current_days), current_bill, transaction_id2], (err, results_update)=>{
+                  
+                            var sql_update_front = `select * from guest_table where transaction_id2 = ?`;
+
+                            var sql_sum_addons = `select SUM(addons_amount) as SUMADDONS from addons_table where transaction_id2 = ?`
+
+                            connection.query(sql_sum_addons, [transaction_id2], (err, rows22)=>{
+
+                              connection.query(sql_update_front, [transaction_id2], (err3, results_update_front)=>{
+                  
+                                res.send({
+                                  current_status:results_update_front,
+                                  add_ons_sum:rows22 
+                                });
+                  
+                              });
+
+                            });
+                  
+                            
+                  
+                          });
   
           }
   
-          var sql_update_guest = `update guest_table set current_stay = ?, current_bill = ?  where transaction_id2 = ?`;
-  
-          connection.query(sql_update_guest, [parseInt(current_days), current_bill, transaction_id2], (err, results_update)=>{
-  
-            var sql_update_front = `select * from guest_table where transaction_id2 = ?`;
-
-            var sql_sum_addons = `select SUM(addons_amount) as SUMADDONS from addons_table where transaction_id2 = ?`
-
-            connection.query(sql_sum_addons, [transaction_id2], (err, rows22)=>{
-
-              connection.query(sql_update_front, [transaction_id2], (err3, results_update_front)=>{
-  
-                res.send({
-                  current_status:results_update_front,
-                  add_ons_sum:rows22 
-                });
-  
-              });
-
-            });
-  
-             
-  
-          });
+         
         });
 
       });
@@ -2160,6 +2204,11 @@ app.post("/InsertPackage", (req, res)=>{
     });
   
   });
+
+  
+
+  
+
 
 
    //___________________________________________UPDATE GUEST TABLE________________________________
@@ -2463,7 +2512,7 @@ app.post("/InsertPackage", (req, res)=>{
   
       console.log([adjustment_remarks, adjustment_amount, adjustment_type, transaction_text])
   
-      if (req.body.adjustment_type === "add"){
+      if (req.body.adjustment_type =="add"){
         var selectBill = `select * from guest_table where transaction_id2 = ?`;
   
         connection.query(selectBill, [transaction_text], (err, rows13)=>{
@@ -2482,7 +2531,7 @@ app.post("/InsertPackage", (req, res)=>{
   
       }
   
-      else if (req.body.adjustment_type === "minus"){
+      else if (req.body.adjustment_type == "minus"){
   
         var selectBill = `select * from guest_table where transaction_id2 = ?`;
   
