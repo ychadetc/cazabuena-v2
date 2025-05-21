@@ -2128,7 +2128,7 @@ app.post("/InsertPackage", (req, res)=>{
           if(current_days <= 0){
             var addons = addons_amount;
             var current_bill_raw = parseInt(length_stay) * bill;
-            var current_bill = current_bill_raw + parseInt(addons_amount);
+            var current_bill = current_bill_raw + addons_amount;
 
             
 
@@ -2162,7 +2162,7 @@ app.post("/InsertPackage", (req, res)=>{
           else if(current_days > 0){
             var addons = addons_amount;
             var current_bill_raw = parseInt(current_days) * bill;
-            var current_bill = current_bill_raw + parseInt(addons_amount);
+            var current_bill = current_bill_raw + addons_amount;
             
 
 
