@@ -579,9 +579,9 @@ app.post("/InsertPackage", (req, res)=>{
               
               
                         var sql_insert_book = `INSERT INTO guest_table (guest_id, check_in_datetime, check_out_datetime,
-                        no_pax, package, special_request, length_stay, guest_status, full_name, current_bill) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+                        no_pax, package, special_request, length_stay, guest_status, full_name, current_bill, rate_no) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
                           connection.query(sql_insert_book, [guest_id, check_in_datetime, check_out_datetime,
-                            no_pax, package, special_request, length_stay, guest_status, full_name, newCurrentBill], (err, results) => {
+                            no_pax, package, special_request, length_stay, guest_status, full_name, newCurrentBill, rate_no], (err, results) => {
                               if (err) {
                                   console.error(err);
                                   res.status(500).send('Error inserting data');
@@ -2074,7 +2074,7 @@ app.post("/InsertPackage", (req, res)=>{
     
     var date_now_over_stay_time = new Date().toLocaleTimeString([], {year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit'});
    
-    var millis_now = new Date(date_now_over_stay_time).getTime()
+    var millis_now = parseInt(new Date(date_now_over_stay_time).getTime());
   
     console.log("Millis of time now")
     console.log(millis_now);
@@ -2091,7 +2091,9 @@ app.post("/InsertPackage", (req, res)=>{
 
       //get the guest table dpeneding on transaction id
   
-      var sql_select_guest_table = `select guest_table.* , packages.package_rate from guest_table inner join packages on packages.package_code = guest_table.package
+      var sql_select_guest_table = `select guest_table.* , rate_type.rate_percent, packages.package_rate from guest_table 
+                                     inner join packages on packages.package_code = guest_table.package
+                                     inner join rate_type on guest_table.rate_no = rate_type.rate_no
                                      where transaction_id2 = ?`;
 
 
@@ -2105,7 +2107,10 @@ app.post("/InsertPackage", (req, res)=>{
   
           var check_in_datetime = results_transactionid[0].check_in_datetime;
           var length_stay = results_transactionid[0].length_stay;
-          var bill = results_transactionid[0].package_rate;
+          var rate_percent = results_transactionid[0].rate_percent;
+          var bill2 = parseInt(results_transactionid[0].package_rate) * rate_percent;
+          var bill = parseInt(results_transactionid[0].package_rate) + bill2;
+          
           var addons_amount = rows20[0].totalAddonsTable;
           
   
@@ -2116,9 +2121,9 @@ app.post("/InsertPackage", (req, res)=>{
           console.log(check_in_datetime);
   
           //var current_stay  = new_check_in_datetime - millis_now;
-          var current_stay  = millis_now - check_in_datetime;
+          var current_stay  = millis_now - parseInt(check_in_datetime);
   
-          var current_days = parseInt(Math.round(current_stay/(1000*60*60*24)))
+          var current_days = parseInt(current_stay/(1000*60*60*24))
   
           console.log(current_days);
           console.log(typeof(current_days))

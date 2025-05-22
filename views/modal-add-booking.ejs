@@ -28,8 +28,9 @@
             <section class="text-field row"><span>Package Price: </span><input type="text" id="txtPrice" class="textbox" disabled></section>
             <section class="text-field row"><span>No. of Pax</span><input type="number" id="txtNoPax" class="textbox" onkeyup="checkInputNumber(this.value)"></section>
             <section class="text-field row"><span>Select package</span>
-                <select id="txtPackage" class="textbox" onchange="checkInputSelect(this.value)">
-                    <option value="" disabled hidden selected></option>
+                <select id="txtPackage" class="textbox" onchange="checkInputSelect(this.value)" onfocus="this.selectedIndex = -1">
+                  <!--<select id="txtPackage" class="textbox">-->
+                    <option value=""></option>
                     <!--<option value="44373">Couple</option>
                     <option value="44386">Suite</option>-->
                 </select>
@@ -221,6 +222,10 @@ function checkInputSelect(package_code){
   });
 
 }
+
+
+
+
 
 
 function checkInputRate(rate_no){
