@@ -446,7 +446,7 @@ app.get('/packages', (req, res) => {
 
 app.get("/GuestTable", (req, res)=>{
     
-  var query = `SELECT * FROM guest_table`;
+  var query = `SELECT * FROM guest_table where guest_status != "CHECKED_OUT"`;
 
   connection.query(query,(err, results)=>{
 
@@ -479,7 +479,7 @@ app.get('/checkedOut', (req, res)=>{
 
 
 
-app.post("/InsertPackage", (req, res)=>{
+/*app.post("/InsertPackage", (req, res)=>{
 
   //var stringed_combination_form = JSON.parse(combinedJson["parseForm"]);
   
@@ -513,7 +513,44 @@ app.post("/InsertPackage", (req, res)=>{
           }
      });
   
-  });
+  });*/
+
+
+  app.post("/InsertPackage", async (req, res) => {
+  try {
+    const {
+      package_name, no_of_person, room_id, location,
+      no_of_rooms, package_code, package_rate, package_status, accom_type
+    } = req.body;
+
+    console.log([
+      package_code, package_name, no_of_person,
+      room_id, location, no_of_rooms, package_rate,
+      package_status, accom_type
+    ]);
+
+    const sqlInsert = `
+      INSERT INTO packages 
+      (package_code2, package_name, no_of_person, room_id, location, no_of_rooms, package_rate, package_status, accom_type)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+
+    await queryAsync(sqlInsert, [
+      package_code, package_name, no_of_person,
+      room_id, location, no_of_rooms, package_rate,
+      package_status, accom_type
+    ]);
+
+    console.log('Package inserted successfully!');
+    res.send({ message: "Package inserted successfully" });
+  } catch (error) {
+    console.error("Error in InsertPackage:", error);
+    res.status(500).send({ message: 'Server error' });
+  }
+});
+
+
+
 
 
 app.post("/InsertBooking", async (req, res) => {
