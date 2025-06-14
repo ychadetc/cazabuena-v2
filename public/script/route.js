@@ -362,8 +362,85 @@ $(document).ready(function(){
     $(document).on('click', '#t-b-billing tr td .btnOpenBillingModal', function () {
 
         var transaction_id2 = $(this).val();
+        console.log(transaction_id2)
+        var rawData = {"transaction_id2":transaction_id2}
+        console.log(rawData);
+        const transactionIdJSON = JSON.stringify(rawData);
         $('#loading').css('display', 'flex');
+
+           //____________________________LOAD MODAL__________________________________
+
+                $.ajax({
+                        url: '/modal-billing',
+                        method: 'GET',
+                        success: function(data){
+                            $('#modal-handler').css('display', 'flex');
+                            $('#modal-handler').hide().html(data).fadeIn(100);
+                            $("#transaction_text").val(transaction_id2);
+                            $('#loading').hide();
+                        },
+                        error: function(){
+                            console.error(err);
+                            $('#loading').hide();
+                        }
+                    });
+                 //____________________________LOAD MODAL__________________________________
+
+
+         
         $.ajax({
+            url:"http://localhost:3000/viewAddons",
+            type: "POST",
+            data: transactionIdJSON,
+            contentType:"application/json",
+            success:function(data2){
+
+             
+               
+                
+                
+                const transactions = [];
+                
+                const jsonData = data2.addons;
+                
+                $.each(jsonData, function(index, tr) {
+                        transactions.push(tr);
+                    });
+
+
+                for (var x = 0; x < transactions.length; x++) {
+                    
+                    const addons_description = transactions[x].addons_description;
+                    const addons_amount = transactions[x].addons_amount;
+                    const addons_remarks = transactions[x].addons_remarks;
+                    const time_encoding = transactions[x].time_encoding;
+
+                    console.log(addons_amount)
+
+                    const addOnsData = `
+                            <tr>
+                                <td>${addons_description}</td>
+                                <td>${addons_amount}</td>
+                                <td>${addons_remarks}</td>
+                                <td>${time_encoding}</td>
+                            </tr>
+                         `;
+
+                    $('#addonsBody').append(addOnsData);
+                    
+                    
+                }
+
+            },
+            error:function(xhr, status, error){
+                alert(error)
+            }
+
+
+
+            
+        })
+       /* $.ajax({
             url: '/modal-billing',
             method: 'GET',
             success: function(data){
@@ -376,7 +453,7 @@ $(document).ready(function(){
                 console.error(err);
                 $('#loading').hide();
             }
-        });
+        });*/
     });
     
 

@@ -415,7 +415,7 @@ app.get("/roomList", (req, res)=>{
 
 
 
-app.get("/GuestOption", (req, res)=>{
+/*app.get("/GuestOption", (req, res)=>{
     
   var query = 'SELECT * FROM personal_details_table';
 
@@ -429,18 +429,39 @@ app.get("/GuestOption", (req, res)=>{
 
   });
 
-});
+});*/
 
+app.get("/GuestOption", async (req, res)=>{
+  try{
+    
+    const query = 'SELECT * FROM personal_details_table';
+    const results = await queryAsync(query)
+    res.send({guest:results});
 
-app.get('/packages', (req, res) => {
-  var query = 'SELECT * FROM packages where package_status = ?';
-  connection.query(query, ["active"],(err, results) => {
-    if (err) {
-      console.error('error running query:', err);
-      return;
-    }
-    res.send({package:results});
+  }
+
+  catch(err){
+    console.error('Error running query:', err);
+    res.status(500).send('Database query failed');
+
+  }
+    
+  
+
   });
+
+
+
+
+
+app.get('/packages', async (req, res) => {
+  try {
+    const results = await queryAsync('SELECT * FROM packages WHERE package_status = ?', ['active']);
+    res.send({ package: results });
+  } catch (err) {
+    console.error('Error running query:', err);
+    res.status(500).send('Database query failed');
+  }
 });
 
 
@@ -549,6 +570,26 @@ app.get('/checkedOut', (req, res)=>{
   }
 });
 
+app.post("/viewAddons", (req, res)=>{
+
+    const transaction_id3 = req.body.transaction_id2;
+    console.log(transaction_id3);
+
+    const queryAddons = `select * from addons_table where transaction_id2 = ?`;
+
+
+    connection.query(queryAddons,[transaction_id3],(err, results)=>{
+
+    if (err) {
+      console.error('error running query:', err);
+      return;
+    }
+      res.send({addons:results});
+
+  });
+
+});
+
 
 
 
@@ -625,12 +666,493 @@ async function updateRoomsAndPackages(accom_type, packageRow, status, checkIn, c
 }
 
 
+//______________________________Refactored Guest Updat____________________________
 
+app.post("/UpdateGuestTable", async (req, res)=>{
+  
+  const { transaction_id2, guest_status } = req.body;
+
+  //cleaning
+
+        if (guest_status === "CLEANING") {
+          try {
+            // 1. Update guest_table status
+            await queryAsync(
+              'UPDATE guest_table SET guest_status = ? WHERE transaction_id2 = ?',
+              [guest_status, transaction_id2]
+            );
+
+            // 2. Get the package code from guest_table
+            const [guest] = await queryAsync(
+              'SELECT * FROM guest_table WHERE transaction_id2 = ?',
+              [transaction_id2]
+            );
+            const package_code = guest.package;
+
+            // 3. Get the accommodation type from packages
+            const [packageData] = await queryAsync(
+              'SELECT * FROM packages WHERE package_code = ?',
+              [package_code]
+            );
+            const accom_type = packageData.accom_type;
+
+            let package_code_to_use;
+            let roomRows;
+
+            if (accom_type === "villa") {
+              package_code_to_use = packageData.package_code2;
+
+              roomRows = await queryAsync(
+                'SELECT room_id FROM packages WHERE package_code2 = ?',
+                [package_code_to_use]
+              );
+            } else if (accom_type === "room") {
+              package_code_to_use = packageData.package_code;
+
+              roomRows = await queryAsync(
+                'SELECT room_id FROM packages WHERE package_code = ?',
+                [package_code_to_use]
+              );
+            }
+
+            // 4. Update room status to 'cleaning'
+            for (const row of roomRows) {
+              await queryAsync(
+                'UPDATE rooms SET room_status = ? WHERE room_name = ?',
+                ['cleaning', row.room_id]
+              );
+            }
+
+            // 5. Update packages where rooms are now 'cleaning'
+            const inactiveRooms = await queryAsync(
+              'SELECT room_name FROM rooms WHERE room_status = ?',
+              ['cleaning']
+            );
+
+            for (const room of inactiveRooms) {
+              await queryAsync(
+                'UPDATE packages SET package_status = ? WHERE room_id = ?',
+                ['inactive', room.room_name]
+              );
+            }
+
+            // 6. Re-update villa packages that are inactive
+            const inactiveVillas = await queryAsync(
+              'SELECT * FROM packages WHERE package_status = ? AND accom_type = ?',
+              ['inactive', 'villa']
+            );
+
+            for (const villa of inactiveVillas) {
+              await queryAsync(
+                'UPDATE packages SET package_status = ? WHERE package_code2 = ?',
+                ['inactive', villa.package_code2]
+              );
+            }
+
+            console.log("All updates complete.");
+          } catch (err) {
+            console.error("Error in CLEANING logic:", err);
+          }
+      }
+
+
+      //cleaning]\
+
+
+
+      //cancelled
+
+
+      else if (guest_status === "CANCELLED") {
+            try {
+              // 1. Update guest_table status
+              await queryAsync(
+                'UPDATE guest_table SET guest_status = ? WHERE transaction_id2 = ?',
+                [guest_status, transaction_id2]
+              );
+
+              // 2. Get the package code from guest_table
+              const [guest] = await queryAsync(
+                'SELECT * FROM guest_table WHERE transaction_id2 = ?',
+                [transaction_id2]
+              );
+              const package_code = guest.package;
+
+              // 3. Get accommodation type from packages
+              const [packageData] = await queryAsync(
+                'SELECT * FROM packages WHERE package_code = ?',
+                [package_code]
+              );
+              const accom_type = packageData.accom_type;
+
+              let package_code_to_use;
+              let roomRows;
+
+              if (accom_type === "villa") {
+                package_code_to_use = packageData.package_code2;
+
+                roomRows = await queryAsync(
+                  'SELECT room_id FROM packages WHERE package_code2 = ?',
+                  [package_code_to_use]
+                );
+              } else if (accom_type === "room") {
+                package_code_to_use = packageData.package_code;
+
+                roomRows = await queryAsync(
+                  'SELECT room_id FROM packages WHERE package_code = ?',
+                  [package_code_to_use]
+                );
+              }
+
+              // 4. Update room status to 'active'
+              for (const row of roomRows) {
+                await queryAsync(
+                  'UPDATE rooms SET room_status = ? WHERE room_name = ?',
+                  ['active', row.room_id]
+                );
+              }
+
+              // 5. Update package status to 'active' where the rooms are active
+              const activeRooms = await queryAsync(
+                'SELECT room_name FROM rooms WHERE room_status = ?',
+                ['active']
+              );
+
+              for (const room of activeRooms) {
+                await queryAsync(
+                  'UPDATE packages SET package_status = ? WHERE room_id = ?',
+                  ['active', room.room_name]
+                );
+              }
+
+              // 6. Re-update active villa packages
+              const activeVillas = await queryAsync(
+                'SELECT * FROM packages WHERE package_status = ? AND accom_type = ?',
+                ['active', 'villa']
+              );
+
+              for (const villa of activeVillas) {
+                await queryAsync(
+                  'UPDATE packages SET package_status = ? WHERE package_code2 = ?',
+                  ['active', villa.package_code2]
+                );
+              }
+
+              console.log("CANCELLATION handling completed.");
+            } catch (err) {
+              console.error("Error in CANCELLED logic:", err);
+            }
+}
+
+
+ //cancelled
+
+
+
+ //checkedout
+
+
+
+else if (guest_status === "CHECKED_OUT") {
+  try {
+    // 1. Update guest_table status
+    await queryAsync(
+      'UPDATE guest_table SET guest_status = ? WHERE transaction_id2 = ?',
+      [guest_status, transaction_id2]
+    );
+
+    // 2. Get the guest's package
+    const [guest] = await queryAsync(
+      'SELECT * FROM guest_table WHERE transaction_id2 = ?',
+      [transaction_id2]
+    );
+    const package_code = guest.package;
+    const guest_id = guest.guest_id;
+    const current_bill = guest.current_bill;
+
+    // 3. Get package/accommodation type
+    const [packageData] = await queryAsync(
+      'SELECT * FROM packages WHERE package_code = ?',
+      [package_code]
+    );
+    const accom_type = packageData.accom_type;
+
+    let package_code_to_use;
+    let roomRows;
+
+    if (accom_type === "villa") {
+      package_code_to_use = packageData.package_code2;
+
+      roomRows = await queryAsync(
+        'SELECT room_id FROM packages WHERE package_code2 = ?',
+        [package_code_to_use]
+      );
+    } else if (accom_type === "room") {
+      package_code_to_use = packageData.package_code;
+
+      roomRows = await queryAsync(
+        'SELECT room_id FROM packages WHERE package_code = ?',
+        [package_code_to_use]
+      );
+    }
+
+    // 4. Update rooms to active
+    for (const row of roomRows) {
+      await queryAsync(
+        'UPDATE rooms SET room_status = ? WHERE room_name = ?',
+        ['active', row.room_id]
+      );
+    }
+
+    // 5. Update packages based on active rooms
+    const activeRooms = await queryAsync(
+      'SELECT room_name FROM rooms WHERE room_status = ?',
+      ['active']
+    );
+
+    for (const room of activeRooms) {
+      await queryAsync(
+        'UPDATE packages SET package_status = ? WHERE room_id = ?',
+        ['active', room.room_name]
+      );
+    }
+
+    // 6. Re-update villa packages
+    const activeVillas = await queryAsync(
+      'SELECT * FROM packages WHERE package_status = ? AND accom_type = ?',
+      ['active', 'villa']
+    );
+
+    for (const villa of activeVillas) {
+      await queryAsync(
+        'UPDATE packages SET package_status = ? WHERE package_code2 = ?',
+        ['active', villa.package_code2]
+      );
+    }
+
+    // 7. Insert billing info
+    await queryAsync(
+      'INSERT INTO billing_table (transaction_id2, guest_id, bill) VALUES (?, ?, ?)',
+      [transaction_id2, guest_id, current_bill]
+    );
+
+    console.log("CHECKED_OUT process completed.");
+  } catch (err) {
+    console.error("Error in CHECKED_OUT logic:", err);
+  }
+}
+
+
+
+ //checkedout
+
+
+ //checked in
+
+ else if (guest_status === "CHECKED_IN") {
+  try {
+    // 1. Update guest status
+    await queryAsync(
+      'UPDATE guest_table SET guest_status = ? WHERE transaction_id2 = ?',
+      [guest_status, transaction_id2]
+    );
+
+    // 2. Get guest's package
+    const [guest] = await queryAsync(
+      'SELECT * FROM guest_table WHERE transaction_id2 = ?',
+      [transaction_id2]
+    );
+    const package_code = guest.package;
+
+    // 3. Get accommodation type
+    const [packageData] = await queryAsync(
+      'SELECT * FROM packages WHERE package_code = ?',
+      [package_code]
+    );
+    const accom_type = packageData.accom_type;
+
+    let roomRows;
+    let package_code_to_use;
+
+    if (accom_type === "villa") {
+      package_code_to_use = packageData.package_code2;
+
+      roomRows = await queryAsync(
+        'SELECT room_id FROM packages WHERE package_code2 = ?',
+        [package_code_to_use]
+      );
+    } else if (accom_type === "room") {
+      package_code_to_use = packageData.package_code;
+
+      roomRows = await queryAsync(
+        'SELECT room_id FROM packages WHERE package_code = ?',
+        [package_code_to_use]
+      );
+    }
+
+    // 4. Set rooms to "occupied"
+    for (const row of roomRows) {
+      await queryAsync(
+        'UPDATE rooms SET room_status = ? WHERE room_name = ?',
+        ['occupied', row.room_id]
+      );
+    }
+
+    // 5. Set packages to "inactive" for all occupied rooms
+    const occupiedRooms = await queryAsync(
+      'SELECT room_name FROM rooms WHERE room_status = ?',
+      ['occupied']
+    );
+
+    for (const room of occupiedRooms) {
+      await queryAsync(
+        'UPDATE packages SET package_status = ? WHERE room_id = ?',
+        ['inactive', room.room_name]
+      );
+    }
+
+    // 6. Update villa packages again if any match
+    const inactiveVillas = await queryAsync(
+      'SELECT * FROM packages WHERE package_status = ? AND accom_type = ?',
+      ['inactive', 'villa']
+    );
+
+    for (const villa of inactiveVillas) {
+      await queryAsync(
+        'UPDATE packages SET package_status = ? WHERE package_code2 = ?',
+        ['inactive', villa.package_code2]
+      );
+    }
+
+    console.log("CHECKED_IN process completed.");
+  } catch (err) {
+    console.error("Error in CHECKED_IN logic:", err);
+  }
+}
+
+
+
+ //checked in
+
+
+ //confirmed
+
+ else if (guest_status === "CONFIRMED") {
+  try {
+    // 1. Update guest status
+    await queryAsync(
+      'UPDATE guest_table SET guest_status = ? WHERE transaction_id2 = ?',
+      [guest_status, transaction_id2]
+    );
+
+    // 2. Get guest's package
+    const [guest] = await queryAsync(
+      'SELECT * FROM guest_table WHERE transaction_id2 = ?',
+      [transaction_id2]
+    );
+    const package_code = guest.package;
+
+    // 3. Get accommodation type
+    const [packageData] = await queryAsync(
+      'SELECT * FROM packages WHERE package_code = ?',
+      [package_code]
+    );
+    const accom_type = packageData.accom_type;
+
+    let roomRows;
+    let package_code_to_use;
+
+    if (accom_type === "villa") {
+      package_code_to_use = packageData.package_code2;
+
+      roomRows = await queryAsync(
+        'SELECT room_id FROM packages WHERE package_code2 = ?',
+        [package_code_to_use]
+      );
+    } else if (accom_type === "room") {
+      package_code_to_use = packageData.package_code;
+
+      roomRows = await queryAsync(
+        'SELECT room_id FROM packages WHERE package_code = ?',
+        [package_code_to_use]
+      );
+    }
+
+    // 4. Set rooms to "confirmed"
+    for (const row of roomRows) {
+      await queryAsync(
+        'UPDATE rooms SET room_status = ? WHERE room_name = ?',
+        ['confirmed', row.room_id]
+      );
+    }
+
+    // 5. Update packages to "inactive" if any rooms are "occupied"
+    const occupiedRooms = await queryAsync(
+      'SELECT room_name FROM rooms WHERE room_status = ?',
+      ['occupied']
+    );
+
+    for (const room of occupiedRooms) {
+      await queryAsync(
+        'UPDATE packages SET package_status = ? WHERE room_id = ?',
+        ['inactive', room.room_name]
+      );
+    }
+
+    // 6. Reupdate villa packages if needed
+    const inactiveVillas = await queryAsync(
+      'SELECT * FROM packages WHERE package_status = ? AND accom_type = ?',
+      ['inactive', 'villa']
+    );
+
+    for (const villa of inactiveVillas) {
+      await queryAsync(
+        'UPDATE packages SET package_status = ? WHERE package_code2 = ?',
+        ['inactive', villa.package_code2]
+      );
+    }
+
+    console.log("CONFIRMED process completed.");
+  } catch (err) {
+    console.error("Error in CONFIRMED logic:", err);
+  }
+}
+
+
+
+ //confirmed
+
+
+
+
+ else if (guest_status === "CHECKED_IN" || guest_status === "PENDING") {
+  const sql = `UPDATE guest_table SET guest_status = ? WHERE transaction_id2 = ?`;
+
+  connection.query(sql, [guest_status, transaction_id2], (err, results) => {
+    if (err) {
+      console.error("Error updating guest status:", err);
+      return res.status(500).send({ error: "Failed to update guest status" });
+    }
+
+    res.send({ message: "Guest Updated" });
+  });
+}
+
+
+
+
+
+
+
+   
+
+
+})
 
 
   //__________________________________________GUEST UPDATE____________________________________________
 
-  app.post("/UpdateGuestTable", (req, res)=>{
+  /*app.post("/UpdateGuestTable", (req, res)=>{
 
     var transaction_id2 = req.body.transaction_id2;
     var guest_status = req.body.guest_status;
@@ -1667,7 +2189,7 @@ async function updateRoomsAndPackages(accom_type, packageRow, status, checkIn, c
 
         res.send({message:"Guest Updated"})
   
-  });
+  });*/
 
 
 
