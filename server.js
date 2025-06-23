@@ -500,43 +500,6 @@ app.get('/checkedOut', (req, res)=>{
 
 
 
-/*app.post("/InsertPackage", (req, res)=>{
-
-  //var stringed_combination_form = JSON.parse(combinedJson["parseForm"]);
-  
-  var package_name = req.body.package_name;
-  var no_of_person = req.body.no_of_person;
-  var room_id = req.body.room_id;
-  var location = req.body.location;
-  var no_of_rooms = req.body.no_of_rooms;
-  var package_code = req.body.package_code;
-  var package_rate = req.body.package_rate;
-  var package_status = req.body.package_status;
-  var accom_type = req.body.accom_type;
-
-  console.log([package_code,package_name,no_of_person,room_id,location,no_of_rooms,package_rate, package_status, accom_type])
-  
-  
-  console.log(room_id);
-  
-  var sql_insert = `
-    insert into packages (package_code2, package_name, no_of_person, room_id, location, no_of_rooms, package_rate, package_status, accom_type)
-    values (?, ?, ?, ?, ?, ?, ?, ?, ?)
-  `;
-  
-     connection.query(sql_insert,[package_code,package_name,no_of_person,room_id,location,no_of_rooms,package_rate, package_status, accom_type],(err, rows, fields)=>{
-          if (err) {
-              console.error(err);
-              res.status(500).send({ message: 'Failed to create package' });
-          } else {
-              console.log('Package inserted successfully!');
-              res.send({message:"Package inserted successfully"});
-          }
-     });
-  
-  });*/
-
-
   app.post("/InsertPackage", async (req, res) => {
   try {
     const {
@@ -2633,6 +2596,20 @@ else if (guest_status === "CHECKED_OUT") {
     var adjustment_remarks = req.body.adjustment_remarks;
     var adjustment_type = req.body.adjustment_type;
     var transaction_text = req.body.transaction_text;
+
+    var insertAH = `insert into adjustment_history (adjustment_amount, adjustment_remarks, adjustment_type, transaction_id) values(?,?,?,?)`;
+
+    connection.query(insertAH, [adjustment_amount, adjustment_remarks, adjustment_type, transaction_text], (err, rows28)=>{
+
+      if (err) {
+        console.error("Error inserting into adjustment_history:", err);
+        console.log({ message: "Insert into adjustment_history failed" });
+    }
+    console.log("Inserted in adjustment history");
+
+    });
+
+
 
     console.log([adjustment_remarks, adjustment_amount, adjustment_type, transaction_text])
 
