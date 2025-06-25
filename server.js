@@ -2740,6 +2740,27 @@ else if (guest_status === "CHECKED_OUT") {
   //_________________BILLING ADDONS___________________________________
 
 
+  //__________________BILLING DISCOUNT_______________________________
+
+  app.post("/discount", (req, res)=>{
+
+    const discount_type = req.body.discount_type;
+    const discount_remarks = req.body.discount_remarks;
+    const discount_amount = 12
+
+    const insertDiscount = `insert into discount_history (discount_amount, discount_type, discount_remarks) values (?,?,?)`;
+
+    connection.query(insertDiscount, [discount_amount, discount_type, discount_remarks], (err, rows29)=>{
+
+      res.send({message:"Discount Inserted"})
+
+    });
+
+  });
+
+
+  //__________________BILLING DISCOUNT_______________________________
+
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });

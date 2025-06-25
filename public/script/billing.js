@@ -125,13 +125,51 @@ $(document).ready(function () {
                     break;
                 case 2:
                     // ditp yung ajax for discount
+                    
+                    const discount_data = {
+
+                        "discount_type":$("#discount_type").val(),
+                        "discount_remarks":$("#discount_remarks").val()
+
+                    }
+
+                    const jsonDiscount = JSON.stringify(discount_data);
+                    
                     $.ajax({
-                        url: '/discount',
+                        url: 'http://localhost:3000/discount',
                         method: 'POST',
-                        data: '',
-                        success: function(){
-                            //dito lalagay yung when then when then sa taas
-                        }
+                        data: jsonDiscount,
+                        contentType:'application/json',
+                        success: function(data){
+                               // _______________Palagay sa success ajax__________________
+                                                $.when(
+                                                    $('.modal-confirm-billing-changes').fadeOut(100)
+                                                ).then(function(){
+                                                    $('.modal-success-billing-changes').css('display', 'flex').hide();
+                                                $('.modal-success-billing-changes #billing-success-message').text(modShifter === 1 ? 'Added successfully!' : modShifter === 2 ? 'Discount submitted successfully' : 'Adjustment saved successfully')
+                                                    $('.modal-success-billing-changes').fadeIn(100)
+                                                    setTimeout(function(){
+                                                        $('.modal-success-billing-changes').fadeOut();
+                                                    }, 2000)
+                                                    
+                                                });
+
+                                                $.when(
+                                                    setTimeout(function(){
+                                                        $('.modal-success-billing-changes').fadeOut();
+                                                    }, 2000)
+                                                ).then(function(){
+                                                setTimeout(function(){
+                                                        $('.btncontroller').fadeIn(100)
+                                                        $('.modal-billing-container').fadeIn(100)
+                                                }, 2500);
+                                                })
+                                                // _______________Palagay sa success ajax END________________
+                        },
+
+                        error:function(xhr, err){
+                                alert(err)
+                            }
                     });
                     break;
                 case 3:
