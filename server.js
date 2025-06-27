@@ -2746,16 +2746,41 @@ else if (guest_status === "CHECKED_OUT") {
 
     const discount_type = req.body.discount_type;
     const discount_remarks = req.body.discount_remarks;
-    const discount_amount = 12
+    const discount_amount = .12;
+    const transaction_id2 = req.body.transaction_id2;
 
-    const insertDiscount = `insert into discount_history (discount_amount, discount_type, discount_remarks) values (?,?,?)`;
+    const insertDiscount = `insert into discount_history (discount_amount, discount_type, discount_remarks, transaction_id2) values (?,?,?,?)`;
 
-    connection.query(insertDiscount, [discount_amount, discount_type, discount_remarks], (err, rows29)=>{
+    connection.query(insertDiscount, [discount_amount, discount_type, discount_remarks, transaction_id2], (err, rows29)=>{
 
       res.send({message:"Discount Inserted"})
 
     });
 
+    const selectBillingTableBill = `select bill from billing_table where transaction_id2 = ?`
+
+    connection.query(selectBillingTableBill, [transaction_id2], (err, rows31)=>{
+       
+     const currentBill =  rows31[0].bill;
+     const newBillWithDiscount = currentBill-(currentBill * discount_amount);
+
+          //________UPDATE BILL________________
+
+        const sqlUpdateBillingDiscount = `update billing_table set bill = ? where transaction_id2 = ?`;
+
+        connection.query(sqlUpdateBillingDiscount, [newBillWithDiscount, transaction_id2], (err, rows30)=>{
+
+        });
+
+
+
+        //________UPDATE BILL________________
+
+
+
+    });
+
+   
   });
 
 

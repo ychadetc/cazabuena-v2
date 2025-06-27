@@ -125,8 +125,11 @@
 
         </section>
         <section class="discounts-row">
+
+            <input type="hidden" id="transaction_number">
             
             <select class="discounts-textbox" id="discount_type">
+                
                 <option value="" selected hidden>Select discount--</option>
                 <option value="senior">Senior</option>
                 <option value="pwd">PWD</option>
@@ -174,7 +177,7 @@
             </tbody>
           </table>
         <section class="adjustment-row">
-            <input type="hidden" id="transaction_text">
+            <input type="text" id="transaction_text">
             <input type="number" name="" id="adjustment_amount" class="adjustment-textbox" placeholder="Amount...">
             <select class="adjustment-textbox" id="adjustment_type">
                 <option value="" selected hidden>Selecta--</option>

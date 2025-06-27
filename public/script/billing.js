@@ -129,7 +129,8 @@ $(document).ready(function () {
                     const discount_data = {
 
                         "discount_type":$("#discount_type").val(),
-                        "discount_remarks":$("#discount_remarks").val()
+                        "discount_remarks":$("#discount_remarks").val(),
+                        "transaction_id2":$("#transaction_number").val()
 
                     }
 

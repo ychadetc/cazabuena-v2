@@ -377,6 +377,7 @@ $(document).ready(function(){
                             $('#modal-handler').css('display', 'flex');
                             $('#modal-handler').hide().html(data).fadeIn(100);
                             $("#transaction_text").val(transaction_id2);
+                            $("#transaction_number").val(transaction_id2);
                             $('#loading').hide();
                         },
                         error: function(){
