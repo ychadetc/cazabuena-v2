@@ -86,13 +86,13 @@
         <table>
             <thead>
               <tr>
-                <th>Add ons</th>
-                <th>Amount</th>
-                <th>Remarks</th>
-                <th>Date</th>
+                <th>Discount Type</th>
+                <th>Discount Value</th>
+                <th>Transaction ID</th>
+                <th>Time Encoding</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody id="discountBody">
                 <!--<tr>
                     <td>Test</td>
                     <td>₱50,000</td>
@@ -149,13 +149,13 @@
         <table>
             <thead>
               <tr>
-                <th>Add ons</th>
-                <th>Amount</th>
-                <th>Remarks</th>
-                <th>Date</th>
+                <th>Transaction ID</th>
+                <th>Adjustment Type</th>
+                <th>Adjusment Amount</th>
+                <th>Adjustment Remarks</th>
               </tr>
             </thead>
-            <tbody id=>
+            <tbody id="adjustmentBody">
                <!-- <tr>
                     <td>Test</td>
                     <td>₱50,000</td>
@@ -177,7 +177,7 @@
             </tbody>
           </table>
         <section class="adjustment-row">
-            <input type="text" id="transaction_text">
+            <input type="hidden" id="transaction_text">
             <input type="number" name="" id="adjustment_amount" class="adjustment-textbox" placeholder="Amount...">
             <select class="adjustment-textbox" id="adjustment_type">
                 <option value="" selected hidden>Selecta--</option>

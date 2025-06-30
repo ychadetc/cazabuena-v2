@@ -553,6 +553,44 @@ app.post("/viewAddons", (req, res)=>{
 
 });
 
+app.post("/viewDiscount", (req, res)=>{
+
+  const transaction_id2 = req.body.transaction_id2;
+  const queryDiscount = `select * from discount_history where transaction_id2 = ?`;
+
+  connection.query(queryDiscount, [transaction_id2], (err, rows31)=>{
+
+    if(err){
+      console.error('error in query: ', err);
+      return;
+    }
+
+    res.send({discounts:rows31});
+
+  });
+
+});
+
+
+app.post("/viewAdjustment", (req, res)=>{
+
+  const transaction_id2 = req.body.transaction_id2;
+
+  const queryAdjustment = `select * from adjustment_history where transaction_id = ?`;
+
+  connection.query(queryAdjustment, [transaction_id2], (err, rows33)=>{
+
+    if(err){
+      console.error('error in query: ', err);
+      return;
+    }
+
+    res.send({adjustments:rows33})
+
+  });
+
+});
+
 
 
 

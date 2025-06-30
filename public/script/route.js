@@ -441,20 +441,137 @@ $(document).ready(function(){
 
             
         })
-       /* $.ajax({
-            url: '/modal-billing',
-            method: 'GET',
-            success: function(data){
-                $('#modal-handler').css('display', 'flex');
-                $('#modal-handler').hide().html(data).fadeIn(100);
-                $("#transaction_text").val(transaction_id2);
-                $('#loading').hide();
+
+
+
+        //__________________________FOR LOADING TABLE OF DISCOUNT_____________________________
+
+
+
+        $.ajax({
+            url:"http://localhost:3000/viewDiscount",
+            type: "POST",
+            data: transactionIdJSON,
+            contentType:"application/json",
+            success:function(data3){
+
+             
+               
+                
+                
+                const transactions = [];
+                
+                const jsonData = data3.discounts;
+                
+                $.each(jsonData, function(index, tr) {
+                        transactions.push(tr);
+                    });
+
+
+                for (var x = 0; x < transactions.length; x++) {
+                    
+                    const discount_type = transactions[x].discount_type;
+                    const discount_amount = transactions[x].discount_amount;
+                    const transaction_id2 = transactions[x].transaction_id2;
+                    const time_encoding = transactions[x].time_encoding;
+
+                    console.log(addons_amount)
+
+                    const discountData = `
+                            <tr>
+                                <td>${discount_type}</td>
+                                <td>${discount_amount}</td>
+                                <td>${transaction_id2}</td>
+                                <td>${time_encoding}</td>
+                            </tr>
+                         `;
+
+                    $('#discountBody').append(discountData);
+                    
+                    
+                }
+
             },
-            error: function(){
-                console.error(err);
-                $('#loading').hide();
+            error:function(xhr, status, error){
+                alert(error)
             }
-        });*/
+
+
+
+            
+        })
+
+
+        
+
+
+        //__________________________FOR LOADING TABLE OF DISCOUNT_____________________________
+
+
+
+
+        //__________________________FOR LOADING TABLE OF ADJUSTMENT__________________________
+
+
+
+          $.ajax({
+            url:"http://localhost:3000/viewAdjustment",
+            type: "POST",
+            data: transactionIdJSON,
+            contentType:"application/json",
+            success:function(data3){
+
+             
+               
+                
+                
+                const transactions = [];
+                
+                const jsonData = data3.adjustments;
+                
+                $.each(jsonData, function(index, tr) {
+                        transactions.push(tr);
+                    });
+
+
+                for (var x = 0; x < transactions.length; x++) {
+                    
+                    const transaction_id = transactions[x].transaction_id;
+                    const adjustment_type = transactions[x].adjustment_type;
+                    const adjustment_amount = transactions[x].adjustment_amount;
+                    const adjustment_remarks = transactions[x].adjustment_remarks;
+
+                    console.log(addons_amount)
+
+                    const adjustmentData = `
+                            <tr>
+                                <td>${transaction_id}</td>
+                                <td>${adjustment_type}</td>
+                                <td>${adjustment_amount}</td>
+                                <td>${adjustment_remarks}</td>
+                            </tr>
+                         `;
+
+                    $('#adjustmentBody').append(adjustmentData);
+                    
+                    
+                }
+
+            },
+            error:function(xhr, status, error){
+                alert(error)
+            }
+
+
+
+            
+        })
+
+
+
+
+
+        //__________________________FOR LOADING TABLE OF ADJUSTMENT__________________________
     });
     
 
