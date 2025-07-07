@@ -6,7 +6,7 @@
     </div>
     <div class="a-r-content">
         <div class="analytics-content ar-sub-con">
-
+            <canvas id="userPieChart" width="400" height="400"></canvas>
         </div>
         <div class="reports-content ar-sub-con">
 
@@ -21,3 +21,58 @@
         </div>
     </div> -->
 </div>
+
+
+
+  <script>
+  let userPieChartInstance = null;
+
+  function initUserPieChart() {
+    const canvas = document.getElementById('userPieChart');
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+
+    // Destroy existing chart
+    if (userPieChartInstance) {
+      userPieChartInstance.destroy();
+    }
+
+    userPieChartInstance = new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: ['Users A', 'Users B', 'Users C'],
+        datasets: [{
+          label: 'User Distribution',
+          data: [30, 45, 25],
+          backgroundColor: [
+            'rgba(75, 192, 192, 0.7)',
+            'rgba(255, 159, 64, 0.7)',
+            'rgba(153, 102, 255, 0.7)'
+          ],
+          borderColor: [
+            'rgba(75, 192, 192, 1)',
+            'rgba(255, 159, 64, 1)',
+            'rgba(153, 102, 255, 1)'
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top'
+          },
+          title: {
+            display: true,
+            text: 'User Distribution Pie Chart'
+          }
+        }
+      }
+    });
+  }
+
+
+  initUserPieChart();
+</script>
