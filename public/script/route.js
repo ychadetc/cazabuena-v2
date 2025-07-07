@@ -388,6 +388,11 @@ $(document).ready(function(){
                  //____________________________LOAD MODAL__________________________________
 
 
+$(document).ready(function() {
+
+    //____________________________FOR LOADING ADDONS___________________________________
+
+
          
         $.ajax({
             url:"http://localhost:3000/viewAddons",
@@ -441,6 +446,9 @@ $(document).ready(function(){
 
             
         })
+
+
+        //____________________________FOR LOADING ADDONS___________________________________
 
 
 
@@ -568,7 +576,7 @@ $(document).ready(function(){
         })
 
 
-
+ });
 
 
         //__________________________FOR LOADING TABLE OF ADJUSTMENT__________________________
