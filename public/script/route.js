@@ -429,6 +429,7 @@ $(document).ready(function() {
                                 <td>${addons_amount}</td>
                                 <td>${addons_remarks}</td>
                                 <td>${time_encoding}</td>
+                                <td class = "deleteAddons">Delete</td>
                             </tr>
                          `;
 
@@ -491,6 +492,7 @@ $(document).ready(function() {
                                 <td>${discount_amount}</td>
                                 <td>${transaction_id2}</td>
                                 <td>${time_encoding}</td>
+                                <td class = "deleteDiscount">Delete</td>
                             </tr>
                          `;
 
@@ -557,6 +559,7 @@ $(document).ready(function() {
                                 <td>${adjustment_type}</td>
                                 <td>${adjustment_amount}</td>
                                 <td>${adjustment_remarks}</td>
+                                <td class = "deleteAdjust">Delete</td>
                             </tr>
                          `;
 
