@@ -1747,7 +1747,7 @@ else if (guest_status === "CHECKED_OUT") {
 
     const discount_type = req.body.discount_type;
     const discount_remarks = req.body.discount_remarks;
-    const discount_amount = .12;
+    const discount_amount = 1.00-.12; //100% - 12%
     const transaction_id2 = req.body.transaction_id2;
 
     const insertDiscount = `insert into discount_history (discount_amount, discount_type, discount_remarks, transaction_id2) values (?,?,?,?)`;
@@ -1763,7 +1763,11 @@ else if (guest_status === "CHECKED_OUT") {
     connection.query(selectBillingTableBill, [transaction_id2], (err, rows31)=>{
        
      const currentBill =  rows31[0].bill;
-     const newBillWithDiscount = currentBill-(currentBill * discount_amount);
+     const newBillWithDiscount = currentBill * discount_amount;
+
+     console.log("here is the new bill")
+
+     console.log(newBillWithDiscount);
 
           //________UPDATE BILL________________
 
@@ -1793,9 +1797,57 @@ else if (guest_status === "CHECKED_OUT") {
 
   app.post("/deleteAddons", (req, res)=>{
 
+    const addons_no = req.body.addons_no;
+
+    const deleteAddons = `delete from addons_table where addons_no = ?`;
+
+    connection.query(deleteAddons, [addons_no], (err, rows34)=>{
+      res.send({message:addons_no})
+    })
+
+
+
   });
 
   app.post("/deleteDiscount", (req, res)=>{
+
+    const discount_no = req.body.discount_no;
+
+    const sql_get_discount_percent = `select discount_amount, transaction_id2 from discount_history where discount_no = ?`;
+
+    connection.query(sql_get_discount_percent, [discount_no], (err, rows35)=>{
+
+      const percentDiscount = rows35[0].discount_amount;
+      const transaction_id2 = rows35[0].transaction_id2;
+
+      console.log(percentDiscount);
+
+      const sqlGetBill = `select bill from billing_table where transaction_id2 = ?`;
+
+      connection.query(sqlGetBill, [transaction_id2], (err, rows36)=>{
+
+        const bill = rows36[0].bill;
+        const newBillUpdated = bill/percentDiscount;
+
+        const sqlUpdateBillAgain = `update billing_table set bill = ? where transaction_id2 = ?`;
+
+        connection.query(sqlUpdateBillAgain, [newBillUpdated, transaction_id2], (err, rows37)=>{
+
+          const sqlDeleteDiscount = `delete from discount_history where discount_no = ?`;
+
+          connection.query(sqlDeleteDiscount, [discount_no], (err, rows38)=>{
+
+             res.send({message:transaction_id2});
+
+          })
+
+         
+
+        });
+
+      });
+
+    });
 
   });
 

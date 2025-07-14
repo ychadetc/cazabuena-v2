@@ -249,6 +249,77 @@ $(document).ready(function () {
 });
 
 
+$(document).on('click', '.deleteAddons', function () {
+
+  
+    const addons_no = $(this).val();
+    const addons_no_data = {"addons_no":addons_no};
+    const addons_no_json = JSON.stringify(addons_no_data);
+
+    $.ajax({
+        url:"http://localhost:3000/deleteAddons",
+        type:"POST",
+        data:addons_no_json,
+        contentType:'application/json',
+        success:function(data){
+
+            alert(data.message+" "+"Successfully deleted!")
+            
+        },
+
+        error:function(xhr, err){
+
+            alert(err);
+
+        }
+
+    })
+
+})
+
+
+$(document).on('click', '.deleteDiscount', function () {
+
+   
+    const discount_no = $(this).val();
+    const discount_no_data = {"discount_no":discount_no};
+    const discount_no_json = JSON.stringify(discount_no_data);
+
+    $.ajax({
+        url:"http://localhost:3000/deleteDiscount",
+        type:"POST",
+        data:discount_no_json,
+        contentType:'application/json',
+        success:function(data){
+
+            alert(data.message+" "+"Successfully updated!")
+            
+        },
+
+        error:function(xhr, err){
+            alert(err);
+
+        }
+
+    })
+
+})
+
+
+
+
+
+
+$(document).on('click', '.deleteAdjust', function () {
+
+    const adjustment_no = $(this).val();
+
+})
+
+
+
+
+
 function phase(controller) {
     switch (controller) {
         case 1:
