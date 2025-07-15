@@ -562,7 +562,7 @@ $(document).ready(function() {
                                 <td>${adjustment_type}</td>
                                 <td>${adjustment_amount}</td>
                                 <td>${adjustment_remarks}</td>
-                                <td><button class = "deleteAdjust" value="${adjustment_no}">Delete</td>
+                                <td><button class = "deleteAdjust" value="${adjustment_no}">Delete</button></td>
                             </tr>
                          `;
 

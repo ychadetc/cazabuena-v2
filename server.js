@@ -1854,6 +1854,58 @@ else if (guest_status === "CHECKED_OUT") {
 
   app.post("/deleteAdjustment", (req, res)=>{
 
+    const adjustment_no = req.body.adjustment_no;
+
+    const sqlRetrieveAdjustment = `select adjustment_amount, transaction_id, adjustment_type from adjustment_history where adjustment_no = ?`;
+
+    connection.query(sqlRetrieveAdjustment, [adjustment_no], (err, rows39)=>{
+
+      const adjustment_amount = rows39[0].adjustment_amount;
+      const adjustment_type = rows39[0].adjustment_type;
+      const transaction_id2 = rows39[0].transaction_id;
+
+      const sqlBilling = `select bill from billing_table where transaction_id2 = ?`;
+
+      connection.query(sqlBilling, [transaction_id2], (err, rows40)=>{
+
+        let updatedBill;
+
+        
+              if (adjustment_type === "add"){
+
+
+                updatedBill = rows40[0].bill - adjustment_amount;
+
+
+
+              }
+              
+
+              else if (adjustment_type === "minus"){
+
+                updatedBill = rows40[0].bill + adjustment_amount;
+
+              }
+
+          const updatedBillNow = `update billing_table set bill = ? where transaction_id2 = ?`;
+
+          connection.query(updatedBillNow, [updatedBill, transaction_id2], (err, rows41)=>{
+
+            const deleteAdjustmentHistory = `delete from adjustment_history where adjustment_no = ?`;
+
+            connection.query(deleteAdjustmentHistory, [adjustment_no], (err, rows43)=>{
+
+              res.send({message:transaction_id2});
+
+            });
+
+          });
+
+      })
+
+
+    });
+
   });
 
 

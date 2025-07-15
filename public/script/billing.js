@@ -313,6 +313,26 @@ $(document).on('click', '.deleteDiscount', function () {
 $(document).on('click', '.deleteAdjust', function () {
 
     const adjustment_no = $(this).val();
+    const adjustment_no_data = {"adjustment_no":adjustment_no};
+    const adjustment_no_json = JSON.stringify(adjustment_no_data);
+
+    $.ajax({
+        url:"http://localhost:3000/deleteAdjustment",
+        type:"POST",
+        data:adjustment_no_json,
+        contentType:'application/json',
+        success:function(data){
+
+            alert(data.message+" "+"Successfully updated!")
+            
+        },
+
+        error:function(xhr, err){
+            alert(err);
+
+        }
+
+    })
 
 })
 
