@@ -390,6 +390,11 @@ $(document).ready(function(){
 
 $(document).ready(function() {
 
+    //_________________________FOR LOADING BILLING DETAILS_____________________________
+
+
+    //_________________________FOR LOADING BILLING DETAILS_____________________________
+
     //____________________________FOR LOADING ADDONS___________________________________
 
 

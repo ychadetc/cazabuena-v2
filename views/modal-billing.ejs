@@ -3,23 +3,23 @@
     <section class="title"><span id="billing-modal-title">Details</span><button id="btnCloseModal" class="fas fa-times"></button></section>
     <div class="slideface billing-details">
         <section class="detail-row">
-            <div class="detail-lr detail-left"><span class="label">Guest:</span><input type="text" class="billingdTextField" readonly></span></div>
+            <div class="detail-lr detail-left"><span class="label">Guest:</span><input type="text" class="billingdTextField" id="guestID" readonly></span></div>
             <div class="detail-lr detail-right"><span class="label">Check-In:</span><input type="text" class="billingdTextField" readonly></div>
         </section>
 
         <section class="detail-row">
-            <div class="detail-lr detail-left"><span class="label">Guest ID:</span><input type="text" class="billingdTextField" readonly></span></div>
-            <div class="detail-lr detail-right"><span class="label">Check-Out:</span><input type="text" class="billingdTextField" readonly></div>
+            <div class="detail-lr detail-left"><span class="label">Guest ID:</span><input type="text" class="billingdTextField" id="guestIDID" readonly></span></div>
+            <div class="detail-lr detail-right"><span class="label">Check-Out:</span><input type="text" class="billingdTextField" id="checkoutID" readonly></div>
         </section>
 
         <section class="detail-row">
-            <div class="detail-lr detail-left"><span class="label">Transaction ID:</span><input type="text" class="billingdTextField" readonly></span></div>
+            <div class="detail-lr detail-left"><span class="label">Transaction ID:</span><input type="text" class="billingdTextField" id="transactionID" readonly></span></div>
             <div class="detail-lr detail-right"><span class="label">Length of stay:</span><input type="text" class="billingdTextField" readonly></span></div>
         </section>
 
         <section class="detail-row">
-            <div class="detail-lr detail-left"><span class="label">Package Availed:</span><input type="text" class="billingdTextField" readonly></div>
-            <div class="detail-lr detail-right"><span class="label">Current Bill:</span><input type="text" class="billingdTextField" readonly></div>
+            <div class="detail-lr detail-left"><span class="label">Package Availed:</span><input type="text" class="billingdTextField" id ="packagedAvailedID" readonly></div>
+            <div class="detail-lr detail-right"><span class="label">Current Bill:</span><input type="text" class="billingdTextField" id="currentbillID" readonly></div>
             <input type="hidden" id="package_selected">
             <input type="hidden" id="transaction_id3">
             <input type="hidden" id="package_name_val">
@@ -27,8 +27,8 @@
         </section>
 
         <section class="detail-row">
-            <div class="detail-lr detail-left"><span class="label">Guest Status:</span><input type="text" class="billingdTextField" readonly></span></div>
-            <div class="detail-lr detail-right"><span class="label">Current stay:</span><input type="text" class="billingdTextField" readonly></div>
+            <div class="detail-lr detail-left"><span class="label">Guest Status:</span><input type="text" class="billingdTextField" id="gueststatusID" readonly></span></div>
+            <div class="detail-lr detail-right"><span class="label">Current stay:</span><input type="text" class="billingdTextField" id="currentstayID" readonly></div>
         </section>
 
     </div>
@@ -47,33 +47,10 @@
               </tr>
             </thead>
             <tbody id = "addonsBody">
-               <!-- <tr>
-                    <td>Test</td>
-                    <td>₱50,000</td>
-                    <td>Nakkss</td>
-                    <td>4/11/2024 | 9:41AM</td>
-                </tr>
-                <tr>
-                    <td>Test</td>
-                    <td>₱50,000</td>
-                    <td>Nakkss</td>
-                    <td>4/11/2024 | 9:41AM</td>
-                </tr>
-                <tr>
-                    <td>Test</td>
-                    <td>₱50,000</td>
-                    <td>Nakkss</td>
-                    <td>4/11/2024 | 9:41AM</td>
-                </tr>-->
+ 
             </tbody>
           </table>
             <section class="add-ons-row">
-                
-                <!--<select class="add-ons-textbox" id="">
-                    <option value="" selected hidden>Select add on--</option>
-                    <option value="1">Guest</option>
-                    <option value="test">Test</option>
-                </select>-->
 
                 <input type="text" class="add-ons-textbox" id="addons_description" placeholder="Add-ons">
                 <input type="number" class="add-ons-textbox" id="addons_amount" placeholder="Addons Amount">
@@ -95,36 +72,12 @@
               </tr>
             </thead>
             <tbody id="discountBody">
-                <!--<tr>
-                    <td>Test</td>
-                    <td>₱50,000</td>
-                    <td>Nakkss</td>
-                    <td>4/11/2024 | 9:41AM</td>
-                </tr>
-                <tr>
-                    <td>Test</td>
-                    <td>₱50,000</td>
-                    <td>Nakkss</td>
-                    <td>4/11/2024 | 9:41AM</td>
-                </tr>
-                <tr>
-                    <td>Test</td>
-                    <td>₱50,000</td>
-                    <td>Nakkss</td>
-                    <td>4/11/2024 | 9:41AM</td>
-                </tr>-->
+
             </tbody>
           </table>
            
           <section class="discounts-row">
-           
-            <!--<select class="discounts-textbox" id="">
             
-            </select>-->
-
-            
-            
-
         </section>
         <section class="discounts-row">
 
@@ -159,24 +112,7 @@
               </tr>
             </thead>
             <tbody id="adjustmentBody">
-               <!-- <tr>
-                    <td>Test</td>
-                    <td>₱50,000</td>
-                    <td>Nakkss</td>
-                    <td>4/11/2024 | 9:41AM</td>
-                </tr>
-                <tr>
-                    <td>Test</td>
-                    <td>₱50,000</td>
-                    <td>Nakkss</td>
-                    <td>4/11/2024 | 9:41AM</td>
-                </tr>
-                <tr>
-                    <td>Test</td>
-                    <td>₱50,000</td>
-                    <td>Nakkss</td>
-                    <td>4/11/2024 | 9:41AM</td>
-                </tr>-->
+         
             </tbody>
           </table>
         <section class="adjustment-row">
