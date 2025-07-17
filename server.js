@@ -1913,6 +1913,38 @@ else if (guest_status === "CHECKED_OUT") {
 
   //______________________DELETE PWD, ADDONS AND ADJUSTMENTS___________________________
 
+
+
+  //________________________VIEWING OF BILLING DETAILS________________________________
+
+  app.post("/viewBillingDetails", (req, res)=>{
+
+    const transaction_id2 = req.body.transaction_id2;
+
+    const retBillingDetails = `select billing_table.*, guest_table.*, packages.package_name from billing_table 
+                                inner join guest_table on billing_table.transaction_id2 = guest_table.transaction_id2
+                                inner join packages on packages.package_code = guest_table.package`;
+
+    connection.query(retBillingDetails, [transaction_id2], (err, rows44)=>{
+
+      res.send({full_name:rows44[0].full_name, 
+                guest_id:rows44[0].guest_id, 
+                transaction_id2:rows44[0].transaction_id2,
+                guest_status:rows44[0].guest_status,
+                check_in_datetime:rows44[0].check_in_datetime,
+                check_out_datetime:rows44[0].check_out_datetime,
+                length_stay:rows44[0].length_stay,
+                current_bill:rows44[0].current_bill,
+                package_name:rows44[0].package_name
+               })
+
+    });
+
+  });
+
+
+  //________________________VIEWING OF BILLING DETAILS________________________________
+
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });

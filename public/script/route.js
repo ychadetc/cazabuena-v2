@@ -392,6 +392,33 @@ $(document).ready(function() {
 
     //_________________________FOR LOADING BILLING DETAILS_____________________________
 
+    $.ajax({
+        url:"http://localhost:3000/viewBillingDetails",
+        method:"POST",
+        data: transactionIdJSON,
+        contentType:"application/json",
+        success:function(data3){
+            $("#guestID").val(data3.full_name);
+            $("#guestIDID").val(data3.guest_id);
+            $("#transactionID").val(data3.transaction_id2);
+            $("#packagedAvailedID").val(data3.package_name);
+            $("#gueststatusID").val(data3.transaction_id2);
+            $("#checkinID").val(data3.check_in_datetime);
+            $("#checkoutID").val(data3.check_out_datetime);
+            $("#losID").val(data3.length_stay);
+            $("#currentbillID").val(data3.current_bill);
+
+            console.log(data3.guest_id);
+
+        },
+
+        error:function(xhr, status, error){
+
+            alert(error);
+
+        }
+    })
+
 
     //_________________________FOR LOADING BILLING DETAILS_____________________________
 
