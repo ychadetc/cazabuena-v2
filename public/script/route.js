@@ -250,6 +250,28 @@ $(document).ready(function(){
 
 
 
+      $(document).on('click', '#btnOpenGuestList', function(){
+        $('#loading').css('display', 'flex');
+        $.ajax({
+            url: '/guest-list',
+            method: 'GET',
+            success: function(data){
+                const $container = $('#content-contain');
+                $container.removeClass('fade-in-right'); 
+                $container.html(data);
+                void $container[0].offsetWidth; 
+                $container.addClass('fade-in-right');
+                $('#loading').hide();
+            },
+            error: function(err){
+                console.error(err)
+                $('#loading').hide();
+            }
+        });
+    });
+
+
+
 
     $(document).on('click', '#btnOpenReports', function(){
         $('#loading').css('display', 'flex');
@@ -564,11 +586,7 @@ $(document).ready(function() {
             data: transactionIdJSON,
             contentType:"application/json",
             success:function(data3){
-
-             
-               
-                
-                
+                                
                 const transactions = [];
                 
                 const jsonData = data3.adjustments;

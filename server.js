@@ -137,6 +137,11 @@ app.get('/test', (req, res) =>{
 
 });
 
+app.get('/guest-list', (req, res)=>{
+  res.render('guestlist.ejs');
+
+});
+
 
 
 
@@ -1238,6 +1243,10 @@ else if (guest_status === "CHECKED_OUT") {
                                      inner join rate_type on guest_table.rate_no = rate_type.rate_no
                                      where transaction_id2 = ?`;
 
+      //get the adjustment in adjustment history
+
+      
+
 
       //get the addons table dpeneding on transaction id
 
@@ -1246,12 +1255,17 @@ else if (guest_status === "CHECKED_OUT") {
       connection.query(sumAddons,[transaction_id2], (err, rows20)=>{
 
         connection.query(sql_select_guest_table,[transaction_id2], (err2, results_transactionid)=>{
+
+          
+            
+         
   
           var check_in_datetime = results_transactionid[0].check_in_datetime;
           var length_stay = results_transactionid[0].length_stay;
           var rate_percent = results_transactionid[0].rate_percent;
           var bill2 = parseInt(results_transactionid[0].package_rate) * rate_percent;
           var bill = parseInt(results_transactionid[0].package_rate) + bill2;
+          
           
           var addons_amount = rows20[0].totalAddonsTable;
           
@@ -1343,7 +1357,9 @@ else if (guest_status === "CHECKED_OUT") {
           }
   
          
-        });
+
+
+         })
 
       });
   
@@ -1712,7 +1728,18 @@ else if (guest_status === "CHECKED_OUT") {
         });
         
       }
-  
+
+      const insertInAdjustmentHistory = `insert into adjustment_history (adjustment_amount, adjustment_remarks, adjustment_type, transaction_id) values(?,?,?,?)`;
+
+        connection.query(insertInAdjustmentHistory, [adjustment_amount, adjustment_remarks, adjustment_type, transaction_text], (err, rows28)=>{
+
+      if (err) {
+        console.error("Error inserting into adjustment_history:", err);
+        console.log({ message: "Insert into adjustment_history failed" });
+    }
+    console.log("Inserted in adjustment history");
+
+    });
     })
   
   
@@ -1944,6 +1971,25 @@ else if (guest_status === "CHECKED_OUT") {
 
 
   //________________________VIEWING OF BILLING DETAILS________________________________
+
+
+  //__________________________VIEW GUEST LIST_________________________________________
+
+  app.get("/guestOnTheList", (req, res)=>{
+
+    const sqlViewGuestDetails = `select * from personal_details_table`;
+
+    connection.query(sqlViewGuestDetails, (err, rows45)=>{
+      res.send({details:rows45})
+
+    });
+
+  });
+
+
+
+
+  //__________________________VIEW GUEST LIST_________________________________________
 
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);

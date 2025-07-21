@@ -1,0 +1,94 @@
+<div class="billing-page">
+    <main class="billing-content">
+        <section class="billing-action">
+            <input type="text" id="txtSearchBilling" placeholder="Search...">
+        </section>
+
+        <section class="billing-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Guest ID</th>
+                        <th>Fullname</th>
+                        <th>Contact No.</th>
+                        <th>Email</th>
+                        <th>Age</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="t-b-billing">
+                    <tr>
+                       <!-- <td>11589</td>
+                        <td>Cardo Dimagiba</td>
+                        <td>Package 1</td>
+                        <td>4</td>
+                        <td>Oct. 8, 2025 | 9:30AM</td>
+                        <td>Oct. 9, 2025 | 10:00AM</td>
+                        <td><button class="btnOpenBillingModal" data-id="1">Pay</button></td>-->
+                    </tr>
+                </tbody>
+                
+            </table>
+        </section>
+    </main>
+</div>
+
+<script>
+
+$(document).ready(function() {
+
+var guestDetails = [];
+
+
+
+$.ajax({
+    type: "GET",
+    url:"http://localhost:3000/guestOnTheList",
+    success:function(data){
+
+    
+        const jsonData = data.details;
+        
+        $.each(jsonData, function(index, guestD) {
+            guestDetails.push(guestD);
+          });
+
+
+          for (var x = 0; x < guestDetails.length; x++) {
+
+            var guest_id = guestDetails[x].guest_id;
+            var full_name = guestDetails[x].full_name;
+            var age = guestDetails[x].age;
+            var contact_number = guestDetails[x].contact_number;
+            var email = guestDetails[x].email;
+
+
+            var guestData = `
+                        <tr>
+                        <td>${guest_id}</td>
+                        <td>${full_name}</td>
+                        <td>${age}</td>
+                        <td>${contact_number}</td>
+                        <td>${email}</td>
+                        <td><button class="btnOpenBillingModal" data-id="1" value = ${guest_id}>Edit</button></td>
+                        </tr>
+                        
+                        `;
+
+
+                        $('#t-b-billing').append(guestData);
+
+          }
+
+      
+
+    },
+    error:function(xhr, err){
+        console.error("Error:", err)
+    }
+})
+
+
+})
+    
+</script>

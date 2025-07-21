@@ -54,12 +54,18 @@
 
 
 <script>
+
+$(document).ready(function() {
+
+
      const packageList = [];
     
     $.ajax({
         type:"GET",
         url:"http://localhost:3000/packageDisplay",
         success:function(data){
+
+        
             const jsonPackageData = data.toDisplayPackage;
             
             $.each(jsonPackageData, function(index, package) {
@@ -100,6 +106,9 @@
         error:function(xhr, error){
 
         } 
+
+    })
+
 
     })
 </script>
