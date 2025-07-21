@@ -1245,6 +1245,9 @@ else if (guest_status === "CHECKED_OUT") {
 
       //get the adjustment in adjustment history
 
+      var sqlAddAH = `select sum(adjustment_amount) as ADDS from adjustment_history where adjustment_type = ? and transaction_id = ?`
+      var sqlMinusAH = `select sum(adjustment_amount) as MINUS from adjustment_history where adjustment_type = ? and transaction_id = ?`
+
       
 
 
@@ -1256,6 +1259,14 @@ else if (guest_status === "CHECKED_OUT") {
 
         connection.query(sql_select_guest_table,[transaction_id2], (err2, results_transactionid)=>{
 
+          connection.query(sqlAddAH, ["add", transaction_id2], (err, rows48)=>{
+
+
+
+           connection.query(sqlMinusAH, ["minus", transaction_id2], (err, rows49)=>{
+            
+      
+
           
             
          
@@ -1265,6 +1276,10 @@ else if (guest_status === "CHECKED_OUT") {
           var rate_percent = results_transactionid[0].rate_percent;
           var bill2 = parseInt(results_transactionid[0].package_rate) * rate_percent;
           var bill = parseInt(results_transactionid[0].package_rate) + bill2;
+          var adjustment_amount = results_transactionid[0].adjustment_amount || 0;
+          var adjustment_type = results_transactionid[0].adjustment_type;
+          var adjustment_add = rows48[0].ADDS;
+          var adjustment_minus = rows49[0].MINUS;
           
           
           var addons_amount = rows20[0].totalAddonsTable;
@@ -1287,9 +1302,33 @@ else if (guest_status === "CHECKED_OUT") {
           //check if the current day is lessthan 0 or current day is equal to zero
           
           if(current_days <= 0){
-            var addons = addons_amount;
+            var addons = addons_amount || 0;
             var current_bill_raw = parseInt(length_stay) * bill;
-            var current_bill = current_bill_raw + addons_amount;
+            
+
+            console.log("current_bill_raw:", current_bill_raw);
+            console.log("addons_amount:", addons);
+            console.log("adjustment_amount:", adjustment_amount);
+            console.log("bill:", current_bill_raw);
+            console.log("length_stay:", length_stay);
+            console.log("rate_percent:", rate_percent);
+            console.log("type of adjustment amount: ", typeof(adjustment_amount))
+            console.log("type of currentbillraw: ", typeof(current_bill_raw))
+            console.log("type of addons: ", typeof(addons))
+
+  
+
+              var current_bill = (Number(current_bill_raw) + Number(addons) + Number(adjustment_add)) - Number(adjustment_minus)
+
+
+
+
+    
+
+            console.log("this is the new bill:", current_bill)
+
+            
+
 
             
 
@@ -1323,7 +1362,16 @@ else if (guest_status === "CHECKED_OUT") {
           else if(current_days > 0){
             var addons = addons_amount;
             var current_bill_raw = parseInt(current_days) * bill;
-            var current_bill = current_bill_raw + addons_amount;
+            
+
+              var current_bill = (Number(current_bill_raw) + Number(addons) + Number(adjustment_add)) - Number(adjustment_minus)
+
+
+      
+
+            
+          
+
             
 
 
@@ -1359,7 +1407,12 @@ else if (guest_status === "CHECKED_OUT") {
          
 
 
-         })
+                  })
+
+              })
+
+             
+          })
 
       });
   
