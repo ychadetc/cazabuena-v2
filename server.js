@@ -1321,17 +1321,9 @@ else if (guest_status === "CHECKED_OUT") {
               var current_bill = (Number(current_bill_raw) + Number(addons) + Number(adjustment_add)) - Number(adjustment_minus)
 
 
-
-
-    
-
             console.log("this is the new bill:", current_bill)
 
-            
-
-
-            
-
+  
 
                             var sql_update_guest = `update guest_table set current_stay = ?, current_bill = ?  where transaction_id2 = ?`;
                   
@@ -1367,16 +1359,6 @@ else if (guest_status === "CHECKED_OUT") {
               var current_bill = (Number(current_bill_raw) + Number(addons) + Number(adjustment_add)) - Number(adjustment_minus)
 
 
-      
-
-            
-          
-
-            
-
-
-
-            
                             var sql_update_guest = `update guest_table set current_stay = ?, current_bill = ?  where transaction_id2 = ?`;
                   
                           connection.query(sql_update_guest, [parseInt(current_days), current_bill, transaction_id2], (err, results_update)=>{
@@ -2043,6 +2025,43 @@ else if (guest_status === "CHECKED_OUT") {
 
 
   //__________________________VIEW GUEST LIST_________________________________________
+
+
+
+  //___________________________FOR DELETING DATA IN TABLES______________________________
+
+  app.post("/deleteVilla", (req, res)=>{
+
+    const villa_id = req.body.villa_id;
+
+    const sqlDeleteVilla = `delete from villas where villa_id = ?`;
+
+    connection.query(sqlDeleteVilla, [villa_id], (err, rows50)=>{
+
+      res.send({message:villa_id});
+
+    });
+
+  });
+
+    app.post("/deleteRoom", (req, res)=>{
+
+  });
+
+   app.post("/deleteGuest", (req, res)=>{
+
+  });
+
+  app.post("/removeReservation", (req, res)=>{
+
+  });
+
+  app.post("/deletePackage", (req, res)=>{
+
+  });
+
+  
+  //___________________________FOR DELETING DATA IN TABLES______________________________
 
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);

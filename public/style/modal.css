@@ -689,6 +689,55 @@ input[type=number]::-webkit-outer-spin-button {
     background-color: var(--cazaBlue);
 }
 
+/*modal for delete villa*/
+
+
+.modal-confirm-deleteV{
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    background-color: var(--white);
+    width: 350px;
+    height: auto;
+    border-radius: 10px;
+}
+.modal-confirm-deleteV img{
+    height: 90px;
+    width: auto;
+    position: absolute;
+    top: -40px;
+}
+
+.modal-confirm-deleteV p{
+    font-size: 17px;
+    color: var(--font-color);
+    margin-top: 90px;
+}
+.modal-confirm-deleteV section{
+    width: calc(100% - 40px);
+    display: flex;
+    justify-content: right;
+    padding-bottom: 20px;
+    padding-top: 20px;
+    gap: 8px;
+}
+.modal-confirm-deleteV section button{
+    width: 80px;
+    height: 25px;
+    border: 1px solid var(--cazaBlue);
+    font-size: 13px;
+    cursor: pointer;
+}
+.modal-confirm-deleteV section button:nth-child(1){
+    color: var(--cazaBlue);
+    background-color: transparent;
+}
+.modal-confirm-deleteV section button:nth-child(2){
+    color: var(--white);
+    background-color: var(--cazaBlue);
+}
+
 /* modal-success-guest */
 
 .modal-success-booking{

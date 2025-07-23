@@ -7,6 +7,7 @@
                     <tr>
                         <th>Villa Name</th>
                         <th>Status</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody id="villaJsonTable">
@@ -30,6 +31,22 @@
     </main>
 </div>
 
+<!-- confirmation -->
+<div class="modal-confirm-deleteV">
+    <img src="/assets/question.png" alt="">
+    <p>Do you want to delete this villa?</p>
+    <input type="text" id="deleteData">
+    <section><button id="btnCancelDeleteV">Cancel</button><button id="btnYesDeleteV">Yes</button></section>
+ </div>
+
+
+ <!-- Success -->
+
+ <div class="modal-success-booking">
+    <img src="/assets/success.png" alt="">
+    <p>Villa deleted successfully!</p>
+ </div>
+
 <script>
     $(document).ready(function() {
         var villaList = [];
@@ -51,6 +68,7 @@
                 // Display the villa list in a loop using HTML
                 for (var i = 0; i < villaList.length; i++) {
                     var villa_name = villaList[i].villa_name;
+                    var villa_id = villaList[i].villa_id;
                     //var villa_status = villaList[i].villa_status;
 
                     if (villaList[i].villa_status == "active"){
@@ -71,6 +89,7 @@
 
                         <td>${villa_name}</td>
                         <td class="status-data">${villa_status}<span class="stat-indicator"></span></td>
+                        <td><button id="DeleteVilla" value = ${villa_id}>Delete</button></td>
                     
                     </tr>
                     

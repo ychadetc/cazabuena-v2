@@ -36,6 +36,59 @@ $(document).ready(function () {
                 })
       
     });
+
+
+    $(document).on('click', "#DeleteVilla", function(e){
+
+                               
+        e.preventDefault();
+        e.stopImmediatePropagation();
+
+        //const confirmation = confirm("Are you sure you want to delete this item?");
+
+        if (confirm("delete this?")== true) {
+
+                const villa_id = $(this).val();
+
+                //alert(villa_id);
+
+                const villaIDData ={"villa_id":villa_id} 
+
+                const villaIDJson = JSON.stringify(villaIDData);
+
+                $.ajax({
+                    url:"http://localhost:3000/deleteVilla",
+                    type:"POST",
+                    data:villaIDJson,
+                    contentType:'application/json',
+                    success: function(data){
+
+                        alert(data.message);
+
+                    },
+
+                    error:function(xhr, status, error){
+                        alert(error);
+                    }
+
+               });
+            }
+
+            else {
+                    // User clicked "Cancel" or closed the dialog
+                    alert("Deletion cancelled.");
+                }
+
+                      
+
+
+    });
+
+
+  
+
+
+   
     
     
 });
