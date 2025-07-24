@@ -58,6 +58,40 @@ $(document).ready(function (){
     });
     
 
+    $(document).on("click", '#DeleteGuest', function(e){
+        e.preventDefault();
+        e.stopImmediatePropagation();
+
+        if (confirm("delete this?")== true) {
+
+           const guest_id =  $(this).val();
+           const guestIDData = {"guest_id":guest_id};
+           const jsonGuestID = JSON.stringify(guestIDData);
+
+           $.ajax({
+                    url:"http://localhost:3000/deleteGuest",
+                    type:"POST",
+                    data:jsonGuestID,
+                    contentType:'application/json',
+                    success: function(data){
+
+                        alert(data.message);
+
+                    },
+
+                    error:function(xhr, status, error){
+                        alert(error);
+                    }
+
+               });
+
+        }
+        else{
+            alert("Deletion cancelled.");
+        }
+
+    });
+
 
 
 });

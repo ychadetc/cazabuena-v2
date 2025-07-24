@@ -2059,6 +2059,15 @@ else if (guest_status === "CHECKED_OUT") {
 
    app.post("/deleteGuest", (req, res)=>{
 
+    const guest_id = req.body.guest_id;
+    const sqlDeleteGuest = `delete from personal_details_table where guest_id = ?`;
+
+    connection.query(sqlDeleteGuest, [guest_id], (err, rows55)=>{
+
+      res.send({message:guest_id});
+
+    });
+
   });
 
   app.post("/removeReservation", (req, res)=>{
