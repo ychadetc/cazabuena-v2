@@ -34,5 +34,44 @@ $(document).ready(function(){
 
                 })
       
-    });    
+    });   
+    
+    $(document).on('click', '#DeleteRoom', function(e){
+
+        e.preventDefault();
+        e.stopImmediatePropagation();
+
+        if (confirm("delete this?")== true) {
+            
+            const room_id = $(this).val();
+            const roomIDData = {"room_id":room_id};
+            const jsonRoomID = JSON.stringify(roomIDData);
+            
+            $.ajax({
+                    url:"http://localhost:3000/deleteRoom",
+                    type:"POST",
+                    data:jsonRoomID,
+                    contentType:'application/json',
+                    success: function(data){
+
+                        alert(data.message);
+
+                    },
+
+                    error:function(xhr, status, error){
+                        alert(error);
+                    }
+
+               });
+            
+
+        }
+
+        else {
+                // User clicked "Cancel" or closed the dialog
+                alert("Deletion cancelled.");
+            }
+
+
+    });
 });

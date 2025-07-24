@@ -2046,6 +2046,15 @@ else if (guest_status === "CHECKED_OUT") {
 
     app.post("/deleteRoom", (req, res)=>{
 
+      const room_id = req.body.room_id;
+      const sqlDeleteRoom = `delete from rooms where room_id = ?`;
+
+      connection.query(sqlDeleteRoom, [room_id], (err, rows51)=>{
+
+        res.send({message:room_id});
+
+      });
+
   });
 
    app.post("/deleteGuest", (req, res)=>{
@@ -2054,9 +2063,29 @@ else if (guest_status === "CHECKED_OUT") {
 
   app.post("/removeReservation", (req, res)=>{
 
+    const transaction_id2 = req.body.transaction_id2;
+
+    const sqlDeleteReservation = `delete from guest_table where transaction_id2 = ?`;
+
+    connection.query(sqlDeleteReservation, [transaction_id2], (err, rows52)=>{
+
+      res.send({message:transaction_id2});
+
+    });
+
   });
 
   app.post("/deletePackage", (req, res)=>{
+    
+    const package_code2 = req.body.package_code2;
+
+    const sqlDeletePackage = `delete from packages where package_code2 = ?`;
+
+    connection.query(sqlDeletePackage, [package_code2], (err, rows52)=>{
+
+      res.send({message:package_code2});
+
+    });
 
   });
 

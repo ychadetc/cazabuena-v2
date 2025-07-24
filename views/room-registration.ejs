@@ -11,6 +11,7 @@
                         <th>Room Name</th>
                         <th>Location</th>
                         <th>Status</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody id="roomBody">
@@ -56,6 +57,7 @@
 
             var room_name = roomList[i].room_name;
             var location = roomList[i].location;
+            var room_id = roomList[i].room_id;
             //var room_status = roomList[i].room_status;
 
             if(roomList[i].room_status == "active"){
@@ -76,6 +78,7 @@
                 <td>${room_name}</td>
                 <td>${location}</td>
                 <td>${room_status}</td>
+                <td><button id = "DeleteRoom" value=${room_id}>Delete</button></td>
                 
             </tr>
             

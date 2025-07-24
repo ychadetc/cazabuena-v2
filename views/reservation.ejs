@@ -27,6 +27,7 @@
                         <th>Length of Stay</th>
                         <th>Guest Status</th>
                         <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody id="guestBody">
@@ -94,6 +95,7 @@ $.ajax({
                         <td>${length_stay} Day/s</td>
                         <td>${guest_status}</td>
                         <td><a href="#" data-page=${transaction_id2} class="atag"><img src="/assets/more.png" alt=""></a></td>
+                        <td><button id="DeleteReservation" value = ${transaction_id2}>Delete</button></td>
                         </tr>
                         
                         `;

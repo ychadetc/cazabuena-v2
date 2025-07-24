@@ -134,6 +134,42 @@ $(document).ready(function(){
         }
     });
 
+    $(document).on("click", "#DeletePackage", function(e){
+
+         e.preventDefault();
+        e.stopImmediatePropagation();
+
+        if (confirm("delete this?")== true) {
+            const package_code2 = $(this).val();
+            const packageCodeData = {"package_code2":package_code2};
+            const jsonPackageCode = JSON.stringify(packageCodeData);
+
+             $.ajax({
+                    url:"http://localhost:3000/deletePackage",
+                    type:"POST",
+                    data:jsonPackageCode,
+                    contentType:'application/json',
+                    success: function(data){
+
+                        alert(data.message);
+
+                    },
+
+                    error:function(xhr, status, error){
+                        alert(error);
+                    }
+
+               });
+
+        }
+
+        else {
+                    // User clicked "Cancel" or closed the dialog
+                    alert("Deletion cancelled.");
+                }
+
+    })
+
    
 
     

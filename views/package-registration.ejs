@@ -14,6 +14,7 @@
                         <th>No. of Rooms</th>
                         <th>No. of Person</th>
                         <th>Package Rate</th>
+                        <th></th>
                        
                     </tr>
                 </thead>
@@ -82,6 +83,7 @@ $(document).ready(function() {
             var location = packageList[x].location;
             var package_rate = packageList[x].package_rate;
             var no_of_person = packageList[x].no_of_person;
+            var package_code2 = packageList[x].package_code2;
        
 
             var packageData = `
@@ -93,6 +95,7 @@ $(document).ready(function() {
                 <td>${no_of_rooms}</td>
                 <td>${no_of_person}</td>
                 <td>${package_rate}</td>
+                <td><button id="DeletePackage" value = ${package_code2}>Delete</button></td>
                 </tr>
             `
 

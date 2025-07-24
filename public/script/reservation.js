@@ -158,6 +158,44 @@ $(document).ready(function(){
         
     });
 
+    $(document).on('click', '#DeleteReservation', function(e){
+        e.preventDefault();
+        e.stopImmediatePropagation();
+
+        if (confirm("delete this?")== true) {
+
+            const transaction_id2 = $(this).val();
+            const transactionData = {"transaction_id2":transaction_id2};
+            const jsonTransaction = JSON.stringify(transactionData);
+
+             $.ajax({
+                    url:"http://localhost:3000/removeReservation",
+                    type:"POST",
+                    data:jsonTransaction,
+                    contentType:'application/json',
+                    success: function(data){
+
+                        alert(data.message);
+
+                    },
+
+                    error:function(xhr, status, error){
+                        alert(error);
+                    }
+
+               });
+
+
+
+        }
+        else{
+
+            alert("Deletion cancelled.");
+
+        }
+
+    });
+
 
 });
 
