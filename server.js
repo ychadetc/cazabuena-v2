@@ -1305,15 +1305,28 @@ else if (guest_status === "CHECKED_OUT") {
           //__________________ON works____________________
 
           var overStayChargeMinutes = current_stay - checkInOutMinutes;
-          console.log("this is the minutes in realtime")
+       
 
-          console.log(overStayChargeMinutes/60000);
+          var overMinutes = (overStayChargeMinutes/60000);
 
-          var overCharge = (overStayChargeMinutes/60000) / 30
+          console.log("over minutes");
 
-          console.log("here is the overcharge how many 30 minutes are there");
+          console.log(overMinutes)
 
-          console.log(overCharge)
+        
+
+          var excessInGracePeriod = overMinutes - 15;
+
+          console.log("this is how many 15 minutes are there and less the grace period")
+
+          console.log(excessInGracePeriod);
+
+          var excessCharged = (excessInGracePeriod) * 500
+
+          console.log("Over Stay Charge with rate of 500 pesos")
+
+          console.log(excessCharged);
+
 
 
           //__________________ON works____________________
