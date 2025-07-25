@@ -1280,6 +1280,8 @@ else if (guest_status === "CHECKED_OUT") {
           var adjustment_type = results_transactionid[0].adjustment_type;
           var adjustment_add = rows48[0].ADDS;
           var adjustment_minus = rows49[0].MINUS;
+          var check_out_datetime = results_transactionid[0].check_out_datetime;
+          
           
           
           var addons_amount = rows20[0].totalAddonsTable;
@@ -1293,6 +1295,28 @@ else if (guest_status === "CHECKED_OUT") {
   
           //var current_stay  = new_check_in_datetime - millis_now;
           var current_stay  = millis_now - parseInt(check_in_datetime);
+
+          var checkInOutMinutes = parseInt(check_out_datetime) - parseInt(check_in_datetime);
+
+          console.log("this is millis in minutes of check in and out")
+
+          console.log(checkInOutMinutes/60000);
+
+          //__________________ON works____________________
+
+          var overStayChargeMinutes = current_stay - checkInOutMinutes;
+          console.log("this is the minutes in realtime")
+
+          console.log(overStayChargeMinutes/60000);
+
+          var overCharge = (overStayChargeMinutes/60000) / 30
+
+          console.log("here is the overcharge how many 30 minutes are there");
+
+          console.log(overCharge)
+
+
+          //__________________ON works____________________
   
           var current_days = parseInt(current_stay/(1000*60*60*24))
   
