@@ -7,7 +7,8 @@ const session = require('express-session');
 const FileStore = require('session-file-store')(session);
 const util = require('util');
 
-const connection = mysql.createConnection({
+const connection = mysql.createPool({
+  connectionLimit: 10,
   host: 'localhost',
   user: 'root',
   password: '',
@@ -2107,19 +2108,75 @@ else if (guest_status === "CHECKED_OUT") {
 
   });
 
-  app.post("/removeReservation", (req, res)=>{
+  app.post("/removeReservation", async (req, res)=>{
 
     const transaction_id2 = req.body.transaction_id2;
 
+    //_______________________UPDATE PACKAGES AND ROOMS_________________
+
+    try{
+
+
+   const [packageRow] = await queryAsync(`select package from guest_table where transaction_id2 = ?`, [transaction_id2]);
+
+
+      
     const sqlDeleteReservation = `delete from guest_table where transaction_id2 = ?`;
 
-    connection.query(sqlDeleteReservation, [transaction_id2], (err, rows52)=>{
+    await queryAsync(sqlDeleteReservation, [transaction_id2]);
+     await updateRoomsAndPackages1(packageRow);
 
-      res.send({message:transaction_id2});
+    res.send({message:transaction_id2});
 
-    });
+ 
+
+    }
+
+    catch (error) {
+    console.error("Error in Deleting Booking:", error);
+    res.status(500).send("Server error");
+  }
+
+    //_______________________UPDATE PACKAGES AND ROOMS_________________
+
 
   });
+
+
+  async function updateRoomsAndPackages1(packageRow) {
+  const roomStatus = "Active";
+  const packageStatus = "active";
+  const [accomType] = await queryAsync(`select * from packages where package_code=?`, [packageRow.package])
+
+  const packageCode = accomType.accom_type === "villa" ? accomType.package_code2 : accomType.package_code;
+  const sqlRoom = `SELECT room_id FROM packages WHERE ${accomType.accom_type === "villa" ? "package_code2" : "package_code"} = ?`;
+  const rooms = await queryAsync(sqlRoom, [packageCode]);
+
+  for (const room of rooms) {
+    await queryAsync('UPDATE rooms SET room_status = ? WHERE room_name = ?', [roomStatus, room.room_id]);
+  }
+
+  const inactiveRooms = await queryAsync(
+    'SELECT room_name FROM rooms WHERE room_status IN (?, ?)',
+    ["Active", "active"]
+  );
+
+  for (const r of inactiveRooms) {
+    await queryAsync('UPDATE packages SET package_status = ? WHERE room_id = ?', [packageStatus, r.room_name]);
+  }
+
+  if (accomType.accom_type === "villa") {
+    await queryAsync(
+      'UPDATE packages SET package_status = ? WHERE package_code2 = ?',
+      [packageStatus, packageCode]
+    );
+  } else {
+    await queryAsync(
+      'UPDATE packages SET package_status = ? WHERE package_code = ?',
+      [packageStatus,  packageCode]
+    );
+  }
+}
 
   app.post("/deletePackage", (req, res)=>{
     
