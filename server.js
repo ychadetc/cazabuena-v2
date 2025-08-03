@@ -1480,37 +1480,42 @@ else if (guest_status === "CHECKED_OUT") {
                   if(accom_type == "villa"){
 
                     var package_code = rows24[0].package_code2;
+                    var sql_select_set_package = `select * from packages where no_of_person <= ? and package_code2 != ?`;
+
+                      connection.query(sql_select_set_package, [pax, package_code], (err4, result_set)=>{
+                            if (err4) {
+                              console.error('error running query:', err4);
+                              return;
+                            }
+                            res.send({package_set:result_set});
+              
+                          });
 
                   }
 
-                  else if(accom_type == "room"){
+                     else if(accom_type == "room"){
 
-                    var package_code = rows24[0].package_code;
+                          var package_code = rows24[0].package_code;
+                          
+                          var sql_select_set_package = `select * from packages where no_of_person <= ? and package_code != ?`;
+
+                          connection.query(sql_select_set_package, [pax, package_code], (err4, result_set)=>{
+                                  if (err4) {
+                                    console.error('error running query:', err4);
+                                    return;
+                                  }
+                                  res.send({package_set:result_set});
+                    
+                                });
 
                   }
 
 
                  // var sql_select_set_package = `select * from packages where no_of_person <= ? and package_code != ?`;
 
-                  var sql_select_set_package = `select * from packages where no_of_person <= ? and package_status = ?`;
+                  
 
-                  connection.query(sql_select_set_package, [pax, "active"], (err4, result_set)=>{
-                    if (err4) {
-                      console.error('error running query:', err4);
-                      return;
-                    }
-                    res.send({package_set:result_set});
-      
-                  });
-
-                 /* connection.query(sql_select_set_package, [pax, package_code], (err4, result_set)=>{
-                    if (err4) {
-                      console.error('error running query:', err4);
-                      return;
-                    }
-                    res.send({package_set:result_set});
-
-                  });*/
+                
 
                 });
 
@@ -1518,30 +1523,6 @@ else if (guest_status === "CHECKED_OUT") {
 
       else if(rows23.length == 0){
         
-      /* var sqlCheckPackageAccom = `select accom_type, package_code2, package_code from packages where package_code = ?`;
-
-          connection.query(sqlCheckPackageAccom, [package], (err, rows24)=>{
-
-            var accom_type = rows24[0].accom_type;
-
-            if(accom_type == "villa"){
-
-              var package_code = rows24[0].package_code2;
-
-            }
-
-            else if(accom_type == "room"){
-
-              var package_code = rows24[0].package_code;
-
-            }
-
-
-            
-
-          });*/
-
-
           var sql_select_set_package = `select * from packages where no_of_person <= ?`;
 
             connection.query(sql_select_set_package, [pax], (err4, result_set)=>{
@@ -1556,36 +1537,9 @@ else if (guest_status === "CHECKED_OUT") {
 
       
 
-
-      //var sql_select_set_package = `select * from packages where no_of_person <= ? and package_code`;
-
-           /* connection.query(sql_select_set_package, [pax, "active"], (err4, result_set)=>{
-              if (err4) {
-                console.error('error running query:', err4);
-                return;
-              }
-              res.send({package_set:result_set});
-
-            });*/
       })
 
 
-
-    }
-
-
-    else{
-
-       /*var sql_select_set_package = `select * from packages where no_of_person <= ? and package_status = ?`;
-
-            connection.query(sql_select_set_package, [pax, "active"], (err4, result_set)=>{
-              if (err4) {
-                console.error('error running query:', err4);
-                return;
-              }
-              res.send({package_set:result_set});
-
-            });*/
 
     }
 
