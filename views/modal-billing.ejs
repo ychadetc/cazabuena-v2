@@ -13,12 +13,12 @@
         </section>
 
         <section class="detail-row">
-            <div class="detail-lr detail-left"><span class="label">Transaction ID:</span><input type="text" class="billingdTextField" id="transactionID" readonly></span></div>
+            <div class="detail-lr detail-left"><span class="label">Transaction ID:</span><input type="text" class="billingdTextField" id="transactionID"></span></div>
             <div class="detail-lr detail-right"><span class="label">Length of stay:</span><input type="text" class="billingdTextField" readonly id="losID"></span></div>
         </section>
 
         <section class="detail-row">
-            <div class="detail-lr detail-left"><span class="label">Package Availed:</span><input type="text" class="billingdTextField" id ="packagedAvailedID" readonly></div>
+            <div class="detail-lr detail-left"><span class="label">Package Availed:</span><input type="text" class="billingdTextField" id ="packagedAvailedID"></div>
             <div class="detail-lr detail-right"><span class="label">Current Bill:</span><input type="text" class="billingdTextField" id="currentbillID" readonly></div>
             <input type="hidden" id="package_selected">
             <input type="hidden" id="transaction_id3">
@@ -31,6 +31,9 @@
             <div class="detail-lr detail-right"><span class="label">Current stay:</span><input type="text" class="billingdTextField" id="currentstayID" readonly></div>
         </section>
 
+<!--<button id="btnCheckBill"><i class="fas fa-receipt"></i>Check bill</button>-->
+
+        
     </div>
 
 
@@ -141,3 +144,33 @@
     <img src="/assets/success.png" alt="">
     <p id="billing-success-message">Changes saved successfully!</p>
 </div>
+
+<script>
+  $('#btnCheckBill').on("click", function(e){
+            e.preventDefault();
+            e.stopImmediatePropagation();
+
+            var package = $('#packagedAvailedID').val();
+            var transaction_id2= $('#transactionID').val();
+            //alert(package);
+            var txt = JSON.stringify({"package":package, "transaction_id2":transaction_id2})
+
+            $.ajax({
+                url:"http://localhost:3000/UpdateBill2",
+                type:"POST",
+                data:txt,
+                contentType:'application/json',
+                success:function(data1){
+                    alert("Bill Updated")
+
+                },
+
+                error:function(xhr, status, error){
+                    alert(error);
+                }
+            });
+
+            //alert("it worked")
+
+        });
+</script>

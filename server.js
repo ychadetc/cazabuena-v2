@@ -415,28 +415,6 @@ app.get("/roomList", (req, res)=>{
 });
 
 
-
-
-
-
-
-
-/*app.get("/GuestOption", (req, res)=>{
-    
-  var query = 'SELECT * FROM personal_details_table';
-
-  connection.query(query,(err, results)=>{
-
-    if (err) {
-      console.error('error running query:', err);
-      return;
-    }
-    res.send({guest:results});
-
-  });
-
-});*/
-
 app.get("/GuestOption", async (req, res)=>{
   try{
     
@@ -455,9 +433,6 @@ app.get("/GuestOption", async (req, res)=>{
   
 
   });
-
-
-
 
 
 app.get('/packages', async (req, res) => {
@@ -944,6 +919,10 @@ else if (guest_status === "CHECKED_OUT") {
     );
 
     console.log("CHECKED_OUT process completed.");
+
+    //8. delete from guest table
+
+   // await queryAsync('delete from guest_table where transaction_id2 = ?', [transaction_id2]);
   } catch (err) {
     console.error("Error in CHECKED_OUT logic:", err);
   }
@@ -1141,14 +1120,16 @@ else if (guest_status === "CHECKED_OUT") {
       return res.status(500).send({ error: "Failed to update guest status" });
     }
 
-    res.send({ message: "Guest Updated" });
+    
+
+    
   });
 }
 
 
 
 
-
+res.send({ message: "Guest Updated" });
 
 
    
@@ -1441,6 +1422,10 @@ else if (guest_status === "CHECKED_OUT") {
   
   });
 
+
+
+
+
   
 
   
@@ -1448,6 +1433,58 @@ else if (guest_status === "CHECKED_OUT") {
 
 
    //___________________________________________UPDATE GUEST TABLE________________________________
+
+
+
+   //______________________________________UPDATE BILLING TABLE____________________________________
+app.post("/UpdateBill2", (req, res)=>{
+
+    const package = req.body.package;
+    const transaction_id2 = req.body.transaction_id2;
+    console.log(package);
+    console.log(transaction_id2);
+
+    var sql_select_guest_table = `select guest_table.* , rate_type.rate_percent, packages.package_rate from guest_table 
+                                     inner join packages on packages.package_code = guest_table.package
+                                     inner join rate_type on guest_table.rate_no = rate_type.rate_no
+                                     where transaction_id2 = ?`;
+
+    var sqlAddAH = `select sum(adjustment_amount) as ADDS from adjustment_history where adjustment_type = ? and transaction_id = ?`;
+    var sqlMinusAH = `select sum(adjustment_amount) as MINUS from adjustment_history where adjustment_type = ? and transaction_id = ?`;
+    var sumAddons = `select SUM(addons_amount) as totalAddonsTable from addons_table where transaction_id2 = ?`;
+
+    connection.query(sumAddons,[transaction_id2], (err, rows20)=>{
+
+        connection.query(sql_select_guest_table,[transaction_id2], (err2, results_transactionid)=>{
+
+          connection.query(sqlAddAH, ["add", transaction_id2], (err, rows48)=>{
+
+
+
+            connection.query(sqlMinusAH, ["minus", transaction_id2], (err, rows49)=>{
+
+          
+              var check_in_datetime = results_transactionid[0].check_in_datetime;
+              var length_stay = results_transactionid[0].length_stay;
+              var rate_percent = results_transactionid[0].rate_percent;
+              var bill2 = parseInt(results_transactionid[0].package_rate) * rate_percent;
+              var bill = parseInt(results_transactionid[0].package_rate) + bill2;
+              var adjustment_amount = results_transactionid[0].adjustment_amount || 0;
+              var adjustment_type = results_transactionid[0].adjustment_type;
+              var adjustment_add = rows48[0].ADDS;
+              var adjustment_minus = rows49[0].MINUS;
+              var check_out_datetime = results_transactionid[0].check_out_datetime;
+              
+            
+
+              });
+          });
+        });
+      });
+
+});
+
+      //______________________________________UPDATE BILLING TABLE____________________________________
 
    //______________________CALL TO CHANGE THE LIST OF PACKAGE CHECK PACKAGE IF IT IS IN GUEST TABLE______________________________
 
@@ -1461,7 +1498,7 @@ else if (guest_status === "CHECKED_OUT") {
 
     if(pax && check_in && check_out){
 
-      var checkGuestTable = `select * from guest_table where check_in_datetime = ? and check_out_datetime = ?`;
+      var checkGuestTable = `select * from guest_table where check_in_datetime = ? and check_out_datetime = ? and guest_status != "CHECKED_OUT"`;
 
       connection.query(checkGuestTable, [check_in, check_out], (err, rows23)=>{
       
@@ -1988,7 +2025,7 @@ else if (guest_status === "CHECKED_OUT") {
                 check_in_datetime:rows44[0].check_in_datetime,
                 check_out_datetime:rows44[0].check_out_datetime,
                 length_stay:rows44[0].length_stay,
-                current_bill:rows44[0].current_bill,
+                current_bill:rows44[0].bill,
                 package_name:rows44[0].package_name
                })
 
