@@ -253,7 +253,8 @@ $(document).on('click', '.deleteAddons', function () {
 
   
     const addons_no = $(this).val();
-    const addons_no_data = {"addons_no":addons_no};
+    const transaction_id2 = $("#transaction_text").val();
+    const addons_no_data = {"addons_no":addons_no, "transaction_id2":transaction_id2};
     const addons_no_json = JSON.stringify(addons_no_data);
 
     $.ajax({

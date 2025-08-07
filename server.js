@@ -1818,6 +1818,11 @@ app.post("/UpdateBill2", (req, res)=>{
     var transaction_id2 = req.body.transaction_id2;
 
     var sqlInsertAddons = `insert into addons_table (transaction_id2, addons_amount, addons_remarks, addons_description) values(?, ?, ?, ?)`;
+    const sqlUpdateBilling = `update billing_table set bill = bill + ? where transaction_id2 = ?`;
+
+    connection.query(sqlUpdateBilling, [addons_amount, transaction_id2], (err, rows47)=>{
+
+    });
 
     connection.query(sqlInsertAddons, [transaction_id2, addons_amount, addons_remarks, addons_description], (err, rows17)=>{
 
@@ -1889,6 +1894,23 @@ app.post("/UpdateBill2", (req, res)=>{
   app.post("/deleteAddons", (req, res)=>{
 
     const addons_no = req.body.addons_no;
+    const transaction_id2 = req.body.transaction_id2;
+    console.log(transaction_id2);
+
+    const sqlSelect  = `select transaction_id2, addons_amount from addons_table where addons_no = ?`;
+
+    connection.query(sqlSelect, [addons_no], (err, rows49)=>{
+      var transaction_id2 = rows49[0].transaction_id2
+      var addons_amount = rows49[0].addons_amount;
+
+      const sqlUpdateBilling = `update billing_table set bill = bill - ? where transaction_id2 = ?`;
+
+      connection.query(sqlUpdateBilling, [addons_amount, transaction_id2], (err, rows50)=>{
+
+      });
+
+
+    })
 
     const deleteAddons = `delete from addons_table where addons_no = ?`;
 
