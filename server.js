@@ -1843,7 +1843,7 @@ app.post("/UpdateBill2", (req, res)=>{
 
     const discount_type = req.body.discount_type;
     const discount_remarks = req.body.discount_remarks;
-    const discount_amount = 1.00-.12; //100% - 12%
+    const discount_amount = 1.00-.20; //100% - 12%
     const transaction_id2 = req.body.transaction_id2;
 
     const insertDiscount = `insert into discount_history (discount_amount, discount_type, discount_remarks, transaction_id2) values (?,?,?,?)`;
@@ -2036,7 +2036,7 @@ app.post("/UpdateBill2", (req, res)=>{
 
     const retBillingDetails = `select billing_table.*, guest_table.*, packages.package_name from billing_table 
                                 inner join guest_table on billing_table.transaction_id2 = guest_table.transaction_id2
-                                inner join packages on packages.package_code = guest_table.package`;
+                                inner join packages on packages.package_code = guest_table.package where billing_table.transaction_id2 = ?`;
 
     connection.query(retBillingDetails, [transaction_id2], (err, rows44)=>{
 
