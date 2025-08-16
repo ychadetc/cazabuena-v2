@@ -1508,16 +1508,24 @@ app.post("/UpdateBill2", (req, res)=>{
 
         var package = rows23[0].package;
 
-                var sqlCheckPackageAccom = `select accom_type, package_code2, package_code from packages where package_code = ?`;
+                var sqlCheckPackageAccom = `select accom_type, location, package_code2, package_code from packages where package_code = ?`;
 
                 connection.query(sqlCheckPackageAccom, [package], (err, rows24)=>{
 
                   var accom_type = rows24[0].accom_type;
+                  var location = rows24[0].location;
 
                   if(accom_type == "villa"){
 
-                    var package_code = rows24[0].package_code2;
-                    var sql_select_set_package = `select * from packages where no_of_person <= ? and package_code2 != ?`;
+                    if(location == "WHOLE VILLA"){
+                       console.log("this is whole villa")
+
+                    }
+                    
+                    else{
+
+                      var package_code = rows24[0].package_code2;
+                      var sql_select_set_package = `select * from packages where no_of_person <= ? and package_code2 != ?`;
 
                       connection.query(sql_select_set_package, [pax, package_code], (err4, result_set)=>{
                             if (err4) {
@@ -1528,7 +1536,13 @@ app.post("/UpdateBill2", (req, res)=>{
               
                           });
 
+                    }
+
+                  
+
                   }
+
+             
 
                      else if(accom_type == "room"){
 
