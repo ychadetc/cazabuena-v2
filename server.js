@@ -168,50 +168,47 @@ app.get("/checkSession", (req, res) => {
 });
 
 
-app.post("/InsertGuest", (req, res)=>{
-
+app.post("/InsertGuest", (req, res) => {
   var full_name = req.body.full_name;
   var contact_number = req.body.contact_number;
   var email = req.body.email;
   var age = req.body.age;
-  var guest_id = Math.floor(Math.random()*90000) + 10000;
+  var guest_id = Math.floor(Math.random() * 90000) + 10000;
 
   var sql_insert = `
-      insert into personal_details_table (full_name, contact_number, email, age, guest_id)
-      values (?, ?, ?, ?, ?)
-      `;
+    insert into personal_details_table (full_name, contact_number, email, age, guest_id)
+    values (?, ?, ?, ?, ?)
+  `;
 
-      connection.query(sql_insert, [full_name, contact_number, email, age, guest_id], (err, rows, fields) => {
-      if (err) {
-          console.error(err);
-          res.status(500).send({ message: 'Failed to create personal details' });
-      } else {
-          console.log('Personal details inserted successfully!');
-          res.send({ message: "Personal details inserted successfully" });
-      }
-      });
-
+  connection.query(sql_insert, [full_name, contact_number, email, age, guest_id], (err, rows, fields) => {
+    if (err) {
+      console.error('Error inserting guest:', err);
+      return res.status(500).send({ error: 'Database error' });
+    }
+    res.send({ success: true, rows });
+  });
 });
 
 
 
-app.post("/InsertVilla",(req, res)=>{
+app.post("/InsertVilla", (req, res) => {
   var villa_name = req.body.villa_name;
   var villa_status = req.body.villa_status;
   var color_code = req.body.color_code;
 
   var sql_insert = `insert into villas (villa_name, villa_status, color_code) values(?,?,?)`;
 
-  connection.query(sql_insert,[villa_name, villa_status, color_code],(err, rows, fields)=>{
-
-      res.send({message:"Villa inserted successfully"});
-
+  connection.query(sql_insert, [villa_name, villa_status, color_code], (err, rows, fields) => {
+    if (err) {
+      console.error('Error inserting villa:', err);
+      return res.status(500).send({ error: 'Database error' });
+    }
+    res.send({ success: true, rows });
   });
-
 });
 
-app.post("/InsertRoom",(req,res)=>{
 
+app.post("/InsertRoom", (req, res) => {
   var room_name = req.body.room_name;
   var room_status = req.body.room_status;
   var location = req.body.location;
@@ -219,16 +216,13 @@ app.post("/InsertRoom",(req,res)=>{
 
   var sql_insert = `insert into rooms (room_name, room_status, location, villa_id) values(?,?,?,?)`;
 
-    connection.query(sql_insert,[room_name, room_status, location, villa_id],(err, rows, fields)=>{
-                if (err) {
-                    console.error(err);
-                    res.status(500).send({ message: 'Failed to create room' });
-                } else {
-                    console.log('Room inserted successfully!');
-                    res.send({message:"Room inserted successfully"});
-                }
-    });
-
+  connection.query(sql_insert, [room_name, room_status, location, villa_id], (err, rows, fields) => {
+    if (err) {
+      console.error('Error inserting room:', err);
+      return res.status(500).send({ error: 'Database error' });
+    }
+    res.send({ success: true, rows });
+  });
 });
 
 
@@ -236,10 +230,10 @@ app.get('/villas', (req, res) => {
   var query = 'SELECT * FROM villas';
   connection.query(query, (err, results) => {
     if (err) {
-      console.error('error running query:', err);
-      return;
+      console.error('Error fetching villas:', err);
+      return res.status(500).send({ error: 'Database error' });
     }
-    res.send({villa:results});
+    res.send({ villas: results });
   });
 });
 
@@ -247,10 +241,10 @@ app.get('/rooms', (req, res) => {
   var query = 'SELECT * FROM rooms';
   connection.query(query, (err, results) => {
     if (err) {
-      console.error('error running query:', err);
-      return;
+      console.error('Error fetching rooms:', err);
+      return res.status(500).send({ error: 'Database error' });
     }
-    res.send({rooms:results});
+    res.send({ rooms: results });
   });
 });
 
@@ -388,10 +382,10 @@ app.get('/rooms', (req, res) => {
   var query = 'SELECT * FROM rooms';
   connection.query(query, (err, results) => {
     if (err) {
-      console.error('error running query:', err);
-      return;
+      console.error('Error fetching rooms:', err);
+      return res.status(500).send({ error: 'Database error' });
     }
-    res.send({rooms:results});
+    res.send({ rooms: results });
   });
 });
 
@@ -1604,26 +1598,7 @@ app.post("/UpdateBill2", (req, res)=>{
    //______________________CALL TO CHANGE THE LIST OF PACKAGE CHECK PACKAGE IF IT IS IN GUEST TABLE______________________________
 
 
-   //__________________________CALL TO CHANGE THE PRICE_____________________________________
-
-   app.post("/onchangePackage", (req, res)=>{
-
-    var package_code = req.body.package_code;
-    console.log(package_code);
-
-    var sqlSelectPackage = `select package_rate from packages where package_code = ?`;
-
-    connection.query(sqlSelectPackage, [package_code], (err, rows18)=>{
-      res.send({packageCodeData:rows18})
-    })
-
-   });
-
-
-   //__________________________CALL TO CHANGE THE PRICE_____________________________________
-
-
-   //______________________________CALL TO CHANGE PRICE BASED ON RATE_______________________
+   //__________________________CALL TO CHANGE PRICE BASED ON RATE_______________________
 
     app.post("/onchangeRate", (req, res)=>{
 
@@ -1930,7 +1905,7 @@ app.post("/UpdateBill2", (req, res)=>{
 
     connection.query(deleteAddons, [addons_no], (err, rows34)=>{
       res.send({message:addons_no})
-    })
+    });
 
 
 
