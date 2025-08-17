@@ -1518,7 +1518,7 @@ app.post("/UpdateBill2", (req, res)=>{
                   if(accom_type == "villa"){
 
                     if(location == "WHOLE RESORT"){
-                       console.log("this is whole villa")
+                       console.log("this is whole resort")
 
                     }
                     
