@@ -1513,22 +1513,70 @@ app.post("/UpdateBill2", (req, res)=>{
 
                     if(location == "WHOLE RESORT"){
                        console.log("this is whole resort")
+                       return res.send({ package_set: [] })
 
                     }
+
+                    
                     
                     else{
 
-                      var package_code = rows24[0].package_code2;
-                      var sql_select_set_package = `select * from packages where no_of_person <= ? and package_code2 != ?`;
+                              const occupied_rooms = [];
+                              const disable_package = [];
 
-                      connection.query(sql_select_set_package, [pax, package_code], (err4, result_set)=>{
-                            if (err4) {
-                              console.error('error running query:', err4);
-                              return;
-                            }
-                            res.send({package_set:result_set});
-              
-                          });
+                              const select_room = `SELECT room_id FROM packages WHERE package_code2 = ?`;
+
+                              connection.query(select_room, [rows24[0].package_code2], async (err3, rows25) => {
+                                if (err3) {
+                                  console.error('error running query:', err3);
+                                  return;
+                                }
+
+                                for (let row of rows25) {
+                                  occupied_rooms.push(row.room_id);
+                                }
+
+                                try {
+                                  // Run queries for each room_id in parallel
+                                  const results = await Promise.all(
+                                    occupied_rooms.map(room_id => {
+                                      return new Promise((resolve, reject) => {
+                                        const sqlGetInactivePackage = `SELECT package_code2 FROM packages WHERE room_id = ?`;
+                                        connection.query(sqlGetInactivePackage, [room_id], (err5, rows26) => {
+                                          if (err5) return reject(err5);
+                                          resolve(rows26.map(r => r.package_code2));
+                                        });
+                                      });
+                                    })
+                                  );
+
+                                  // Flatten results
+                                  results.forEach(r => disable_package.push(...r));
+
+                                  // Now disable_package is ready ✅
+                                  const package_code = rows24[0].package_code2;
+                                  const sql_select_set_package = `
+                                    SELECT * 
+                                    FROM packages 
+                                    WHERE no_of_person <= ? 
+                                      AND package_code2 NOT IN (?);
+                                  `;
+
+                                  connection.query(sql_select_set_package, [pax, disable_package], (err4, result_set) => {
+                                    if (err4) {
+                                      console.error('error running query:', err4);
+                                      return;
+                                    }
+                                    res.send({ package_set: result_set });
+                                  });
+
+                                } catch (err) {
+                                  console.error("error running nested queries:", err);
+                                }
+                              });
+
+
+                  
 
                     }
 
@@ -1540,7 +1588,7 @@ app.post("/UpdateBill2", (req, res)=>{
 
                      else if(accom_type == "room"){
 
-                          var package_code = rows24[0].package_code;
+                          /*var package_code = rows24[0].package_code;
                           
                           var sql_select_set_package = `select * from packages where no_of_person <= ? and package_code != ?`;
 
@@ -1551,7 +1599,63 @@ app.post("/UpdateBill2", (req, res)=>{
                                   }
                                   res.send({package_set:result_set});
                     
-                                });
+                                });*/
+
+
+
+                              const occupied_rooms = [];
+                              const disable_package = [];
+
+                              const select_room = `SELECT room_id FROM packages WHERE package_code = ?`;
+
+                              connection.query(select_room, [rows24[0].package_code], async (err3, rows25) => {
+                                if (err3) {
+                                  console.error('error running query:', err3);
+                                  return;
+                                }
+
+                                for (let row of rows25) {
+                                  occupied_rooms.push(row.room_id);
+                                }
+
+                                try {
+                                  // Run queries for each room_id in parallel
+                                  const results = await Promise.all(
+                                    occupied_rooms.map(room_id => {
+                                      return new Promise((resolve, reject) => {
+                                        const sqlGetInactivePackage = `SELECT package_code2 FROM packages WHERE room_id = ?`;
+                                        connection.query(sqlGetInactivePackage, [room_id], (err5, rows26) => {
+                                          if (err5) return reject(err5);
+                                          resolve(rows26.map(r => r.package_code2));
+                                        });
+                                      });
+                                    })
+                                  );
+
+                                  // Flatten results
+                                  results.forEach(r => disable_package.push(...r));
+
+                                  // Now disable_package is ready ✅
+                                  const package_code = rows24[0].package_code2;
+                                  const sql_select_set_package = `
+                                    SELECT * 
+                                    FROM packages 
+                                    WHERE no_of_person <= ? 
+                                      AND package_code2 NOT IN (?);
+                                  `;
+
+                                  connection.query(sql_select_set_package, [pax, disable_package], (err4, result_set) => {
+                                    if (err4) {
+                                      console.error('error running query:', err4);
+                                      return;
+                                    }
+                                    res.send({ package_set: result_set });
+                                  });
+
+                                } catch (err) {
+                                  console.error("error running nested queries:", err);
+                                }
+                              });
 
                   }
 
@@ -1618,7 +1722,18 @@ app.post("/UpdateBill2", (req, res)=>{
    
 
    
+   app.post("/onchangePackage", (req, res)=>{
 
+    var package_code = req.body.package_code;
+    console.log(package_code);
+
+    var sqlSelectPackage = `select package_rate from packages where package_code = ?`;
+
+    connection.query(sqlSelectPackage, [package_code], (err, rows18)=>{
+      res.send({packageCodeData:rows18})
+    })
+
+   });
 
 
 
