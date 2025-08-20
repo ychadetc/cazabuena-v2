@@ -1556,10 +1556,10 @@ app.post("/UpdateBill2", (req, res)=>{
                                   // Now disable_package is ready ✅
                                   const package_code = rows24[0].package_code2;
                                   const sql_select_set_package = `
-                                    SELECT * 
+                                    SELECT DISTINCT package_code, package_name
                                     FROM packages 
                                     WHERE no_of_person <= ? 
-                                      AND package_code2 NOT IN (?);
+                                      AND package_code2 NOT IN (?) group by package_name;
                                   `;
 
                                   connection.query(sql_select_set_package, [pax, disable_package], (err4, result_set) => {
@@ -1638,10 +1638,10 @@ app.post("/UpdateBill2", (req, res)=>{
                                   // Now disable_package is ready ✅
                                   const package_code = rows24[0].package_code2;
                                   const sql_select_set_package = `
-                                    SELECT * 
+                                    SELECT DISTINCT package_code, package_name
                                     FROM packages 
                                     WHERE no_of_person <= ? 
-                                      AND package_code2 NOT IN (?);
+                                      AND package_code2 NOT IN (?) group by package_name;
                                   `;
 
                                   connection.query(sql_select_set_package, [pax, disable_package], (err4, result_set) => {
@@ -1672,7 +1672,7 @@ app.post("/UpdateBill2", (req, res)=>{
 
       else if(rows23.length == 0){
         
-          var sql_select_set_package = `select * from packages where no_of_person <= ?`;
+          var sql_select_set_package = `select package_code, package_name from packages where no_of_person <= ? group by package_name`;
 
             connection.query(sql_select_set_package, [pax], (err4, result_set)=>{
               if (err4) {
