@@ -2,7 +2,7 @@
     <main class="villa-content">
         <section class="villa-action"><button id="btnOpenAddVilla"><i class="fas fa-plus"></i> ADD VILLA</button></section>
         <section class="villa-table">
-            <table >
+            <table id="villaTable">
                 <thead>
                     <tr>
                         <th>Villa Name</th>
@@ -57,7 +57,7 @@
                 method: "GET",
                 async: true,
                 success: function(data) {
-                const jsonData = data.villa// Parse the JSON string
+                const jsonData = data.villas// Parse the JSON string
 
                 $.each(jsonData, function(index, villa) {
                     villaList.push(villa);
@@ -99,7 +99,7 @@
                     
                 }
 
-                //var villaView = new DataTable("#villaTable");
+                var villaView = new DataTable("#villaTable");
                 },
                 error: function(xhr, status, err) {
                 console.error('Error:', err);

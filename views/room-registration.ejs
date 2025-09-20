@@ -5,7 +5,7 @@
         </section>
 
         <section class="room-table">
-            <table>
+            <table  id="roomTable">
                 <thead>
                     <tr>
                         <th>Room Name</th>
@@ -88,7 +88,7 @@
         
             }
 
-           // var roomView = new DataTable("#roomTable");
+           var roomView = new DataTable("#roomTable");
         },
         error: function(xhr, status, err) {
             console.error('Error:', err);
