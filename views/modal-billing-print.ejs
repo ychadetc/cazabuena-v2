@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Statement of Account</title>
+<style>
+  body {
+    margin: 0;
+    padding: 20px;
+    background: #f6f8fb;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #222;
+  }
+  .container {
+    max-width: 850px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+  }
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 2px solid #e5e7eb;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+  }
+  .brand h1 {
+    margin: 0;
+    font-size: 20px;
+    color: #1f2937;
+  }
+  .brand p {
+    margin: 2px 0 0 0;
+    font-size: 13px;
+    color: #6b7280;
+  }
+  .meta {
+    text-align: right;
+    font-size: 13px;
+    color: #374151;
+  }
+  .meta div { margin-bottom: 4px; }
+  h2.section-title {
+    font-size: 16px;
+    margin: 20px 0 10px 0;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 6px;
+    color: #111827;
+  }
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+  .info-grid div {
+    padding: 8px;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    background: #f9fafb;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-size: 14px;
+  }
+  table thead { background: #f3f4f6; }
+  table th, table td {
+    padding: 10px 8px;
+    text-align: left;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  table td.amount { text-align: right; white-space: nowrap; }
+  .totals {
+    width: 260px;
+    margin-left: auto;
+    margin-top: 15px;
+    font-size: 14px;
+  }
+  .totals div {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+  }
+  .totals .grand {
+    font-weight: bold;
+    border-top: 2px solid #d1d5db;
+    margin-top: 6px;
+    padding-top: 8px;
+    font-size: 16px;
+  }
+   @media print {
+    body { background: #fff; padding: 0; }
+    .container { box-shadow: none; border-radius: 0; }
+    #printBtn { display: none; } /* Hide button during print */
+  }
+</style>
+</head>
+<body>
+<div class="container" id="printArea">
+  <header>
+    <div class="brand">
+      <h1><span id="hotelName">Cazabuena</span> — Statement of Account</h1>
+      <p><span id="hotelAddress">Sitio Inansuana, Brgy. Lucap, Alaminos, Pangasinan</span> </p>
+    </div>
+    <div class="meta">
+      <div><strong>SOA No:</strong> <span id="soaNo">SOA-7513581</span></div>
+      <div><strong>Transaction ID:</strong> <span id="transactionId">7513581</span></div>
+      <div><strong>Date Issued:</strong> <span id="dateIssued">Sept 27, 2025</span></div>
+      <div><strong>Due Date:</strong> <span id="dueDate">Oct 4, 2025</span></div>
+    </div>
+  </header>
+
+  <h2 class="section-title">Guest / Billing Details</h2>
+  <div class="info-grid">
+    <div>
+      <strong>Guest:</strong> <span id="guestName"><></span><br>
+      <strong>Check-in:</strong> <span id="checkIn">Sept 20, 2025 – 2:00 PM</span><br>
+      <strong>Check-out:</strong> <span id="checkOut">Sept 23, 2025 – 12:00 PM</span><br>
+      <strong>Length of stay:</strong> <span id="lengthStay">3 nights</span><br>
+      <strong>Package:</strong> <span id="packageName">Deluxe Room - B&B</span>
+    </div>
+    <div>
+      <strong>Base Bill:</strong> ₱<span id="baseBill">10,500.00</span><br>
+      <strong>Location:</strong> <span id="location">Manila</span><br>
+      <strong>Contact:</strong> <span id="contact">0917-123-4567</span>
+    </div>
+  </div>
+
+  <h2 class="section-title">Breakdown</h2>
+<table>
+  <thead>
+    <tr>
+      <th>#</th><th>Description</th><th>Remarks</th><th>Amount</th>
+    </tr>
+  </thead>
+  <tbody id="letsgo">
+    <!-- Base Package Row -->
+    <tr>
+      <td>1</td>
+      <td>Room / Package: <span id="breakPackage"></span></td>
+      <td><span id="breakRemarks1"></span></td>
+      <td class="amount">₱<span id="breakAmount1"></span></td>
+    </tr>
+  </tbody>
+
+  <tbody id="adjustmentBody"></tbody>
+  <tbody id="addonsBody"></tbody>
+</table>
+
+  <div class="totals">
+    <div><span>Subtotal (Charges)</span><span>₱<span id="subtotal">10,500.00</span></span></div>
+    <div><span>Adjustments</span><span>₱<span id="adjustments">200.00</span></span></div>
+    <div><span>Add-ons</span><span>₱<span id="addons">600.00</span></span></div>
+    <div class="grand"><span>Grand Total</span><span>₱<span id="grandTotal">10,976.00</span></span></div>
+  </div>
+</div>
+
+  <button id="printBtn"
+    style="padding:10px 20px;background:#2563eb;color:#fff;border:none;border-radius:5px;cursor:pointer;">
+    🖨️ Print Billing
+  </button>
+</body>
+</html>
+
+
+<script>
+  // ✅ Data from Express (EJS)
+  const dataForPrint        = <%- JSON.stringify(dataForPrint || []) %>;
+  const breakdownAdjustment  = <%- JSON.stringify(breakdownAdjustment || []) %>;
+  const breakdownAddons      = <%- JSON.stringify(breakdownAddons || []) %>;
+
+  console.log("dataForPrint", dataForPrint);
+  console.log("breakdownAdjustment", breakdownAdjustment);
+  console.log("breakdownAddons", breakdownAddons);
+
+  const bill = dataForPrint.length ? dataForPrint[0] : {};
+
+  // -----------------------
+  // Header / Guest Details
+  // -----------------------
+  $("#hotelName").text(bill.hotel_name || "Cazabuena");
+  $("#hotelAddress").text(bill.hotel_address || "Sitio Inansuana, Brgy. Lucap, Alaminos, Pangasinan");
+  //$("#hotelTIN").text(bill.hotel_tin || "000-000-000");
+  $("#soaNo").text(`SOA-${bill.guest_transaction_id2 || ""}`);
+  $("#transactionId").text(bill.guest_transaction_id2 || "");
+  $("#dateIssued").text(new Date().toLocaleDateString());
+
+  const due = new Date();
+  due.setDate(due.getDate() + 7);
+  $("#dueDate").text(due.toLocaleDateString());
+
+  // -----------------------
+  // Guest / Package Details
+  // -----------------------
+  $("#guestName").text(bill.full_name || "");
+  $("#checkIn").text(formatDate(bill.check_in_datetime));
+  $("#checkOut").text(formatDate(bill.check_out_datetime));
+  $("#lengthStay").text(bill.length_stay ? `${bill.length_stay} nights` : "");
+  $("#packageName").text(bill.package_name || "");
+  $("#location").text(bill.location || "");
+  $("#baseBill").text(formatCurrency(bill.bill));
+  $("#breakPackage").text(bill.package_name || "");
+  $("#breakRemarks1").text(bill.length_stay ? `Rate × ${bill.length_stay} nights` : "");
+  $("#breakAmount1").text(formatCurrency(bill.bill));
+
+  // -----------------------
+  // Adjustments – dynamic loop
+  // -----------------------
+  const $adjustTbody = $("#letsgo"); // create this <tbody> in HTML
+  let adjustmentTotal = 0;
+
+  $.each(breakdownAdjustment, function(i, adj){
+
+    if(adj.adjustment_type ==="minus"){
+
+        adjustmentTotal -= parseFloat(adj.adjustment_amount) || 0;
+
+    }
+
+    else{
+
+        adjustmentTotal += parseFloat(adj.adjustment_amount) || 0;
+
+    }
+
+    
+    
+    if(adj.adjustment_type ==="minus"){
+        $adjustTbody.append(`
+      <tr>
+        <td>${i + 1}</td>
+        <td>Adjustment</td>
+        <td>${adj.adjustment_remarks || "—"}</td>
+        <td class="amount">₱-${formatCurrency(adj.adjustment_amount)}</td>
+      </tr>
+    `);
+
+    }
+
+    else{
+
+         $adjustTbody.append(`
+      <tr>
+        <td>${i + 1}</td>
+        <td>Adjustment</td>
+        <td>${adj.adjustment_remarks || "—"}</td>
+        <td class="amount">₱${formatCurrency(adj.adjustment_amount)}</td>
+      </tr>
+    `);
+
+    }
+   
+  });
+
+  if (!breakdownAdjustment.length) {
+    $adjustTbody.append(`
+      <tr><td colspan="4" class="text-center">No Adjustments</td></tr>
+    `);
+  }
+
+  // -----------------------
+  // Add-ons – dynamic loop
+  // -----------------------
+  const $addonTbody = $("#letsgo"); // create this <tbody> in HTML
+  let addonsTotal = 0;
+
+  $.each(breakdownAddons, function(i, add){
+    addonsTotal += parseFloat(add.addons_amount) || 0;
+    $addonTbody.append(`
+      <tr>
+        <td>${i + 1}</td>
+        <td>Add-on</td>
+        <td>${add.addons_remarks || "—"}</td>
+        <td class="amount">₱${formatCurrency(add.addons_amount)}</td>
+      </tr>
+    `);
+  });
+
+  if (!breakdownAddons.length) {
+    $addonTbody.append(`
+      <tr><td colspan="4" class="text-center">No Add-ons</td></tr>
+    `);
+  }
+
+  // -----------------------
+  // Totals
+  // -----------------------
+  const subtotal   = parseFloat(bill.bill) || 0;
+  const grandTotal = subtotal + adjustmentTotal + addonsTotal;
+
+  $("#subtotal").text(formatCurrency(subtotal));
+  $("#adjustments").text(formatCurrency(adjustmentTotal));
+  $("#addons").text(formatCurrency(addonsTotal));
+  $("#grandTotal").text(formatCurrency(grandTotal));
+
+  // -----------------------
+  // Helper Functions
+  // -----------------------
+  function formatCurrency(num) {
+    const n = parseFloat(num) || 0;
+    return n.toLocaleString("en-PH", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+  function formatDate(dt) {
+  if (!dt) return "";
+
+  let ms = Number(dt);           // convert to number if string
+
+  // 🔹 Detect if it's in seconds (10 digits) instead of milliseconds (13 digits)
+  if (ms.toString().length === 10) {
+    ms = ms * 1000;
+  }
+
+  const date = new Date(ms);
+  if (isNaN(date.getTime())) return "";  // still invalid
+
+  return date.toLocaleString("en-PH", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit"
+  });
+}
+
+
+
+    $("#printBtn").on("click", function () {
+    const printContents = document.getElementById("printArea").outerHTML;
+    const styles = document.querySelector("style").outerHTML;
+
+    const printWindow = window.open("", "_blank");
+    printWindow.document.write(`
+      <html>
+        <head>
+          <title>Print Billing</title>
+          ${styles}
+        </head>
+        <body>${printContents}</body>
+      </html>
+    `);
+    printWindow.document.close();
+    printWindow.focus();
+    printWindow.print();
+    // printWindow.close(); // Optional: close after print
+  });
+</script>
+
+
+

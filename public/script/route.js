@@ -637,7 +637,10 @@ $(document).ready(function() {
 
         //__________________________FOR LOADING TABLE OF ADJUSTMENT__________________________
     });
-    
+
+
+
+       
 
 
 });

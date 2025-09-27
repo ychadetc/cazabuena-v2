@@ -76,6 +76,10 @@ app.get('/logout', (req, res) => {
   });
 });
 
+app.get('/modal-billing-print', (req, res) =>{
+  res.render('modal-billing-print.ejs');  
+});
+
 app.get('/guest-register', (req, res) =>{
     res.render('modal-guest-reg.ejs');
 });
@@ -1588,20 +1592,6 @@ app.post("/UpdateBill2", (req, res)=>{
 
                      else if(accom_type == "room"){
 
-                          /*var package_code = rows24[0].package_code;
-                          
-                          var sql_select_set_package = `select * from packages where no_of_person <= ? and package_code != ?`;
-
-                          connection.query(sql_select_set_package, [pax, package_code], (err4, result_set)=>{
-                                  if (err4) {
-                                    console.error('error running query:', err4);
-                                    return;
-                                  }
-                                  res.send({package_set:result_set});
-                    
-                                });*/
-
-
 
                               const occupied_rooms = [];
                               const disable_package = [];
@@ -1659,12 +1649,6 @@ app.post("/UpdateBill2", (req, res)=>{
 
                   }
 
-
-                 // var sql_select_set_package = `select * from packages where no_of_person <= ? and package_code != ?`;
-
-                  
-
-                
 
                 });
 
@@ -2311,6 +2295,74 @@ app.post("/UpdateBill2", (req, res)=>{
 
   
   //___________________________FOR DELETING DATA IN TABLES______________________________
+
+
+
+  //____________________________Data for printing of billing_____________________________
+
+app.post("/dataForPrintBilling", (req, res) => {
+  const transaction_id2 = req.body.transaction_id2;
+  console.log(transaction_id2);
+
+  const sqlDataPrintBilling = `
+    SELECT 
+      guest_table.guest_id,
+      guest_table.full_name,
+      guest_table.check_in_datetime,
+      guest_table.check_out_datetime,
+      guest_table.length_stay,
+      guest_table.transaction_id2 AS guest_transaction_id2,
+      packages.package_name,
+      packages.package_rate,
+      packages.location,
+      billing_table.bill,
+      billing_table.transaction_id2 AS billing_transaction_id2,
+      discount_history.transaction_id2 AS discount_transaction_id2,
+      discount_history.discount_amount
+    FROM guest_table
+    LEFT JOIN billing_table 
+      ON guest_table.transaction_id2 = billing_table.transaction_id2
+    LEFT JOIN packages 
+      ON guest_table.package = packages.package_code
+    LEFT JOIN discount_history
+      ON discount_history.transaction_id2 = guest_table.transaction_id2
+    WHERE guest_table.transaction_id2 = ?;
+  `;
+
+  const sqlAdjustment = `SELECT * FROM adjustment_history WHERE transaction_id = ?`;
+  const sqlAddons    = `SELECT * FROM addons_table WHERE transaction_id2 = ?`;
+
+  connection.query(sqlDataPrintBilling, [transaction_id2], (err, rows53) => {
+    if (err) return res.status(500).send(err);
+
+    connection.query(sqlAdjustment, [transaction_id2], (err2, rows54) => {
+      if (err2) return res.status(500).send(err2);
+
+      connection.query(sqlAddons, [transaction_id2], (err3, rows55) => {
+        if (err3) return res.status(500).send(err3);
+
+        // ✅ All three results are ready here
+        console.log("Data Print:", rows53);
+        console.log("Adjustment:", rows54);
+        console.log("Addons:", rows55);
+
+        // Render EJS and pass the data
+        res.render("modal-billing-print", {
+          dataForPrint: rows53,
+          breakdownAdjustment: rows54,
+          breakdownAddons: rows55
+        });
+      });
+    });
+  });
+});
+
+
+   //____________________________Data for printing of billing_____________________________
+
+
+
+
 
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);

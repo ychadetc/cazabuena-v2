@@ -133,7 +133,8 @@ body{
 .nav-main #content-contain{
     width: 100%;
     height: calc(100% - 65px);
-}
+    overflow-y: auto;
+  }
 
 
 #btnLogOut{

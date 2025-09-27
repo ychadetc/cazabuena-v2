@@ -32,6 +32,7 @@
         </section>
 
 <!--<button id="btnCheckBill"><i class="fas fa-receipt"></i>Check bill</button>-->
+<button id="printBill">Print bill</button>
 
         
     </div>
@@ -173,4 +174,39 @@
             //alert("it worked")
 
         });
+
+
+
+         $('#printBill').on("click",function(e){
+            e.preventDefault();
+            e.stopImmediatePropagation();
+
+            var transaction_id2= $('#transactionID').val();
+            //alert(package);
+            var txt = JSON.stringify({"transaction_id2":transaction_id2})
+
+            $.ajax({
+                url:"http://localhost:3000/dataForPrintBilling",
+                type:"POST",
+                data:txt,
+                contentType:'application/json',
+                success:function(data1){
+                   // window.location.href = "/modal-billing-print";
+                   $('#content-contain').html(data1);
+                   //console.log(data1.dataForPrint);
+                 
+
+
+                },
+
+                error:function(xhr, status, error){
+                    alert(error);
+                }
+            });
+
+            //alert("it worked")
+
+        });
+    
+ 
 </script>
