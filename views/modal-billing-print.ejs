@@ -113,7 +113,7 @@
       <div><strong>SOA No:</strong> <span id="soaNo">SOA-7513581</span></div>
       <div><strong>Transaction ID:</strong> <span id="transactionId">7513581</span></div>
       <div><strong>Date Issued:</strong> <span id="dateIssued">Sept 27, 2025</span></div>
-      <div><strong>Due Date:</strong> <span id="dueDate">Oct 4, 2025</span></div>
+     <!-- <div><strong>Due Date:</strong> <span id="dueDate">Oct 4, 2025</span></div>-->
     </div>
   </header>
 
@@ -205,10 +205,10 @@
   $("#lengthStay").text(bill.length_stay ? `${bill.length_stay} nights` : "");
   $("#packageName").text(bill.package_name || "");
   $("#location").text(bill.location || "");
-  $("#baseBill").text(formatCurrency(bill.bill));
+  $("#baseBill").text(formatCurrency(bill.basebill));
   $("#breakPackage").text(bill.package_name || "");
   $("#breakRemarks1").text(bill.length_stay ? `Rate × ${bill.length_stay} nights` : "");
-  $("#breakAmount1").text(formatCurrency(bill.bill));
+  $("#breakAmount1").text(formatCurrency(bill.basebill));
 
   // -----------------------
   // Adjustments – dynamic loop
@@ -292,7 +292,7 @@
   // -----------------------
   // Totals
   // -----------------------
-  const subtotal   = parseFloat(bill.bill) || 0;
+  const subtotal   = parseFloat(bill.basebill) || 0;
   const grandTotal = subtotal + adjustmentTotal + addonsTotal;
 
   $("#subtotal").text(formatCurrency(subtotal));

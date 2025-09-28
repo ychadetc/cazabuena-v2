@@ -581,6 +581,13 @@ app.post("/InsertBooking", async (req, res) => {
       bookingType, check_in_datetime, check_out_datetime, rate_no
     } = req.body;
 
+
+    function generateRandom9DigitNumber() {
+    return Math.floor(100000000 + Math.random() * 900000000);
+  }
+
+    const transaction_id2 = generateRandom9DigitNumber();
+
     const guest_status = bookingType;
     const checkIn = Date.parse(check_in_datetime);
     const checkOut = Date.parse(check_out_datetime);
@@ -593,14 +600,18 @@ app.post("/InsertBooking", async (req, res) => {
     const packagePrice = packageRow.package_rate;
     const accom_type = packageRow.accom_type;
 
+    const forBasebill = length_stay * packagePrice;
+
     const newCurrentBill = (rate_no === 3) ? packagePrice : packagePrice + (packagePrice * rate_percent);
 
     const [guestRow] = await queryAsync('SELECT full_name FROM personal_details_table WHERE guest_id = ?', [guest_id]);
 
     await queryAsync(`INSERT INTO guest_table 
-      (guest_id, check_in_datetime, check_out_datetime, no_pax, package, special_request, length_stay, guest_status, full_name, current_bill, rate_no)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-      [guest_id, checkIn, checkOut, no_pax, package, special_request, length_stay, guest_status, guestRow.full_name, newCurrentBill, rate_no]);
+      (guest_id, check_in_datetime, check_out_datetime, no_pax, package, special_request, length_stay, guest_status, full_name, current_bill, rate_no, transaction_id2)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [guest_id, checkIn, checkOut, no_pax, package, special_request, length_stay, guest_status, guestRow.full_name, newCurrentBill, rate_no, transaction_id2]);
+    
+   await queryAsync('insert into billing_table(transaction_id2, basebill, guest_id) values(?, ?, ?)', [transaction_id2,  forBasebill, guest_id]);
 
     await updateRoomsAndPackages(accom_type, packageRow, bookingType, checkIn, checkOut);
 
@@ -912,8 +923,8 @@ else if (guest_status === "CHECKED_OUT") {
 
     // 7. Insert billing info
     await queryAsync(
-      'INSERT INTO billing_table (transaction_id2, guest_id, bill) VALUES (?, ?, ?)',
-      [transaction_id2, guest_id, current_bill]
+      'UPDATE billing_table set bill = ? where transaction_id2 = ?',
+      [current_bill, transaction_id2]
     );
 
     console.log("CHECKED_OUT process completed.");
@@ -2316,6 +2327,7 @@ app.post("/dataForPrintBilling", (req, res) => {
       packages.package_rate,
       packages.location,
       billing_table.bill,
+      billing_table.basebill,
       billing_table.transaction_id2 AS billing_transaction_id2,
       discount_history.transaction_id2 AS discount_transaction_id2,
       discount_history.discount_amount
